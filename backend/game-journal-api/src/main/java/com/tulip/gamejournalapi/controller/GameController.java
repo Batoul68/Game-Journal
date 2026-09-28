@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+})
 @RestController
 @RequestMapping("/api/games")
-@CrossOrigin(origins = {
-        "https://localhost:5173",
-        "https://127.0.0.1:5173"
-})
 public class GameController {
 
     private final List<Game> games = new ArrayList<>();
@@ -21,7 +21,7 @@ public class GameController {
     public GameController() {
         games.add(new Game(1L, "Resident Evil 4"));
         games.add(new Game(2L, "Ace Attorney"));
-        games.add(new Game(1L, "Red Dead Redemption"));
+        games.add(new Game(3L, "Red Dead Redemption"));
     }
 
     @GetMapping
