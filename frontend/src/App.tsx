@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { getGames, createGame } from './services/games.ts';
+import type { Game } from './types/index.ts'
 import './App.css'
 
 const API = 'http://localhost:8080/api/games';
-
-type Game = {
-  id: number;
-  name: string;
-};
 
 export default function App() {
 
@@ -16,20 +13,17 @@ export default function App() {
 
   const loadGames = async () => {
     try {
-      const response = await fetch(API);
-
-      if (!response.ok) {
-        throw new Error('Backend returned an error');
-      }
-
-      const data = await response.json();
-
+      const data = await getGames();
       setGames(data);
       setMessage('');
 
     } catch (error) {
       console.error(error);
-      setMessage('Cannot connect to Spring Boot. Start the backend first.');
+      setMessage(
+        error instanceof TypeError 
+        ? "Can't reach the backend, make sure Spring boot is running"
+        : 'The server returned an error loading games'
+      );
     }
   };
 
@@ -37,34 +31,22 @@ export default function App() {
     loadGames();
   }, []);
 
-  const addGame = async (event: React.SubmitEvent<HTMLFormElement>) => {
+  const handleAddGame = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if(!name.trim()) {
+    const nameTrimmed = name.trim();
+    if(nameTrimmed) {
       return;
     }
 
     try {
-      const response = await fetch(API, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: name.trim()
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Unable to add game');
-      }
-
+      await createGame(nameTrimmed);
       setName('');
 
       await loadGames();
 
     } catch (error) {
-      setMessage('Unable to add product. Check that the backend is running');
+      setMessage('Unable to add game. Check that the backend is running');
     }
   }
 
@@ -72,7 +54,7 @@ export default function App() {
     <main className="container">
       <h1>Add games</h1>
 
-      <form onSubmit={addGame}>
+      <form onSubmit={handleAddGame}>
         <input 
           value={name}
           onChange={(event) => setName(event.target.value)}  
