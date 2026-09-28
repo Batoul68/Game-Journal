@@ -34,15 +34,13 @@ export default function App() {
   const handleAddGame = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const nameTrimmed = name.trim();
-    if(nameTrimmed) {
+    if(!name.trim()) {
       return;
     }
 
     try {
-      await createGame(nameTrimmed);
+      await createGame(name);
       setName('');
-
       await loadGames();
 
     } catch (error) {
@@ -76,7 +74,6 @@ export default function App() {
           </li>
         ))}
       </ul>
-
     </main>
   );
 }
