@@ -3,8 +3,6 @@ import { getGames, createGame } from './services/games.ts';
 import type { Game } from './types/index.ts'
 import './App.css'
 
-const API = 'http://localhost:8080/api/games';
-
 export default function App() {
 
   const [games, setGames] = useState<Game[]>([]);
