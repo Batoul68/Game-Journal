@@ -1,6 +1,8 @@
 package com.tulip.gamejournalapi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "games")
@@ -10,6 +12,8 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Game name cannot be blank")
+    @Size(max = 200, message = "Game name cannot exceed 200 characters")
     private String name;
 
     public Game() {

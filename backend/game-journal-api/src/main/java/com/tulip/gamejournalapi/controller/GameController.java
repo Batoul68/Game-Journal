@@ -2,6 +2,7 @@ package com.tulip.gamejournalapi.controller;
 
 import com.tulip.gamejournalapi.model.Game;
 import com.tulip.gamejournalapi.repository.GameRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class GameController {
 
     // POST (create)
     @PostMapping
-    public Game addGame(@RequestBody Game game) {
+    public Game addGame(@Valid @RequestBody Game game) {
         return repository.save(game);
     }
 }
