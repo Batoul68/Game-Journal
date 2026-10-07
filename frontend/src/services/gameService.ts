@@ -3,7 +3,9 @@ import type { Game } from '../types/index.ts';
 const API = 'http://localhost:8080/api/games'
 
 export async function getGames(): Promise<Game[]> {
-    const response = await fetch(API);
+    const response = await fetch(API, {
+      credentials: "include"
+    });
 
     if (!response.ok) {
       throw new Error('Backend returned an error');
@@ -12,7 +14,7 @@ export async function getGames(): Promise<Game[]> {
     const data = await response.json();
 
     return data;
-}
+};
 
 export async function createGame(name: string): Promise<Game> {
   const response = await fetch(API, {
@@ -30,4 +32,4 @@ export async function createGame(name: string): Promise<Game> {
   }
 
   return response.json();
-}
+};
