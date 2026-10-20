@@ -1,4 +1,4 @@
-package com.tulip.gamejournalapi.model;
+package com.tulip.gamejournalapi.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

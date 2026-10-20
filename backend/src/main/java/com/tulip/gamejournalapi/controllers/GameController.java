@@ -1,11 +1,10 @@
-package com.tulip.gamejournalapi.controller;
+package com.tulip.gamejournalapi.controllers;
 
-import com.tulip.gamejournalapi.model.Game;
-import com.tulip.gamejournalapi.repository.GameRepository;
+import com.tulip.gamejournalapi.entities.Game;
+import com.tulip.gamejournalapi.repositories.GameRepository;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = {
