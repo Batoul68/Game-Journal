@@ -1,7 +1,7 @@
 import type { Game } from '../types/index.ts';
 import { getCsrfToken } from './csrfService.ts';
 
-const API = 'http://localhost:8080/api/games'
+const API = 'http://localhost:8080/api/games';
 
 // GET: Loading saved list of games 
 export async function getGames(): Promise<Game[]> {

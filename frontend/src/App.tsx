@@ -1,11 +1,32 @@
 import LoginPage from './pages/LoginPage.tsx';
 import GamePage from './pages/GamesPage.tsx';
 import './App.css'
-import { useState } from 'react';
+import { checkSession } from './services/authService.ts';
+import { useState, useEffect } from 'react';
 
 export default function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [sessionError, setSessionError] = useState('');
+
+  
+
+  // Check for authenticated session on mount
+  useEffect(() => {
+    const loadSession = async () => {
+      try {
+        const authenticated = await checkSession();
+        setIsLoggedIn(authenticated);
+      } catch (error) {
+        setSessionError('Could not check your session');
+      } finally {
+        setIsCheckingSession(false);
+      }
+    }
+
+    void loadSession();
+  }, []);
 
   return ( isLoggedIn
     ? <GamePage />
