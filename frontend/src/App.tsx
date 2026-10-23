@@ -28,6 +28,14 @@ export default function App() {
     void loadSession();
   }, []);
 
+  if (isCheckingSession) {
+    return <p>Checking your session...</p>;
+  }
+
+  if (sessionError) {
+    return <p>{sessionError}</p>
+  }
+
   return ( isLoggedIn
     ? <GamePage />
     : <LoginPage onLoginSuccess={() => setIsLoggedIn(true)}/>
