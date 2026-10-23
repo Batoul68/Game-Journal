@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import LoginForm from "../components/LoginForm.tsx";
+import LoginForm from "../components/LoginPageComponents/LoginForm.tsx";
 
 type LoginPageProps = {
     onLoginSuccess: () => void;

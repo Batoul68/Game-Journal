@@ -1,5 +1,6 @@
 import LoginPage from './pages/LoginPage.tsx';
 import GamePage from './pages/GamesPage.tsx';
+import Header from './components/HeaderComponents/Header.tsx';
 import './App.css'
 import { checkSession } from './services/authService.ts';
 import { useState, useEffect } from 'react';
@@ -37,7 +38,10 @@ export default function App() {
   }
 
   return ( isLoggedIn
-    ? <GamePage />
+    ? <>
+        <Header onLogout={() => setIsLoggedIn(false)}/>
+        <GamePage />
+      </>
     : <LoginPage onLoginSuccess={() => setIsLoggedIn(true)}/>
   );
 }

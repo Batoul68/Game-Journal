@@ -1,5 +1,5 @@
-import GameForm from "../components/GameForm.tsx";
-import GameList from "../components/GameList.tsx";
+import GameForm from "../components/GamesPageComponents/GameForm.tsx";
+import GameList from "../components/GamesPageComponents/GameList.tsx";
 
 import { useEffect, useState } from 'react';
 import { getGames } from '../services/gameService.ts';

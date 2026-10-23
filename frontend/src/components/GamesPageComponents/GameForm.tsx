@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createGame } from '../services/gameService.ts';
+import { createGame } from '../../services/gameService.ts';
 
 export default function GameForm({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
 

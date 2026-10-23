@@ -33,6 +33,11 @@ public class SecurityConfig {
                       .failureHandler((request, response, exception) ->
                               response.setStatus(401))
               )
+              .logout(logout -> logout
+                      .logoutUrl("/api/auth/logout")
+                      .logoutSuccessHandler((request, response, authentication) ->
+                              response.setStatus(204))
+              )
               .exceptionHandling(exceptions -> exceptions
                       .authenticationEntryPoint((request, response, authException) ->
                               response.setStatus(401))

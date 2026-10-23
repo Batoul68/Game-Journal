@@ -3,29 +3,6 @@ import { getCsrfToken } from './csrfService.ts';
 
 const authEndpoint = 'http://localhost:8080/api/auth';
 
-// POST: Sending user credentials to Spring Security backend
-export async function login(username: string, password: string): Promise<Response> {
-
-    // GET: fetch csrf token to send with login credentials
-    const csrf: CsrfToken = await getCsrfToken();
-
-    const response = await fetch(`${authEndpoint}/login`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            [csrf.headerName]: csrf.token
-        },
-        body: new URLSearchParams({ username, password })
-    });
-
-    if (!response.ok) {
-        throw new Error('Could not send credentials');
-    }
-
-    return response;
-}
-
 // GET: Check for authenticated backend session
 export async function checkSession(): Promise<boolean> {
     const response = await fetch(`${authEndpoint}/me`, {
@@ -44,3 +21,47 @@ export async function checkSession(): Promise<boolean> {
 
     throw new Error('Could not check session');
 }
+
+// POST: Login, sending user credentials to backend
+export async function login(username: string, password: string): Promise<void> {
+
+    // GET: fetch csrf token to send with login credentials
+    const csrf: CsrfToken = await getCsrfToken();
+
+    // Login
+    const response = await fetch(`${authEndpoint}/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            [csrf.headerName]: csrf.token
+        },
+        body: new URLSearchParams({ username, password })
+    });
+
+    if (!response.ok) {
+        throw new Error('Could not send credentials to login');
+    }
+}
+
+// POST: Logout, sending user credentials to backend
+export async function logout(): Promise<void> {
+
+    // GET: fetch csrf token 
+    const csrf: CsrfToken = await getCsrfToken();
+
+    // Logout
+    const response = await fetch(`${authEndpoint}/logout`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            [csrf.headerName]: csrf.token
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error('Could not logout');
+    }
+}
+

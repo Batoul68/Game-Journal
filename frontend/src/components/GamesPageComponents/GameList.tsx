@@ -1,4 +1,4 @@
-import type { Game } from '../types/index.ts';
+import type { Game } from '../../types/index.ts';
 
 export default function GameList({ games }: {games: Game[]}) {
     return (

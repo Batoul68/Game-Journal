@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { login } from '../services/authService.ts';
+import { login } from '../../services/authService.ts';
 
 type LoginFormProps = {
     onLoginSuccess: () => void;
