@@ -2,7 +2,7 @@ import GameForm from "../components/GameForm.tsx";
 import GameList from "../components/GameList.tsx";
 
 import { useEffect, useState } from 'react';
-import { getGames, createGame } from '../services/gameService.ts';
+import { getGames } from '../services/gameService.ts';
 import type { Game } from '../types/index.ts'
 
 export default function GamesPage() {
@@ -22,7 +22,7 @@ export default function GamesPage() {
          setLoadMessage(
             error instanceof TypeError 
             ? "Can't reach the backend, make sure Spring boot is running"
-            : 'The server returned an error loading games'
+            : "The server returned an error loading games"
          );
       }
    };
@@ -34,7 +34,8 @@ export default function GamesPage() {
 
    return (
       <main className="container">
-         <h1>Add Games</h1>
+         
+         <h1>Game Journal</h1>
 
          <GameForm onGameAdded={loadGames}/>
 
