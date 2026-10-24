@@ -62,20 +62,6 @@ public class SecurityConfig {
    }
 
    @Bean
-   public UserDetailsService userDetailsService() {
-      var uds = new InMemoryUserDetailsManager();
-
-      var u1 = User.withUsername("melly")
-              .password(passwordEncoder().encode("12345"))
-              .roles("USER")
-              .build();
-
-      uds.createUser(u1);
-
-      return uds;
-   }
-
-   @Bean
    public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
    }
