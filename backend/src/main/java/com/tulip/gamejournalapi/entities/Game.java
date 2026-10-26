@@ -16,6 +16,12 @@ public class Game {
     @Size(max = 200, message = "Game name cannot exceed 200 characters")
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Game() {}
+
     public Game(Long id, String name) {
         this.id = id;
         this.name = name;
