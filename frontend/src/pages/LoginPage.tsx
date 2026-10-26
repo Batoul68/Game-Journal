@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import LoginForm from "../components/LoginPageComponents/LoginForm.tsx";
+import CreateAccountForm from "../components/LoginPageComponents/CreateAccountForm.tsx";
 
 type LoginPageProps = {
     onLoginSuccess: () => void;
@@ -22,13 +23,14 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
     }
 
     return(
-        <>
-            <h1>Welcome to Game Journal!</h1>
+        <div>
+            <h1>Welcome to your Game Journal!</h1>
 
             <button onClick={handleLoginButton}>Login</button>
             <button onClick={handleCreateButton}>Create Account</button>
       
             {showLoginForm && <LoginForm onLoginSuccess={onLoginSuccess}/>}
-        </>
+            {showCreateForm && <CreateAccountForm />}
+        </div>
     );
 }

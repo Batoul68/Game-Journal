@@ -15,7 +15,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
         e.preventDefault();
         try {
             await login(username, password);
-            setLoginMessage('Login successful!');
             onLoginSuccess();
         } catch (error) {
             console.error(error);
@@ -24,7 +23,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     }
 
     return(
-        <>
+        <div>
             <form onSubmit={handleSubmit}>
                 <input 
                     type="text"
@@ -42,7 +41,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
             </form>
 
             <h4>{loginMessage}</h4>
-        </>
+        </div>
         
     );
 }

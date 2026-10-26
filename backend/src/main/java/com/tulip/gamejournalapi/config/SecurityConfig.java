@@ -1,5 +1,6 @@
 package com.tulip.gamejournalapi.config;
 
+import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -23,7 +24,8 @@ public class SecurityConfig {
       return http
               .cors(Customizer.withDefaults())
               .authorizeHttpRequests(auth -> auth
-                      .requestMatchers("/api/auth/login", "/api/auth/csrf").permitAll()
+                      .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                      .requestMatchers("/api/auth/login", "/api/auth/csrf", "/api/auth/register").permitAll()
                       .anyRequest().authenticated()
               )
               .formLogin(login -> login

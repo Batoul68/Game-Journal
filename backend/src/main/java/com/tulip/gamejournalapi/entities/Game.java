@@ -16,9 +16,6 @@ public class Game {
     @Size(max = 200, message = "Game name cannot exceed 200 characters")
     private String name;
 
-    public Game() {
-    }
-
     public Game(Long id, String name) {
         this.id = id;
         this.name = name;

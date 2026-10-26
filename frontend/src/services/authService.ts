@@ -65,3 +65,29 @@ export async function logout(): Promise<void> {
     }
 }
 
+// POST: Create a new account
+export async function createAccount(username: string, password: string): Promise<void> {
+
+    // GET: fetch csrf token
+    const csrf: CsrfToken = await getCsrfToken();
+
+    // Create a new account
+    const response = await fetch(`${authEndpoint}/register`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            [csrf.headerName]: csrf.token
+        },
+        body: JSON.stringify({ username, password })
+    });
+
+    if (response.status === 409) {
+        throw new Error('Username already taken');
+    }
+
+    if (!response.ok) {
+        throw new Error('Unable to create account');
+    }
+}
+
