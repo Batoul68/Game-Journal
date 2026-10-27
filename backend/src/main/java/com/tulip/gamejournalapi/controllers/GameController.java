@@ -8,6 +8,7 @@ import com.tulip.gamejournalapi.repositories.GameRepository;
 import com.tulip.gamejournalapi.repositories.UserRepository;
 import com.tulip.gamejournalapi.services.GameService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -65,5 +66,14 @@ public class GameController {
                 savedGame.getId(),
                 savedGame.getName()
         );
+    }
+
+    // DELETE a game
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGame(@PathVariable("id") Long id, Authentication authentication) {
+        System.out.println("DELETE controller reached, game ID: "+ id);
+        gameService.deleteGame(id, authentication.getName());
+
+        return ResponseEntity.noContent().build();
     }
 }

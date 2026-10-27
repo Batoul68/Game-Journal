@@ -1,6 +1,6 @@
 import LoginPage from './pages/LoginPage.tsx';
 import GamePage from './pages/GamesPage.tsx';
-import Header from './components/HeaderComponents/Header.tsx';
+import Header from './components/header/Header.tsx';
 import './App.css'
 import { checkSession } from './services/authService.ts';
 import { useState, useEffect } from 'react';

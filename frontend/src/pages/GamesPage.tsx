@@ -1,5 +1,5 @@
-import GameForm from "../components/GamesPageComponents/GameForm.tsx";
-import GameList from "../components/GamesPageComponents/GameList.tsx";
+import GameForm from "../components/games/GameForm.tsx";
+import GameList from "../components/games/GameList.tsx";
 
 import { useEffect, useState } from 'react';
 import { getGames } from '../services/gameService.ts';
@@ -27,7 +27,7 @@ export default function GamesPage() {
       }
    };
 
-   // Call when application loads
+   // Call on mount
    useEffect(() => {
       loadGames();
    }, []);
@@ -43,7 +43,7 @@ export default function GamesPage() {
 
          <h2>Games</h2>
 
-         <GameList games={games}/>
+         <GameList games={games} onGameDeleted={loadGames}/>
       </main>
    );
 }

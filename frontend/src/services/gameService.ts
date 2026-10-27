@@ -44,3 +44,22 @@ export async function createGame(name: string): Promise<Game> {
 
   return response.json();
 }
+
+// DELETE: Delete a game
+export async function deleteGame(id: number): Promise<void> {
+
+  // GET: fetch csrf token
+  const csrf = await getCsrfToken();
+
+  const response = await fetch(`${API}/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: {
+      [csrf.headerName]: csrf.token
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not delete game");
+  }
+}
