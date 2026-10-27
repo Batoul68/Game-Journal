@@ -22,9 +22,10 @@ public class Game {
 
     public Game() {}
 
-    public Game(Long id, String name) {
+    public Game(Long id, String name, User user) {
         this.id = id;
         this.name = name;
+        this.user = user;
     }
 
     public Long getId() {
@@ -41,5 +42,13 @@ public class Game {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

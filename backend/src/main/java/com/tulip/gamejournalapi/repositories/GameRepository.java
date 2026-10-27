@@ -4,8 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.tulip.gamejournalapi.entities.Game;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
-   List<Game> findByUserId(Integer id);
+   List<Game> findByUserId(Integer userId);
+
+   Optional<Game> findByIdAndUserId (Long gameId, Integer userId);
 }
