@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+
 @Service
 public class GameService {
 
@@ -17,11 +19,14 @@ public class GameService {
    }
 
    // Creating a new game
-   public Game createGame(User user, String name, String coverImageUrl) {
+   public Game createGame(User user, String name, String coverImageUrl, BigDecimal rating, String genre, String review) {
       Game newGame = new Game();
       newGame.setUser(user);
       newGame.setName(name);
       newGame.setCoverImageUrl(coverImageUrl);
+      newGame.setRating(rating);
+      newGame.setGenre(genre);
+      newGame.setReview(review);
 
       return gameRepository.save(newGame);
    }

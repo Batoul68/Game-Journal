@@ -47,7 +47,10 @@ public class GameController {
                 .map(game -> new GameResponse(
                         game.getId(),
                         game.getName(),
-                        game.getCoverImageUrl()
+                        game.getCoverImageUrl(),
+                        game.getRating(),
+                        game.getGenre(),
+                        game.getReview()
                 ))
                 .toList();
     }
@@ -61,12 +64,22 @@ public class GameController {
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        Game savedGame =  gameService.createGame(user, gameRequest.name(), gameRequest.coverImageUrl());
+        Game savedGame =  gameService.createGame(
+                user,
+                gameRequest.name(),
+                gameRequest.coverImageUrl(),
+                gameRequest.rating(),
+                gameRequest.genre(),
+                gameRequest.review()
+        );
 
         return new GameResponse(
                 savedGame.getId(),
                 savedGame.getName(),
-                savedGame.getCoverImageUrl()
+                savedGame.getCoverImageUrl(),
+                savedGame.getRating(),
+                savedGame.getGenre(),
+                savedGame.getReview()
         );
     }
 

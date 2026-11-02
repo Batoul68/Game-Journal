@@ -1,13 +1,15 @@
 package com.tulip.gamejournalapi.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "games")
 public class Game {
 
+    // Variables
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +21,22 @@ public class Game {
     @Column(name = "cover_image_url", length=550)
     private String coverImageUrl;
 
+    @DecimalMin("0.0")
+    @DecimalMax("10.0")
+    @Digits(integer = 2, fraction = 1)
+    @Column(precision = 3, scale = 1)
+    private BigDecimal rating;
+
+    @Size(max = 50, message = "Genre cannot exceed 50 characters")
+    private String genre;
+
+    private String review;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // Constructors
     public Game() {}
 
     public Game(Long id, String name, User user) {
@@ -62,4 +76,29 @@ public class Game {
     public void setCoverImageUrl(String coverImageUrl) {
         this.coverImageUrl = coverImageUrl;
     }
+
+    public BigDecimal getRating() {
+        return rating;
+    }
+
+    public void setRating(BigDecimal rating) {
+        this.rating = rating;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
 }
