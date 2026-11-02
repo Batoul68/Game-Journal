@@ -21,7 +21,7 @@ export async function getGames(): Promise<Game[]> {
 }
 
 // POST: Creating a new game 
-export async function createGame(name: string): Promise<Game> {
+export async function createGame(name: string, coverImageUrl: string): Promise<Game> {
 
   // GET: fetch csrf token to send with POST
   const csrf = await getCsrfToken();
@@ -34,7 +34,8 @@ export async function createGame(name: string): Promise<Game> {
       [csrf.headerName]: csrf.token
     },
     body: JSON.stringify({
-      name: name.trim()
+      name: name.trim(),
+      coverImageUrl: coverImageUrl.trim()
     })
   });
 

@@ -1,5 +1,7 @@
-import type { Game } from '../../types/index.ts';
-import DeleteGameButton from './DeleteGameButton.tsx';
+import type { Game } from '../../../types/index.ts';
+import DeleteGameButton from '../DeleteGameButton.tsx';
+import GameCard from '../GameCard/GameCard.tsx';
+import styles from './GameList.module.css';
 
 type GameListProps = {
   games: Game[];
@@ -8,11 +10,11 @@ type GameListProps = {
 
 export default function GameList({ games, onGameDeleted }: GameListProps) {
     return (
-        <>
-        <ul>
+      <div className={styles['list-container']}>
+        <ul className={styles['game-list']}>
           {games.map((game) => (
             <li key={game.id}>
-              {game.name}
+              <GameCard game={game}/>
 
               <DeleteGameButton 
                 gameId={game.id}
@@ -20,7 +22,7 @@ export default function GameList({ games, onGameDeleted }: GameListProps) {
               />
             </li>
           ))}
-      </ul>
-        </>
+        </ul>
+      </div>
     );
 }

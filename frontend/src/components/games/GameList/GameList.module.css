@@ -1,0 +1,14 @@
+.list-container {
+  border: 1px solid rgb(124, 124, 124);
+  border-radius: 10px;
+}
+
+.game-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
+    gap: 24px;
+}

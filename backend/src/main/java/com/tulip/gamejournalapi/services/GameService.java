@@ -17,10 +17,11 @@ public class GameService {
    }
 
    // Creating a new game
-   public Game createGame(User user, String name) {
+   public Game createGame(User user, String name, String coverImageUrl) {
       Game newGame = new Game();
       newGame.setUser(user);
       newGame.setName(name);
+      newGame.setCoverImageUrl(coverImageUrl);
 
       return gameRepository.save(newGame);
    }

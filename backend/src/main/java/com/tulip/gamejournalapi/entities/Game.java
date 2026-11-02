@@ -16,6 +16,10 @@ public class Game {
     @Size(max = 200, message = "Game name cannot exceed 200 characters")
     private String name;
 
+
+
+    private String coverImageUrl;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -50,5 +54,13 @@ public class Game {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getCoverImageUrl() {
+        return coverImageUrl;
+    }
+
+    public void setCoverImageUrl(String coverImageUrl) {
+        this.coverImageUrl = coverImageUrl;
     }
 }

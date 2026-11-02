@@ -6,5 +6,6 @@ import jakarta.validation.constraints.Size;
 public record GameRequest(
         @NotBlank
         @Size(max = 200, message = "Game title cannot exceed 200 characters")
-        String name
+        String name,
+        String coverImageUrl
 ) { }

@@ -1,5 +1,5 @@
 import GameForm from "../components/games/GameForm.tsx";
-import GameList from "../components/games/GameList.tsx";
+import GameList from "../components/games/GameList/GameList.tsx";
 
 import { useEffect, useState } from 'react';
 import { getGames } from '../services/gameService.ts';
@@ -9,6 +9,7 @@ export default function GamesPage() {
 
    const [games, setGames] = useState<Game[]>([]);
    const [loadMessage, setLoadMessage] = useState('Loading...');
+   const [isFormOpen, setIsFormOpen] = useState(false);
 
    // Load the current list of games
    const loadGames = async () => {
@@ -32,12 +33,22 @@ export default function GamesPage() {
       loadGames();
    }, []);
 
+   // Close the GameForm when a game is added
+   const handleGameSaved = async () => {
+      setIsFormOpen(false);
+      await loadGames();
+   }
+   
    return (
       <main className="container">
-         
-         <h1>Game Journal</h1>
 
-         <GameForm onGameAdded={loadGames}/>
+         {isFormOpen ? (
+            <GameForm onGameAdded={handleGameSaved}/>
+         ) : (
+            <button onClick={() => setIsFormOpen(true)}>
+               Add new game
+            </button>
+         )}
 
          {loadMessage && <p>{loadMessage}</p>}
 

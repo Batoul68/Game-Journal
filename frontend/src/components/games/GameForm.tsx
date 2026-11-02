@@ -4,6 +4,7 @@ import { createGame } from '../../services/gameService.ts';
 export default function GameForm({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
 
   const [name, setName] = useState('');
+  const [coverImageUrl, setCoverImageUrl] = useState('');
   const [message, setMessage] = useState('');
 
 
@@ -23,7 +24,7 @@ export default function GameForm({ onGameAdded }: { onGameAdded: () => Promise<v
     }
 
     try {
-      await createGame(name);
+      await createGame(name, coverImageUrl);
 
       setName('');
       setMessage('');
@@ -43,6 +44,12 @@ export default function GameForm({ onGameAdded }: { onGameAdded: () => Promise<v
           onChange={(event) => setName(event.target.value)}  
           placeholder='Enter game title'
         />
+        <input 
+          value={coverImageUrl}
+          onChange={(event) => setCoverImageUrl(event.target.value)}  
+          placeholder='Enter image url'
+        />
+
         <button type="submit">
           Add Game
         </button>
