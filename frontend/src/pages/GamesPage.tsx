@@ -1,4 +1,4 @@
-import GameForm from "../components/games/GameForm.tsx";
+import GameModal from "../components/games/GameModal.tsx";
 import GameList from "../components/games/GameList/GameList.tsx";
 
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ export default function GamesPage() {
 
    const [games, setGames] = useState<Game[]>([]);
    const [loadMessage, setLoadMessage] = useState('Loading...');
-   const [isFormOpen, setIsFormOpen] = useState(false);
+   const [isCreateGameOpen, setIsCreateGameOpen] = useState(false);
 
    // Load the current list of games
    const loadGames = async () => {
@@ -35,17 +35,20 @@ export default function GamesPage() {
 
    // Close the GameForm when a game is added
    const handleGameSaved = async () => {
-      setIsFormOpen(false);
+      setIsCreateGameOpen(false);
       await loadGames();
    }
    
    return (
       <main className="container">
 
-         {isFormOpen ? (
-            <GameForm onGameAdded={handleGameSaved}/>
+         {isCreateGameOpen ? (
+            <GameModal 
+               onClose={() => setIsCreateGameOpen(false)} 
+               onGameAdded={handleGameSaved}
+            />
          ) : (
-            <button onClick={() => setIsFormOpen(true)}>
+            <button onClick={() => setIsCreateGameOpen(true)}>
                Add new game
             </button>
          )}
@@ -55,6 +58,7 @@ export default function GamesPage() {
          <h2>Games</h2>
 
          <GameList games={games} onGameDeleted={loadGames}/>
+         
       </main>
    );
 }
