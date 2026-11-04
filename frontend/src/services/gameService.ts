@@ -21,7 +21,13 @@ export async function getGames(): Promise<Game[]> {
 }
 
 // POST: Creating a new game 
-export async function createGame(name: string, coverImageUrl: string): Promise<Game> {
+export async function createGame(
+  name: string, 
+  coverImageUrl: string,
+  rating: number,
+  genre: string,
+  review: string
+): Promise<Game> {
 
   // GET: fetch csrf token to send with POST
   const csrf = await getCsrfToken();
@@ -35,7 +41,10 @@ export async function createGame(name: string, coverImageUrl: string): Promise<G
     },
     body: JSON.stringify({
       name: name.trim(),
-      coverImageUrl: coverImageUrl.trim()
+      coverImageUrl: coverImageUrl.trim(),
+      rating: rating,
+      genre: genre.trim(),
+      review: review
     })
   });
 

@@ -5,6 +5,9 @@ export default function GameForm({ onGameAdded }: { onGameAdded: () => Promise<v
 
   const [name, setName] = useState('');
   const [coverImageUrl, setCoverImageUrl] = useState('');
+  const [rating, setRating] = useState(0);
+  const [genre, setGenre] = useState('');
+  const [review, setReview] = useState('');
   const [message, setMessage] = useState('');
 
 
@@ -24,7 +27,7 @@ export default function GameForm({ onGameAdded }: { onGameAdded: () => Promise<v
     }
 
     try {
-      await createGame(name, coverImageUrl);
+      await createGame(name, coverImageUrl, rating, genre, review);
 
       setName('');
       setMessage('');
