@@ -3,20 +3,20 @@ import GameCard from '../GameCard/GameCard.tsx';
 import styles from './GameList.module.css';
 
 type GameListProps = {
-  games: Game[];
-  onGameDeleted: () => void;
+games: Game[];
+onGameDeleted: () => void;
 }
 
 export default function GameList({ games, onGameDeleted }: GameListProps) {
-    return (
+   return (
       <div className={styles['list-container']}>
-        <ul className={styles['game-list']}>
-          {games.map((game) => (
+      <ul className={styles['game-list']}>
+         {games.map((game) => (
             <li key={game.id}>
-              <GameCard game={game} onGameDeleted={onGameDeleted}/>
+            <GameCard game={game} onGameDeleted={onGameDeleted}/>
             </li>
-          ))}
-        </ul>
+         ))}
+      </ul>
       </div>
-    );
+   );
 }

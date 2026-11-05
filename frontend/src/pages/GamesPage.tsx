@@ -17,7 +17,6 @@ export default function GamesPage() {
          const data = await getGames();
          setGames(data);
          setLoadMessage('');
-
       } catch (error) {
          console.error(error);
          setLoadMessage(

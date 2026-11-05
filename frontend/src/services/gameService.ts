@@ -5,71 +5,83 @@ const API = 'http://localhost:8080/api/games';
 
 // GET: Loading saved list of games 
 export async function getGames(): Promise<Game[]> {
-    const response = await fetch(API,
-      {
-        credentials: 'include'
-      }
-    );
+   const response = await fetch(API, {
+      credentials: 'include'
+      });
 
-    if (!response.ok) {
+   if (!response.ok) {
       throw new Error('Backend returned an error');
-    }
+   }
 
-    const data = await response.json();
+   const data = await response.json();
+   return data;
+}
 
-    return data;
+// GET: Game by id
+export async function getGameById(gameId: string): Promise<Game> {
+const response = await fetch(`${API}/${gameId}`, {
+   credentials: 'include'
+});
+
+if (!response.ok) {
+   throw new Error('Backend returned an error searching for game');
+}
+
+const data = await response.json();
+return data;
+
 }
 
 // POST: Creating a new game 
 export async function createGame(
-  name: string, 
-  coverImageUrl: string,
-  rating: number,
-  genre: string,
-  review: string
+name: string, 
+coverImageUrl: string,
+rating: number | null,
+genre: string,
+review: string
 ): Promise<Game> {
 
-  // GET: fetch csrf token to send with POST
-  const csrf = await getCsrfToken();
+// GET: fetch csrf token to send with POST
+const csrf = await getCsrfToken();
 
-  const response = await fetch(API, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
+const response = await fetch(API, {
+   method: 'POST',
+   credentials: 'include',
+   headers: {
       'Content-Type': 'application/json',
       [csrf.headerName]: csrf.token
-    },
-    body: JSON.stringify({
+   },
+   body: JSON.stringify({
       name: name.trim(),
       coverImageUrl: coverImageUrl.trim(),
       rating: rating,
       genre: genre.trim(),
       review: review
-    })
-  });
+   })
+});
 
-  if (!response.ok) {
-    throw new Error('Unable to add game');
-  }
+if (!response.ok) {
+   throw new Error('Unable to add game');
+}
 
-  return response.json();
+return response.json();
 }
 
 // DELETE: Delete a game
 export async function deleteGame(id: number): Promise<void> {
 
-  // GET: fetch csrf token
-  const csrf = await getCsrfToken();
+// GET: fetch csrf token
+const csrf = await getCsrfToken();
 
-  const response = await fetch(`${API}/${id}`, {
-    method: 'DELETE',
-    credentials: 'include',
-    headers: {
+const response = await fetch(`${API}/${id}`, {
+   method: 'DELETE',
+   credentials: 'include',
+   headers: {
       [csrf.headerName]: csrf.token
-    }
-  });
+   }
+});
 
-  if (!response.ok) {
-    throw new Error("Could not delete game");
-  }
+if (!response.ok) {
+   throw new Error("Could not delete game");
+}
 }
