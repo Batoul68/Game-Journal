@@ -10,7 +10,7 @@ export async function getGames(): Promise<Game[]> {
       });
 
    if (!response.ok) {
-      throw new Error('Backend returned an error');
+      throw new Error(`Could not fetch the games (${response.status})`);
    }
 
    const data = await response.json();
@@ -24,7 +24,7 @@ export async function getGameById(gameId: string): Promise<Game> {
    });
 
    if (!response.ok) {
-      throw new Error('Backend returned an error searching for game');
+      throw new Error(`Could not fetch game (${response.status})`);
    }
 
    const data = await response.json();
@@ -54,26 +54,62 @@ export async function createGame(
       body: JSON.stringify({
          name: name.trim(),
          coverImageUrl: coverImageUrl.trim(),
-         rating: rating,
-         genre: genre.trim(),
-         review: review
+         rating,
+         genre,
+         review
       })
    });
 
    if (!response.ok) {
-      throw new Error('Unable to add game');
+      throw new Error(`Unable to add game (${response.status})`);
+   }
+
+   return response.json();
+}
+
+// PUT: Editing a game
+export async function updateGame(
+   gameId: string,
+   name: string,
+   coverImageUrl: string,
+   rating: number | null,
+   genre: string,
+   review: string
+): Promise<Game> {
+
+   // GET: fetch csrf token
+   const csrf = await getCsrfToken();
+
+   const response = await fetch(`${API}/${gameId}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+         'Content-Type': 'application/json',
+         [csrf.headerName]: csrf.token
+      },
+      body: JSON.stringify({
+         name: name.trim(),
+         coverImageUrl: coverImageUrl.trim(),
+         rating,
+         genre,
+         review
+      })
+   });
+
+   if(!response.ok) {
+      throw new Error(`Could not update game (${response.status})`);
    }
 
    return response.json();
 }
 
 // DELETE: Delete a game
-export async function deleteGame(id: number): Promise<void> {
+export async function deleteGame(gameId: number): Promise<void> {
 
    // GET: fetch csrf token
    const csrf = await getCsrfToken();
 
-   const response = await fetch(`${API}/${id}`, {
+   const response = await fetch(`${API}/${gameId}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
@@ -82,6 +118,6 @@ export async function deleteGame(id: number): Promise<void> {
    });
 
    if (!response.ok) {
-      throw new Error("Could not delete game");
+      throw new Error(`Could not delete game (${response.status})`);
    }
 }

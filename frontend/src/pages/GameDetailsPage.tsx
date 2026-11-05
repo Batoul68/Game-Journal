@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function GameDetailsPage() {
 
 const [game, setGame] = useState<Game | null>(null);
-const [loading, setLoading] = useState('');
+const [loading, setLoading] = useState(true);
 const [error, setError] = useState('');
 const { gameId } = useParams();
 
@@ -23,6 +23,8 @@ const loadGameById = async (gameId: string) => {
             ? "Can't reach the backend, make sure Spring boot is running"
             : "Page not found"
       );
+   } finally {
+      setLoading(false);
    }
 }
 
