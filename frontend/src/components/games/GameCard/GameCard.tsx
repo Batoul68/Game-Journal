@@ -13,16 +13,20 @@ return(
       <div className={styles['game-card']}>
 
       {game.coverImageUrl && (
-         <img id={styles['game-card-img']}alt={`${game.name} cover`} src={game.coverImageUrl}/>
+         <Link to={`/games/${game.id}`}>
+            <img id={styles['game-card-img']}alt={`${game.name} cover`} src={game.coverImageUrl}/>
+         </Link>
       )}
       
       <div className={styles['game-card-footer']}>
-      <Link id={styles['game-card-title']} to={`/games/${game.id}`}>{game.name}</Link>
+         <Link to={`/games/${game.id}`}>
+            <h3 id={styles['game-card-title']}>{game.name}</h3>
+         </Link>
 
-      <details className={styles['game-menu']}>
-         <summary aria-label={`Actions for ${game.name}`}>
-            ⋮
-         </summary>
+         <details className={styles['game-menu']}>
+            <summary aria-label={`Actions for ${game.name}`}>
+               ⋮
+            </summary>
 
          <div className={styles['game-menu-options']}>
             <DeleteGameButton 
