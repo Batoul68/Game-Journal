@@ -1,8 +1,10 @@
 package com.tulip.gamejournalapi.services;
 
+import com.tulip.gamejournalapi.dto.GameRequest;
 import com.tulip.gamejournalapi.entities.Game;
 import com.tulip.gamejournalapi.entities.User;
 import com.tulip.gamejournalapi.repositories.GameRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,6 +31,23 @@ public class GameService {
       newGame.setReview(review);
 
       return gameRepository.save(newGame);
+   }
+
+   // Updating a game
+   @Transactional
+   public Game updateGame(Long id, String username, GameRequest request) {
+      Game game = gameRepository.findByIdAndUser_Username(id, username)
+              .orElseThrow(() ->
+                      new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found")
+              );
+
+      game.setName(request.name());
+      game.setCoverImageUrl(request.coverImageUrl());
+      game.setRating(request.rating());
+      game.setGenre(request.genre());
+      game.setReview(request.review());
+
+      return gameRepository.save(game);
    }
 
    // Deleting a game

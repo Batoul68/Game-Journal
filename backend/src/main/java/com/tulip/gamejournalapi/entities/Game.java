@@ -22,14 +22,15 @@ public class Game {
     private String coverImageUrl;
 
     @DecimalMin("0.0")
-    @DecimalMax("10.0")
-    @Digits(integer = 2, fraction = 1)
+    @DecimalMax("5.0")
+    @Digits(integer = 1, fraction = 1)
     @Column(precision = 3, scale = 1)
     private BigDecimal rating;
 
     @Size(max = 50, message = "Genre cannot exceed 50 characters")
     private String genre;
 
+    @Column(columnDefinition = "TEXT")
     private String review;
 
     @ManyToOne
