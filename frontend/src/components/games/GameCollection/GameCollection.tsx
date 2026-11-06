@@ -1,13 +1,13 @@
 import type { Game } from '../../../types/index.ts';
 import GameCard from '../GameCard/GameCard.tsx';
-import styles from './GameList.module.css';
+import styles from './GameCollection.module.css';
 
 type GameListProps = {
 games: Game[];
 onGameDeleted: () => void;
 }
 
-export default function GameList({ games, onGameDeleted }: GameListProps) {
+export default function GameCollection({ games, onGameDeleted }: GameListProps) {
    return (
       <div className={styles['list-container']}>
       <ul className={styles['game-list']}>

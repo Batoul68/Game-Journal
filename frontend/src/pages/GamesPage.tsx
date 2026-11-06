@@ -1,5 +1,5 @@
 import CreateGameModal from "../components/games/CreateGameModal.tsx";
-import GameList from "../components/games/GameList/GameList.tsx";
+import GameCollection from "../components/games/GameCollection/GameCollection.tsx";
 
 import { useEffect, useState } from 'react';
 import { getGames } from '../services/gameService.ts';
@@ -56,7 +56,7 @@ export default function GamesPage() {
 
          <h2>Games</h2>
 
-         <GameList games={games} onGameDeleted={loadGames}/>
+         <GameCollection games={games} onGameDeleted={loadGames}/>
          
       </main>
    );

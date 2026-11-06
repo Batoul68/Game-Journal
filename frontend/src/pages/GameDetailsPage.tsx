@@ -2,6 +2,7 @@ import type { Game } from "../types";
 import { getGameById } from "../services/gameService";
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
+import EditGame from "../components/games/EditGame";
 
 export default function GameDetailsPage() {
 
@@ -43,14 +44,23 @@ if (error) {
    return <p>{error}</p>
 }
 
+if (!game) {
+   return <p>Game not found</p>;
+}
+
 return (
    <div>
       <Link to="/games">Back to games</Link>
+      <EditGame 
+         key={game.id}
+         game={game}
+         onGameUpdated={setGame}
+      />
       <h1>Game Details for game {gameId}</h1>
       <h2>Title: {game?.name}</h2>
-      <h2>Rating: {game?.rating ?? "Not rated"}</h2>
-      <h2>Genre: {game?.genre ?? "No genre selected"}</h2>
-      <h2>Review: {game?.review ?? "No review written"}</h2>
+      <h2>Rating: {game?.rating || "Not rated"}</h2>
+      <h2>Genre: {game?.genre || "No genre selected"}</h2>
+      <h2>Review: {game?.review || "No review written"}</h2>
    </div>
 );
 }

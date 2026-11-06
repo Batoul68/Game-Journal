@@ -98,7 +98,7 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
             />
 
             <button type="submit">
-               Add Game
+               Save Game
             </button>
 
             <button type="button" onClick={onCancel}>
