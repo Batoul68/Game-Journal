@@ -1,0 +1,11 @@
+.button {
+   font-family: "LT Superior SemiBold";
+   font-size: 1rem;
+   color: white;
+
+   background-color: rgb(93, 126, 217);
+   padding: 6px 11px;
+   
+   border: 2px solid white;
+   border-radius: 20px;
+}

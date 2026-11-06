@@ -1,0 +1,37 @@
+@font-face {
+   font-family: "Yellow Style";
+   src: url('./fonts/yellow_style/Yellow\ Style.otf');
+}
+
+@font-face {
+   font-family: "Matcha Style";
+   src: url('./fonts/matcha_style/Matcha\ Style.otf');
+}
+
+@font-face {
+   font-family: "LT Superior Regular";
+   src: url('./fonts/ltsuperior/LTSuperior-Regular.ttf');
+}
+
+@font-face {
+   font-family: "LT Superior SemiBold";
+   src: url('./fonts/ltsuperior/LTSuperior-SemiBold.ttf');
+}
+
+body {
+   margin: 0;
+   min-height: 100vh;
+   background-color: #1f1f1ff7;
+   background-image: radial-gradient(
+      circle,
+      rgba(167, 204, 246, 0.460) 0.2px,
+      transparent 2px
+   ),
+   radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.460) 0.2px,
+      transparent 2px
+   );
+   background-size: 40px 40px;
+   background-position: 0 0, 20px 20px;
+}

@@ -1,0 +1,21 @@
+.header-container {
+   display: grid;
+   grid-template-columns: 1fr auto 1fr;
+   align-items: center;
+   padding: 20px 60px;
+}
+
+#title {
+   font-family: "Matcha Style", Arial;
+   grid-column: 2;
+   margin: 10px;
+   color: rgb(189, 207, 255);
+   text-shadow: 0 0 13px rgba(189, 207, 255, 0.748);
+   font-size: 3.5rem;
+}
+
+#logout {
+   grid-column: 3;
+   justify-self: end;
+}
+
