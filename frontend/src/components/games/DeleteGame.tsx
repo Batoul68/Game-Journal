@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { deleteGame } from "../../services/gameService";
 
-type DeleteGameButtonProps = {
+type DeleteGameProps = {
    gameId: number;
    onDeleted: () => void;
 };
 
 
-export default function DeleteGameButton({ gameId, onDeleted }: DeleteGameButtonProps) {
+export default function DeleteGame({ gameId, onDeleted }: DeleteGameProps) {
    const [message, setMessage] = useState('');
    const [isDeleting, setIsDeleting] = useState(false);
 

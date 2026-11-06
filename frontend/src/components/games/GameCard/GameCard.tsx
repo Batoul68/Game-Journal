@@ -1,6 +1,6 @@
 import type { Game } from '../../../types/index.ts';
 import { Link } from 'react-router';
-import DeleteGameButton from '../DeleteGameButton.tsx';
+import DeleteGame from '../DeleteGame.tsx';
 import styles from './GameCard.module.css';
 import defaultGameImg from '../../../assets/defaultGameImg.jpg';
 
@@ -28,7 +28,7 @@ return(
             </summary>
 
             <div className={styles['game-menu-options']}>
-               <DeleteGameButton 
+               <DeleteGame
                gameId={game.id}
                onDeleted={onGameDeleted}
                />
