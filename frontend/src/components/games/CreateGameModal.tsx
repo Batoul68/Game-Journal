@@ -8,6 +8,7 @@ onClose: () => void;
 onGameAdded: () => Promise<void>;
 }
 
+// The modal pop up for creating a game, uses the input template GameForm. is called by AddGame
 export default function CreateGameModal({ onClose, onGameAdded }: CreateGameModalProps) {
 
 const dialogRef = useRef<HTMLDialogElement>(null);

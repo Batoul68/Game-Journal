@@ -1,10 +1,11 @@
-import CreateGameModal from "../components/games/CreateGameModal.tsx";
 import GameCollection from "../components/games/GameCollection/GameCollection.tsx";
 
 import { useEffect, useState } from 'react';
 import { getGames } from '../services/gameService.ts';
 import type { Game } from '../types/index.ts'
 
+
+// Loads the collection of games
 export default function GamesPage() {
 
    const [games, setGames] = useState<Game[]>([]);

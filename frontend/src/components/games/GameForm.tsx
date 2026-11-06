@@ -11,6 +11,7 @@ const genres = ['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy', 'Sports'
                'Platform', 'Racing', 'Stealth', 'Survival', 'Horror', 'MMO', 'Sandbox', 'Rhythm/Music', 'Battle Royale',
                'Soulslike', 'Visual Novel', 'Dating Sim', 'Tycoon/Management', 'Trivia/Quiz'];
 
+// The input template used for editing and creating games
 export default function GameForm({ initialGame, onSave, onCancel }: GameFormProps) {
 
    // Allows game form to edit existing game or create new game
