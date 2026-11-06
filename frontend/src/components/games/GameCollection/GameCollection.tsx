@@ -1,21 +1,25 @@
-import { useState } from 'react';
+import { use, useState } from 'react';
 import type { Game } from '../../../types/index.ts';
 import GameCard from '../GameCard/GameCard.tsx';
 import styles from './GameCollection.module.css';
 import DeleteGame from '../DeleteGame.tsx';
+import AddGame from '../AddGame.tsx';
 
-type GameListProps = {
+type GameCollectionProps = {
    games: Game[];
-   onGameDeleted: () => void;
+   onGamesChanged: () => Promise<void>;
 }
 
-export default function GameCollection({ games, onGameDeleted }: GameListProps) {
+// Handles changes the game collection (adding game, deleting)
+export default function GameCollection({ games, onGamesChanged }: GameCollectionProps) {
 
    const [isDeleteMode, setIsDeleteMode] = useState(false);
 
    return (
       <section>
          <h2>Games</h2>
+
+         <AddGame onGameAdded={onGamesChanged}/>
 
          <button
             type="button"
@@ -31,7 +35,7 @@ export default function GameCollection({ games, onGameDeleted }: GameListProps) 
                      {isDeleteMode && (
                         <DeleteGame 
                            gameId={game.id}
-                           onDeleted={onGameDeleted}
+                           onDeleted={onGamesChanged}
                         />
                      )}
                      <GameCard game={game}/>

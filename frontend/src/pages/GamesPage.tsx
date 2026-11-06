@@ -9,7 +9,6 @@ export default function GamesPage() {
 
    const [games, setGames] = useState<Game[]>([]);
    const [loadMessage, setLoadMessage] = useState('Loading...');
-   const [isCreateGameOpen, setIsCreateGameOpen] = useState(false);
 
    // Load the current list of games
    const loadGames = async () => {
@@ -31,30 +30,13 @@ export default function GamesPage() {
    useEffect(() => {
       loadGames();
    }, []);
-
-   // Close the GameForm when a game is added
-   const handleGameSaved = async () => {
-      setIsCreateGameOpen(false);
-      await loadGames();
-   }
    
    return (
       <main className="container">
 
-         {isCreateGameOpen ? (
-            <CreateGameModal 
-               onClose={() => setIsCreateGameOpen(false)} 
-               onGameAdded={handleGameSaved}
-            />
-         ) : (
-            <button onClick={() => setIsCreateGameOpen(true)}>
-               Add new game
-            </button>
-         )}
-
          {loadMessage && <p>{loadMessage}</p>}
 
-         <GameCollection games={games} onGameDeleted={loadGames}/>
+         <GameCollection games={games} onGamesChanged={loadGames}/>
          
       </main>
    );
