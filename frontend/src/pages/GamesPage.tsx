@@ -1,4 +1,4 @@
-import GameModal from "../components/games/GameModal.tsx";
+import CreateGameModal from "../components/games/CreateGameModal.tsx";
 import GameList from "../components/games/GameList/GameList.tsx";
 
 import { useEffect, useState } from 'react';
@@ -42,7 +42,7 @@ export default function GamesPage() {
       <main className="container">
 
          {isCreateGameOpen ? (
-            <GameModal 
+            <CreateGameModal 
                onClose={() => setIsCreateGameOpen(false)} 
                onGameAdded={handleGameSaved}
             />
