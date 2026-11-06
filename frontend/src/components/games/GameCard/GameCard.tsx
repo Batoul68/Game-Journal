@@ -1,15 +1,13 @@
 import type { Game } from '../../../types/index.ts';
 import { Link } from 'react-router';
-import DeleteGame from '../DeleteGame.tsx';
 import styles from './GameCard.module.css';
 import defaultGameImg from '../../../assets/defaultGameImg.jpg';
 
 type GameCardProps = {
-game: Game;
-onGameDeleted: () => void;
+   game: Game;
 }
 
-export default function GameCard({ game, onGameDeleted }: GameCardProps) {
+export default function GameCard({ game }: GameCardProps) {
 return(
 
       <div className={styles.card}>
@@ -22,19 +20,6 @@ return(
             }
          </Link>
          <span id={styles['game-card-title']}>{game.name}</span>
-         <details className={styles['game-menu']}>
-            <summary aria-label={`Actions for ${game.name}`}>
-               ⋮
-            </summary>
-
-            <div className={styles['game-menu-options']}>
-               <DeleteGame
-               gameId={game.id}
-               onDeleted={onGameDeleted}
-               />
-               </div>
-
-         </details>
       </div>
 );
 }

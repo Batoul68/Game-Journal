@@ -54,8 +54,6 @@ export default function GamesPage() {
 
          {loadMessage && <p>{loadMessage}</p>}
 
-         <h2>Games</h2>
-
          <GameCollection games={games} onGameDeleted={loadGames}/>
          
       </main>
