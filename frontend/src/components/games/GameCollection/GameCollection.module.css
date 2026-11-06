@@ -1,8 +1,7 @@
 .list-container {
-border: 1px solid rgb(124, 124, 124);
-border-radius: 10px;
-
-}
+   border: 1px solid rgb(124, 124, 124);
+   border-radius: 10px;
+   }
 
 .game-list {
    list-style: none;
