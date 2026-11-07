@@ -1,5 +1,5 @@
 import LoginPage from './pages/LoginPage.tsx';
-import GamePage from './pages/GamesPage.tsx';
+import GamePage from './pages/GamesPage/GamesPage.tsx';
 import GameDetailsPage from './pages/GameDetailsPage.tsx';
 import Header from './components/header/Header/Header.tsx';
 import './App.css'
@@ -48,10 +48,9 @@ export default function App() {
          {user
          ? <>
             <Header onLogout={() => setUser(null)}/>
-               
                <Routes>
                   <Route path="/" element={<Navigate to="/games" replace />} />
-                  <Route path="/games" element={<GamePage />} />
+                  <Route path="/games" element={<GamePage username={user.username}/>} />
                   <Route path="games/:gameId" element={<GameDetailsPage />} />
                   <Route path="*" element={<p>Page not found</p>} />
                </Routes>

@@ -1,12 +1,13 @@
-import GameCollection from "../components/games/GameCollection/GameCollection.tsx";
+import GameCollection from "../../components/games/GameCollection/GameCollection.tsx";
 
 import { useEffect, useState } from 'react';
-import { getGames } from '../services/gameService.ts';
-import type { Game } from '../types/index.ts'
+import { getGames } from '../../services/gameService.ts';
+import type { Game } from '../../types/index.ts'
+import styles from './GamesPage.module.css';
 
 
 // Loads the collection of games
-export default function GamesPage() {
+export default function GamesPage({ username }: { username: string }) {
 
    const [games, setGames] = useState<Game[]>([]);
    const [loadMessage, setLoadMessage] = useState('Loading...');
@@ -34,6 +35,7 @@ export default function GamesPage() {
    
    return (
       <main className="container">
+         <h2 id={styles.greeting}>Welcome back, {username}!</h2>
 
          {loadMessage && <p>{loadMessage}</p>}
 
