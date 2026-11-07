@@ -2,12 +2,8 @@ import { useState } from "react";
 import CreateGameModal from "../CreateGameModal/CreateGameModal";
 import styles from './AddGame.module.css';
 
-type AddGameProps = {
-   onGameAdded: () => Promise<void>;
-}
-
 // Handles opening/closing the CreateGameModal and the add game button
-export default function AddGame({ onGameAdded }: AddGameProps) {
+export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
 
    const [isCreateGameOpen, setIsCreateGameOpen] = useState(false);
 
@@ -33,8 +29,6 @@ export default function AddGame({ onGameAdded }: AddGameProps) {
                onGameAdded={handleGameSaved}
             />
          }
-         
       </div>
-      
    );
 }
