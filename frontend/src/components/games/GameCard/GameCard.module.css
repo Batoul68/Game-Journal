@@ -1,6 +1,7 @@
 .card {
    position: relative;
    width: 180px;
+   margin: 20px;
 }
 
 .link {
@@ -11,6 +12,10 @@
    text-decoration: none;
 }
 
+.link[aria-disabled="true"] {
+   cursor: default;
+}
+
 #game-card-img {
    display: block;
    width: 180px;
@@ -18,6 +23,7 @@
    object-fit: cover;
    border-radius: 5px;
    margin-bottom: 10px;
+   box-shadow: 10px 10px 12px rgba(0, 0, 0, 0.726);
 }
 
 #game-card-title {
@@ -26,7 +32,8 @@
    height: 40px;
 
    font-size: 16px;
-   font-family: "Yellow Font", Helvetica, sans-serif;
+   font-family: "LT Superior SemiBold", Helvetica, sans-serif;
+   color: white;
 
    display: -webkit-box;
    -webkit-box-orient: vertical;

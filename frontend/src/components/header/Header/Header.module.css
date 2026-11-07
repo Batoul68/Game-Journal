@@ -2,7 +2,7 @@
    display: grid;
    grid-template-columns: 1fr auto 1fr;
    align-items: center;
-   padding: 20px 60px;
+   padding: 20px 100px;
 }
 
 #title {

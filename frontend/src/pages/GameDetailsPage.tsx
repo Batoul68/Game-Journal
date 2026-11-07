@@ -2,7 +2,7 @@ import type { Game } from "../types";
 import { getGameById } from "../services/gameService";
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
-import EditGame from "../components/games/EditGame";
+import EditGame from "../components/games/EditGame/EditGame";
 
 export default function GameDetailsPage() {
 

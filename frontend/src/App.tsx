@@ -6,20 +6,20 @@ import './App.css'
 import { checkSession } from './services/authService.ts';
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from "react-router";
+import type { SessionUser } from './types/index.ts';
 
 export default function App() {
 
-   const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [isCheckingSession, setIsCheckingSession] = useState(true);
    const [sessionError, setSessionError] = useState('');
+   const [user, setUser] = useState<SessionUser | null>(null);
    const navigate = useNavigate();
 
    // Check for authenticated session on mount
    useEffect(() => {
       const loadSession = async () => {
          try {
-            const authenticated = await checkSession();
-            setIsLoggedIn(authenticated);
+            setUser(await checkSession());
          } catch (error) {
             setSessionError('Could not check your session');
          } finally {
@@ -30,8 +30,8 @@ export default function App() {
       void loadSession();
    }, []);
 
-   const handleLoginSuccess = () => {
-      setIsLoggedIn(true);
+   const handleLoginSuccess = async () => {
+      setUser(await checkSession());
       navigate("/games", { replace: true });
    }
 
@@ -43,17 +43,20 @@ export default function App() {
       return <p>{sessionError}</p>
    }
 
-   return ( isLoggedIn
-      ? <>
-         <Header onLogout={() => setIsLoggedIn(false)}/>
-            <Routes>
-               <Route path="/" element={<Navigate to="/games" replace />} />
-               <Route path="/games" element={<GamePage />} />
-               <Route path="games/:gameId" element={<GameDetailsPage />} />
-               <Route path="*" element={<p>Page not found</p>} />
-            </Routes>
-         </>
-      : <LoginPage onLoginSuccess={handleLoginSuccess}/>
+   return (
+      <div className="wrapper">
+         {user
+         ? <>
+            <Header onLogout={() => setUser(null)}/>
+               
+               <Routes>
+                  <Route path="/" element={<Navigate to="/games" replace />} />
+                  <Route path="/games" element={<GamePage />} />
+                  <Route path="games/:gameId" element={<GameDetailsPage />} />
+                  <Route path="*" element={<p>Page not found</p>} />
+               </Routes>
+            </>
+         : <LoginPage onLoginSuccess={handleLoginSuccess}/>}
+      </div>
    );
 }
-

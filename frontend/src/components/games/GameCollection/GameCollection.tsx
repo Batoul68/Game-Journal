@@ -1,9 +1,9 @@
-import { use, useState } from 'react';
+import { useState } from 'react';
 import type { Game } from '../../../types/index.ts';
 import GameCard from '../GameCard/GameCard.tsx';
 import styles from './GameCollection.module.css';
-import DeleteGame from '../DeleteGame.tsx';
-import AddGame from '../AddGame.tsx';
+import DeleteGame from '../DeleteGame/DeleteGame.tsx';
+import AddGame from '../AddGame/AddGame.tsx';
 
 type GameCollectionProps = {
    games: Game[];
@@ -16,29 +16,31 @@ export default function GameCollection({ games, onGamesChanged }: GameCollection
    const [isDeleteMode, setIsDeleteMode] = useState(false);
 
    return (
-      <section>
-         <h2>Games</h2>
+      <section className={styles.collection}>
+         <div className={styles['action-buttons']}>
+            <AddGame onGameAdded={onGamesChanged}/>
 
-         <AddGame onGameAdded={onGamesChanged}/>
-
-         <button
-            type="button"
-            onClick={() => setIsDeleteMode(!isDeleteMode)}
-         >
-            {isDeleteMode ? "Done" : "Delete games"}
-         </button>
-
+            <button
+               id={styles.delete}
+               type="button"
+               onClick={() => setIsDeleteMode(!isDeleteMode)}
+            >
+               {isDeleteMode ? "Done" : "Delete"}
+            </button>
+         </div>
+         
         <div className={styles['list-container']}>
             <ul className={styles['game-list']}>
                {games.map((game) => (
-                  <li key={game.id}>
+                  <li id={styles['game-item']} key={game.id}>
                      {isDeleteMode && (
                         <DeleteGame 
                            gameId={game.id}
                            onDeleted={onGamesChanged}
+                           gameName={game.name}
                         />
                      )}
-                     <GameCard game={game}/>
+                     <GameCard game={game} isDeleteMode={isDeleteMode}/>
                   </li>
                ))}
             </ul>

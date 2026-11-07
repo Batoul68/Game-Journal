@@ -1,7 +1,7 @@
-import type { GameFormValues, Game } from "../../types";
-import { updateGame } from "../../services/gameService";
+import type { GameFormValues, Game } from "../../../types";
+import { updateGame } from "../../../services/gameService";
 import { useState } from "react";
-import GameForm from "./GameForm";
+import GameForm from "../GameForm/GameForm";
 
 type EditGameProps = {
    game: Game;

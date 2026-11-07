@@ -1,22 +1,22 @@
-import type { CsrfToken } from '../types/index.ts';
+import type { CsrfToken, SessionUser } from '../types/index.ts';
 import { getCsrfToken } from './csrfService.ts';
 
 const authEndpoint = 'http://localhost:8080/api/auth';
 
 // GET: Check for authenticated backend session
-export async function checkSession(): Promise<boolean> {
+export async function checkSession(): Promise<SessionUser | null> {
    const response = await fetch(`${authEndpoint}/me`, {
       credentials: 'include'
    });
 
    // Authenticated session
    if (response.ok) {
-      return true;
+      return response.json();
    }
 
    // Unauthenticated session
    if (response.status === 401) {
-      return false;
+      return null;
    }
 
    throw new Error('Could not check session');

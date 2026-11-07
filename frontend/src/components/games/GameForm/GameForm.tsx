@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { GameFormValues, Game } from '../../types/index.ts';
+import type { GameFormValues, Game } from '../../../types/index.ts';
 
 type GameFormProps = {
    initialGame?: Game; // supply when edit, omit when create

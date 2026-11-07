@@ -1,0 +1,11 @@
+#button {
+   background-color: transparent;
+   color: rgb(255, 0, 0);
+   font-size: 3rem;
+   font-weight: bolder;
+   border: none;
+}
+
+#button:hover {
+   cursor: pointer;
+}

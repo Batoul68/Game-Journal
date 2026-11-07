@@ -1,5 +1,6 @@
 import { useState } from "react";
-import CreateGameModal from "./CreateGameModal";
+import CreateGameModal from "../CreateGameModal/CreateGameModal";
+import styles from './AddGame.module.css';
 
 type AddGameProps = {
    onGameAdded: () => Promise<void>;
@@ -17,16 +18,22 @@ export default function AddGame({ onGameAdded }: AddGameProps) {
 
    return (
       <div>
-         {isCreateGameOpen ? (
+         <button 
+            id={styles.add} 
+            onClick={() => setIsCreateGameOpen(true)}
+            type="button"
+            disabled={isCreateGameOpen}
+         >
+            Add
+         </button>
+
+         {isCreateGameOpen && 
             <CreateGameModal 
                onClose={() => setIsCreateGameOpen(false)} 
                onGameAdded={handleGameSaved}
             />
-         ) : (
-            <button onClick={() => setIsCreateGameOpen(true)}>
-               Add new game
-            </button>
-         )}
+         }
+         
       </div>
       
    );

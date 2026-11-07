@@ -20,3 +20,7 @@ export interface CsrfToken {
    headerName: string;
    parameterName: string;
 };
+
+export interface SessionUser {
+   username: string;
+}

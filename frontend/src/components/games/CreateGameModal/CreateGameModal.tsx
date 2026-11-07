@@ -1,7 +1,7 @@
-import GameForm from "./GameForm";
+import GameForm from "../GameForm/GameForm.tsx";
 import { useEffect, useRef } from "react";
-import { createGame } from '../../services/gameService.ts';
-import type { GameFormValues } from "../../types";
+import { createGame } from '../../../services/gameService.ts';
+import type { GameFormValues } from "../../../types/index.ts";
 
 type CreateGameModalProps = {
 onClose: () => void;
