@@ -31,23 +31,6 @@
    padding-bottom: 18px;
 }
 
-#delete {
-   font-family: "LT Superior SemiBold";
-   font-size: 1rem;
-   color: white;
-
-   background-color: transparent;
-   padding: 6px 11px;
-   
-   border: 2px solid white;
-   border-radius: 20px;
-}
-
-#delete:hover {
-   background-color: rgba(93, 126, 217, 0.564);
-   cursor: pointer;
-}
-
 #game-item {
    display: flex;
    align-items: start;

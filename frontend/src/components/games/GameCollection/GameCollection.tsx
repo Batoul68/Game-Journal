@@ -3,7 +3,7 @@ import type { Game } from '../../../types/index.ts';
 import GameCard from '../GameCard/GameCard.tsx';
 import styles from './GameCollection.module.css';
 import DeleteGame from '../DeleteGame/DeleteGame.tsx';
-import AddGame from '../AddGame/AddGame.tsx';
+import AddGame from '../AddGame.tsx';
 
 type GameCollectionProps = {
    games: Game[];
@@ -21,7 +21,7 @@ export default function GameCollection({ games, onGamesChanged }: GameCollection
             <AddGame onGameAdded={onGamesChanged}/>
 
             <button
-               id={styles.delete}
+               className='action-button'
                type="button"
                onClick={() => setIsDeleteMode(!isDeleteMode)}
             >

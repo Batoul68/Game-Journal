@@ -1,6 +1,5 @@
 import { useState } from "react";
-import CreateGameModal from "../CreateGameModal/CreateGameModal";
-import styles from './AddGame.module.css';
+import CreateGameModal from "./CreateGameModal/CreateGameModal";
 
 // Handles opening/closing the CreateGameModal and the add game button
 export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
@@ -15,7 +14,7 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
    return (
       <div>
          <button 
-            id={styles.add} 
+            className='action-button' 
             onClick={() => setIsCreateGameOpen(true)}
             type="button"
             disabled={isCreateGameOpen}

@@ -1,8 +1,7 @@
-import type { GameFormValues, Game } from "../../../types";
-import { updateGame } from "../../../services/gameService";
+import type { GameFormValues, Game } from "../../types";
+import { updateGame } from "../../services/gameService";
 import { useState } from "react";
-import GameForm from "../GameForm/GameForm";
-import styles from './EditGame.module.css';
+import GameForm from "./GameForm/GameForm";
 
 type EditGameProps = {
    game: Game;
@@ -33,7 +32,7 @@ export default function EditGame({ game, onGameUpdated }: EditGameProps) {
             onCancel={() => setIsEditing(false)}
          />
       ) : (
-         <button id={styles.edit} onClick={() => setIsEditing(true)}>
+         <button className='action-button' onClick={() => setIsEditing(true)}>
             Edit game
          </button>
       )

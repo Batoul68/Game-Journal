@@ -45,3 +45,22 @@ body {
    background-size: 40px 40px;
    background-position: 0 0, 20px 20px;
 }
+
+.action-button {
+   font-family: "LT Superior SemiBold";
+   font-size: 1rem;
+   color: white;
+
+   background-color: transparent;
+   padding: 6px 11px;
+   
+   border: 2px solid white;
+   border-radius: 20px;
+
+   text-decoration: none;
+}
+
+.action-button:hover {
+   background-color: rgba(93, 126, 217, 0.564);
+   cursor: pointer;
+}

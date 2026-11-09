@@ -2,7 +2,7 @@ import type { Game } from "../../types";
 import { getGameById } from "../../services/gameService";
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
-import EditGame from "../../components/games/EditGame/EditGame";
+import EditGame from "../../components/games/EditGame";
 import styles from './GameDetailsPage.module.css';
 
 export default function GameDetailsPage() {
@@ -52,7 +52,7 @@ if (!game) {
 return (
    <main className={styles['page-container']}>
       <section className={styles['action-buttons']}>
-         <Link id={styles['back-link']} to="/games">Back to games</Link>
+         <Link className='action-button' to="/games">Back</Link>
          <EditGame
             key={game.id}
             game={game}
