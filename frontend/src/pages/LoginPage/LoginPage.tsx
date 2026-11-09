@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import LoginForm from "../components/auth/LoginForm.tsx";
-import CreateAccountForm from "../components/auth/CreateAccountForm.tsx";
+import LoginForm from "../../components/auth/LoginForm.tsx";
+import CreateAccountForm from "../../components/auth/CreateAccountForm.tsx";
+import styles from './LoginPage.module.css';
 
 type LoginPageProps = {
    onLoginSuccess: () => void;
@@ -24,11 +25,13 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
    return(
       <div>
-         <h1>Welcome to your Game Journal!</h1>
+         <h1 className={styles.title}>Welcome to your Game Journal!</h1>
 
-         <button onClick={handleLoginButton}>Login</button>
-         <button onClick={handleCreateButton}>Create Account</button>
-   
+         <div className={styles['auth-actions']}>
+            <button className='auth-button' onClick={handleLoginButton}>Login</button>
+            <button  className='auth-button' onClick={handleCreateButton}>Create Account</button>
+         </div>
+         
          {showLoginForm && <LoginForm onLoginSuccess={onLoginSuccess}/>}
          {showCreateForm && <CreateAccountForm />}
       </div>

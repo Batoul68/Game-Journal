@@ -1,4 +1,4 @@
-import LogoutButton from "../LogoutButton/LogoutButton.tsx";
+import LogoutButton from "../LogoutButton.tsx";
 import styles from './Header.module.css'
 
 type HeaderProps = {

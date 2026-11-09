@@ -1,0 +1,15 @@
+.title {
+   font-family: "Matcha Style", Arial;
+   margin: 30px;
+   color: rgb(189, 207, 255);
+   text-shadow: 0 0 13px rgba(189, 207, 255, 0.748);
+   font-size: 3rem;
+   text-align: center;
+}
+
+.auth-actions {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 2rem;
+}

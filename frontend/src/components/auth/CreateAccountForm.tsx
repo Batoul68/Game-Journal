@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createAccount } from "../../services/authService.ts";
+import styles from './AuthForm.module.css';
 
 export default function CreateAccountForm() {
 
@@ -50,7 +51,7 @@ export default function CreateAccountForm() {
 
    return(
       <div>
-         <form onSubmit={handleSubmit}>
+         <form className={styles['auth-form']} onSubmit={handleSubmit}>
                <input 
                   type="text"
                   placeholder="Username"

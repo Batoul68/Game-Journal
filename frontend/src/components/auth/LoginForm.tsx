@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { login } from '../../services/authService.ts';
+import styles from './AuthForm.module.css';
 
 type LoginFormProps = {
    onLoginSuccess: () => void;
@@ -24,7 +25,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
    return(
       <div>
-         <form onSubmit={handleSubmit}>
+         <form className={styles['auth-form']} onSubmit={handleSubmit}>
                <input 
                   type="text"
                   placeholder="Username"

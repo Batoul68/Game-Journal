@@ -1,5 +1,4 @@
-import { logout } from "../../../services/authService.ts";
-import styles from './LogoutButton.module.css';
+import { logout } from "../../services/authService.ts";
 
 type LogoutButtonProps = {
    onLogout: () => void;
@@ -17,6 +16,6 @@ export default function LogoutButton({ onLogout }: LogoutButtonProps) {
    }
 
    return(
-      <button className={styles.button} onClick={handleLogout}>Logout</button>
+      <button className='auth-button' onClick={handleLogout}>Logout</button>
    );
 }
