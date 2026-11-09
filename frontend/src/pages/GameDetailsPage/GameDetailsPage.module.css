@@ -1,0 +1,86 @@
+.page-container {
+   width: calc(100%-2rem);
+   max-width: 1100px;
+   margin-inline: auto;
+   padding: 20px;
+}
+
+.action-buttons {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 10px;
+   padding-left: 40px;
+   padding-bottom: 18px;
+}
+
+.info-section {
+   display: grid;
+   grid-template-columns: clamp(5.5rem, 22vw, 13rem) minmax(0, 1fr);
+   align-items: start;
+   gap: clamp(0.75rem, 3vw, 2rem);
+}
+
+.review-section {
+   margin-top: 30px;
+   border: 1px solid rgba(255, 255, 255, 0.531);
+   box-shadow: 0 0 13px rgba(189, 207, 255, 0.378);
+   border-radius: 10px;
+   padding: 5px 30px;
+   color: white;
+}
+
+#review-title {
+   font-family: "LT Superior Light Italic";
+   margin-bottom: 0;
+}
+
+#rating {
+   margin: 0;
+}
+
+#title {
+   margin-top: 0;
+   overflow-wrap: anywhere;
+   color: rgb(189, 207, 255);
+   font-size: 2rem;
+   font-family: "LT Superior SemiBold";
+}
+
+#cover-img {
+   display: block;
+   width: 100%;
+   aspect-ratio: 2/3;
+   object-fit: cover;
+   border-radius: 5px;
+   border: 1px solid white;
+}
+
+.genre-row {
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+}
+
+#genre-badge {
+   padding: 0px 7px;
+   border: 1px solid currentColor;
+   border-radius: 10px;
+   color: white;
+   background-color: rgba(93, 126, 217, 0.823);
+}
+
+#genre-title {
+   font-family: "LT Superior Medium Italic";
+   color: white;
+   font-size: 1.2rem;
+}
+
+#back-link {
+   grid-column: 1;
+}
+
+#edit-button {
+   grid-column: 3;
+   justify-self: end;
+}

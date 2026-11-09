@@ -1,6 +1,6 @@
 import LoginPage from './pages/LoginPage.tsx';
 import GamePage from './pages/GamesPage/GamesPage.tsx';
-import GameDetailsPage from './pages/GameDetailsPage.tsx';
+import GameDetailsPage from './pages/GameDetailsPage/GameDetailsPage.tsx';
 import Header from './components/header/Header/Header.tsx';
 import './App.css'
 import { checkSession } from './services/authService.ts';
