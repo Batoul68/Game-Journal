@@ -1,12 +1,5 @@
-export interface Game {
+export interface Game  extends GameFormValues{
    id: number;
-   name: string;
-   coverImageUrl: string;
-   rating: number;
-   genre: string;
-   review: string;
-   releaseYear: number;
-   description: string;
 };
 
 export interface GameFormValues {

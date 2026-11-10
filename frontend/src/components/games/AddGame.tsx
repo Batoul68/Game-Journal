@@ -12,15 +12,7 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
 
 
    const handleCreateGame = async (values: GameFormValues) => {
-      await createGame(
-         values.name,
-         values.coverImageUrl,
-         values.rating,
-         values.genre,
-         values.review,
-         values.releaseYear,
-         values.description
-      );
+      await createGame(values);
       
       setIsCreateGameOpen(false);
       await onGameAdded();

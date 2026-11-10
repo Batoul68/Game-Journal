@@ -1,7 +1,17 @@
-import type { Game } from '../types/index.ts';
+import type { Game, GameFormValues } from '../types/index.ts';
 import { getCsrfToken } from './csrfService.ts';
 
 const API = 'http://localhost:8080/api/games';
+
+
+// Helper to trim name and coverImageUrl
+function buildGameRequestBody(values: GameFormValues): string {
+   return JSON.stringify({
+      ...values,
+      name: values.name.trim(),
+      coverImageUrl: values.coverImageUrl.trim()
+   });
+}
 
 // GET: Loading saved list of games 
 export async function getGames(): Promise<Game[]> {
@@ -33,15 +43,7 @@ export async function getGameById(gameId: string): Promise<Game> {
 }
 
 // POST: Creating a new game 
-export async function createGame(
-   name: string, 
-   coverImageUrl: string,
-   rating: number | null,
-   genre: string,
-   review: string,
-   releaseYear: number | null,
-   description: string
-): Promise<Game> {
+export async function createGame(values: GameFormValues): Promise<Game> {
 
    // GET: fetch csrf token to send with POST
    const csrf = await getCsrfToken();
@@ -53,15 +55,7 @@ export async function createGame(
          'Content-Type': 'application/json',
          [csrf.headerName]: csrf.token
       },
-      body: JSON.stringify({
-         name: name.trim(),
-         coverImageUrl: coverImageUrl.trim(),
-         rating,
-         genre,
-         review,
-         releaseYear,
-         description
-      })
+      body: buildGameRequestBody(values)
    });
 
    if (!response.ok) {
@@ -72,16 +66,7 @@ export async function createGame(
 }
 
 // PUT: Editing a game
-export async function updateGame(
-   gameId: string,
-   name: string,
-   coverImageUrl: string,
-   rating: number | null,
-   genre: string,
-   review: string,
-   releaseYear: number | null,
-   description: string
-): Promise<Game> {
+export async function updateGame(gameId: string, values: GameFormValues): Promise<Game> {
 
    // GET: fetch csrf token
    const csrf = await getCsrfToken();
@@ -93,15 +78,7 @@ export async function updateGame(
          'Content-Type': 'application/json',
          [csrf.headerName]: csrf.token
       },
-      body: JSON.stringify({
-         name: name.trim(),
-         coverImageUrl: coverImageUrl.trim(),
-         rating,
-         genre,
-         review,
-         releaseYear,
-         description
-      })
+      body: buildGameRequestBody(values)
    });
 
    if(!response.ok) {

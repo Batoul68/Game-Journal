@@ -16,20 +16,12 @@ export default function EditGame({ game, onGameUpdated }: EditGameProps) {
    const closeModal = () => setIsEditing(false);
 
    const handleUpdateGame  = async (values: GameFormValues) => {
-      const updatedGame = await updateGame(
-         String(game.id),
-         values.name,
-         values.coverImageUrl,
-         values.rating,
-         values.genre,
-         values.review,
-         values.releaseYear,
-         values.description
-      );
+      const updatedGame = await updateGame(String(game.id), values);
 
       onGameUpdated(updatedGame);
       setIsEditing(false);
    }
+
    return (
       isEditing ? (
          <GameModal title="Edit Game" onClose={closeModal}>
