@@ -6,7 +6,7 @@ export interface GameFormValues {
    name: string;
    coverImageUrl: string;
    rating: number | null;
-   genre: string;
+   genres: string[];
    review: string;
    releaseYear: number | null;
    description: string;

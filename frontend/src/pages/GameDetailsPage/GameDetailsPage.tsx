@@ -70,7 +70,19 @@ return (
                <h2 id={styles.title}>{game?.name}</h2>
                <p className={styles['genre-row']}>
                   <span id={styles['genre-title']}>Genre:</span> 
-                  <span id={styles['genre-badge']}>{game?.genre || "N/A"}</span>
+
+                  {game.genres.length > 0
+                     ? game.genres.map((genre) => (
+                        <span 
+                           id={styles['genre-badge']}
+                           key={genre}
+                        >
+                           {genre}
+                        </span>
+                     ))
+                     : <span>N/A</span>
+                  }
+                  
                </p>  
                <p id={styles.year}>Release year: {game?.releaseYear || 'N/A'}</p>
                

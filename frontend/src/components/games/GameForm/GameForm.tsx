@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { GameFormValues, Game } from '../../../types/index.ts';
 import styles from './GameForm.module.css';
+import { getGenreOptions } from '../../../services/genreService.ts';
 
 type GameFormProps = {
    initialGame?: Game; // supply when edit, omit when create
    onSave: (values: GameFormValues) => Promise<void>;
    onCancel: () => void;
 }
-
-const genres = ['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy', 'Sports', 'Fighting', 'Shooter', 'Puzzle', 
-               'Platform', 'Racing', 'Stealth', 'Survival', 'Horror', 'MMO', 'Sandbox', 'Rhythm/Music', 'Battle Royale',
-               'Soulslike', 'Visual Novel', 'Dating Sim', 'Tycoon/Management', 'Trivia/Quiz'];
 
 // The input template used for editing and creating games
 export default function GameForm({ initialGame, onSave, onCancel }: GameFormProps) {
@@ -21,12 +18,15 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
    const [rating, setRating] = useState<number | null> (
       initialGame?.rating ?? null
    );
-   const [genre, setGenre] = useState(initialGame?.genre ?? '');
+   const [genres, setGenres] = useState<string[]>(initialGame?.genres ?? []);
    const [review, setReview] = useState(initialGame?.review ?? '');
    const [releaseYear, setReleaseYear] = useState<number | null> (
       initialGame?.releaseYear ?? null
    );
    const [description, setDescription] = useState(initialGame?.description ?? '');
+
+   // Pull from database
+   const [genreOptions, setGenreOptions] = useState<string[]>([]);
    const [message, setMessage] = useState('');
 
 
@@ -45,13 +45,20 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
       }
 
       try {
-         await onSave({name: name.trim(), coverImageUrl: coverImageUrl.trim(), rating, genre, review, releaseYear, description});
+         await onSave({name: name.trim(), coverImageUrl: coverImageUrl.trim(), rating, genres, review, releaseYear, description});
          setMessage('');
 
       } catch (error) {
          setMessage('Unable to save game. Check that the backend is running');
       }
    }
+
+   // Fetch genre options on mount
+   useEffect(() => {
+      getGenreOptions()
+      .then(setGenreOptions)
+      .catch(() => setMessage('Could not load genre options'));
+   }, []);
 
    return (
       <section className={styles.container}>
@@ -74,22 +81,27 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
                      placeholder='Enter image url'
                   />
                </div>
-               <div className={styles['input-group']}>
-                  <label>Genre</label>
-                  <select
-                     id="genre"
-                     value={genre}
-                     onChange={(event) => setGenre(event.target.value)}
-                  >
-                     <option value="">Select a genre</option>
-                     {genres.map((genreName) => (
-                        <option key={genreName} value={genreName}>
-                           {genreName}
-                        </option>
-                     ))}
-                  </select>
-               </div>
-               
+               <details className={styles['genre-dropdown']}>
+                  <summary>Genres ({genres.length} selected)</summary>
+                  <div className={styles['genre-options']}>
+                  {genreOptions.map((genre) => (
+                  <label key={genre}>
+                     <input
+                        type="checkbox"
+                        checked={genres.includes(genre)}
+                        onChange={() => 
+                           setGenres((current) => 
+                              current.includes(genre)
+                              ? current.filter((name) => name !== genre)
+                              : [...current, genre]
+                           )
+                        }
+                     />
+                     {genre}
+                  </label>
+                  ))}
+                  </div>
+               </details>
             </div>
             <div className={styles.column}>
                <div className={styles['input-group']}>
