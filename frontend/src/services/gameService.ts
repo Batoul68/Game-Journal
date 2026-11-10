@@ -3,16 +3,6 @@ import { getCsrfToken } from './csrfService.ts';
 
 const API = 'http://localhost:8080/api/games';
 
-
-// Helper to trim name and coverImageUrl
-function buildGameRequestBody(values: GameFormValues): string {
-   return JSON.stringify({
-      ...values,
-      name: values.name.trim(),
-      coverImageUrl: values.coverImageUrl.trim()
-   });
-}
-
 // GET: Loading saved list of games 
 export async function getGames(): Promise<Game[]> {
    const response = await fetch(API, {
@@ -55,7 +45,7 @@ export async function createGame(values: GameFormValues): Promise<Game> {
          'Content-Type': 'application/json',
          [csrf.headerName]: csrf.token
       },
-      body: buildGameRequestBody(values)
+      body: JSON.stringify(values)
    });
 
    if (!response.ok) {
@@ -78,7 +68,7 @@ export async function updateGame(gameId: string, values: GameFormValues): Promis
          'Content-Type': 'application/json',
          [csrf.headerName]: csrf.token
       },
-      body: buildGameRequestBody(values)
+      body: JSON.stringify(values)
    });
 
    if(!response.ok) {

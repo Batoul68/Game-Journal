@@ -34,7 +34,6 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
    const handleSave = async (event: React.SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-
       if(!name.trim()) {
          setMessage('Game title cannot be empty');
          return;
@@ -46,7 +45,7 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
       }
 
       try {
-         await onSave({name, coverImageUrl, rating, genre, review, releaseYear, description});
+         await onSave({name: name.trim(), coverImageUrl: coverImageUrl.trim(), rating, genre, review, releaseYear, description});
          setMessage('');
 
       } catch (error) {
