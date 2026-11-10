@@ -3,6 +3,7 @@ package com.tulip.gamejournalapi.config;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
@@ -32,8 +33,13 @@ public class SecurityConfig {
                       .loginProcessingUrl("/api/auth/login")
                       .successHandler((request, response, authentication) ->
                               response.setStatus(204))
-                      .failureHandler((request, response, exception) ->
-                              response.setStatus(401))
+                      .failureHandler((request, response, exception) -> {
+                         if (exception instanceof AuthenticationServiceException) {
+                            response.setStatus(500);
+                         } else {
+                            response.setStatus(401);
+                         }
+                      })
               )
               .logout(logout -> logout
                       .logoutUrl("/api/auth/logout")

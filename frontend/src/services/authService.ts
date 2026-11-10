@@ -39,6 +39,10 @@ export async function login(username: string, password: string): Promise<void> {
       body: new URLSearchParams({ username, password })
    });
 
+   if (response.status === 401) {
+      throw new Error('Incorrect username or password');
+   }
+   
    if (!response.ok) {
       throw new Error('Could not send credentials to login');
    }

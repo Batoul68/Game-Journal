@@ -11,30 +11,23 @@ type LoginPageProps = {
 
 export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
-   const [showLoginForm, setShowLoginForm] = useState(false);
-   const [showCreateForm, setShowCreateForm] = useState(false);
+   const [view, setView] = useState<"login" | "signup">("login");
 
-   const handleLoginButton = () => {
-      setShowLoginForm(!showLoginForm);
-      setShowCreateForm(false);
-   }
-
-   const handleCreateButton = () => {
-      setShowCreateForm(!showCreateForm);
-      setShowLoginForm(false);
-   }
 
    return(
       <div>
          <h1 className={styles.title}>Welcome to your Game Journal!</h1>
 
-         <div className={styles['auth-actions']}>
-            <button className='auth-button' onClick={handleLoginButton}>Login</button>
-            <button className='auth-button' onClick={handleCreateButton}>Sign Up</button>
-         </div>
-         
-         {showLoginForm && <LoginForm onLoginSuccess={onLoginSuccess}/>}
-         {showCreateForm && <CreateAccountForm />}
+         {view === "login" ? (
+            <LoginForm 
+               onLoginSuccess={onLoginSuccess} 
+               onShowSignUp={() => setView("signup")}
+            />
+         ) : (
+            <CreateAccountForm 
+               onShowLogin={() => setView("login")}
+            />
+         )}
       </div>
    );
 }

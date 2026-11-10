@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createAccount } from "../../services/authService.ts";
 import styles from './AuthForm.module.css';
 
-export default function CreateAccountForm() {
+export default function CreateAccountForm({ onShowLogin }: { onShowLogin: () => void}) {
 
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
@@ -13,29 +13,28 @@ export default function CreateAccountForm() {
       e.preventDefault();
       setMessage('');
 
-      // Error handling
-      if (!username.trim()) {
-         setMessage('Username cannot be empty');
-         return;
-      }
-
-      if (username.trim().length < 3) {
-         setMessage('Username should be 3 or more characters');
-         return;
-      }
-   
-      if (!password) {
-         setMessage('Password cannot be empty');
-         return;
-      }
-
-      if (retypePassword !== password) {
-         setMessage("Passwords don't match");
-         return;
-      }
-
       // Send POST to backend
       try {
+         // Error handling
+         if (!username.trim()) {
+            setMessage('Username cannot be empty');
+            return;
+         }
+
+         if (username.trim().length < 3) {
+            setMessage('Username should be 3 or more characters');
+            return;
+         }
+      
+         if (!password) {
+            setMessage('Password cannot be empty');
+            return;
+         }
+
+         if (retypePassword !== password) {
+            setMessage("Passwords don't match");
+            return;
+         }
          await createAccount(username, password);
          setMessage('Account created! Try logging in.');
 
@@ -46,6 +45,10 @@ export default function CreateAccountForm() {
                ? error.message
                : 'An error occured creating your account'
          );
+      } finally {
+         setUsername('');
+         setPassword('');
+         setRetypePassword('');
       }
    }
 
@@ -75,12 +78,30 @@ export default function CreateAccountForm() {
                         type="password"
                      />
                   </div>
+                  <div className={styles['form-group']}>
+                     <label className={styles.subtitle}>Password</label>
+                     <input 
+                        placeholder="Re-enter password" 
+                        value={retypePassword}
+                        onChange={(e) => setRetypePassword(e.target.value)}
+                        id="retype-password" 
+                        className={styles['form-style']} 
+                        type="password"
+                     />
+                  </div>
                   <div>
                      <button type="submit" className={styles['auth-button']}>SIGN UP</button>
                      <p id={styles.footer}>
                         Already registered? 
-                        <a className={styles.link} href="">
-                           Login Here!
+                        <a 
+                           className={styles.link} 
+                           href="login"
+                           onClick={(e) => {
+                              e.preventDefault();
+                              onShowLogin();
+                           }}
+                        >
+                           Login here!
                         </a>
                      </p>
                   </div>

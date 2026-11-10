@@ -4,9 +4,10 @@ import styles from './AuthForm.module.css';
 
 type LoginFormProps = {
    onLoginSuccess: () => void;
+   onShowSignUp: () => void;
 }
 
-export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
+export default function LoginForm({ onLoginSuccess, onShowSignUp }: LoginFormProps) {
 
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
@@ -19,7 +20,12 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
          onLoginSuccess();
       } catch (error) {
          console.error(error);
-         setLoginMessage('Login failed');
+         setLoginMessage(
+            error instanceof Error ? error.message : 'Could not login, please try again.'
+         );
+      } finally {
+         setUsername('');
+         setPassword('');
       }
    }
 
@@ -53,8 +59,15 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                      <button type="submit" className={styles['auth-button']}>LOGIN</button>
                      <p id={styles.footer}>
                         Not registered? 
-                        <a className={styles.link} href="">
-                           Sign up Here!
+                        <a 
+                           className={styles.link} 
+                           href="signup"
+                           onClick={(e) => {
+                              e.preventDefault();
+                              onShowSignUp();
+                           }}
+                        >
+                           Sign up here!
                         </a>
                      </p>
                   </div>
