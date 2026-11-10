@@ -50,30 +50,44 @@ export default function CreateAccountForm() {
    }
 
    return(
-      <div>
-         <form className={styles['auth-form']} onSubmit={handleSubmit}>
-               <input 
-                  type="text"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-               />
-               <input 
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-               />
-               <input 
-                  type="password"
-                  placeholder="Retype Password"
-                  value={retypePassword}
-                  onChange={(e) => setRetypePassword(e.target.value)}
-               />
-               <button type="submit">Create Account</button>
-         </form>
-
-         <h4>{message}</h4>
+      <div className={styles.container}>
+         <div className={styles['form-area']}>
+            <p className={styles.title}>SIGN UP</p>
+            <form action="" onSubmit={handleSubmit}>
+                  <div className={styles['form-group']}>
+                     <label className={styles.subtitle}>Username</label>
+                     <input 
+                        placeholder="Enter a username" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className={styles['form-style']}
+                        type="text"
+                     />
+                  </div>
+                  <div className={styles['form-group']}>
+                     <label className={styles.subtitle}>Password</label>
+                     <input 
+                        placeholder="Enter a password" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        id="password" 
+                        className={styles['form-style']} 
+                        type="password"
+                     />
+                  </div>
+                  <div>
+                     <button type="submit" className={styles['auth-button']}>SIGN UP</button>
+                     <p id={styles.footer}>
+                        Already registered? 
+                        <a className={styles.link} href="">
+                           Login Here!
+                        </a>
+                     </p>
+                  </div>
+            </form>
+         </div>
+         
+         <h3>{message}</h3>
       </div>
    );
 

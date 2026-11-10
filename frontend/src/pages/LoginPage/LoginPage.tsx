@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 import LoginForm from "../../components/auth/LoginForm.tsx";
 import CreateAccountForm from "../../components/auth/CreateAccountForm.tsx";
 import styles from './LoginPage.module.css';
@@ -29,7 +30,7 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
          <div className={styles['auth-actions']}>
             <button className='auth-button' onClick={handleLoginButton}>Login</button>
-            <button  className='auth-button' onClick={handleCreateButton}>Create Account</button>
+            <button className='auth-button' onClick={handleCreateButton}>Sign Up</button>
          </div>
          
          {showLoginForm && <LoginForm onLoginSuccess={onLoginSuccess}/>}

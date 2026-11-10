@@ -1,12 +1,92 @@
-.auth-form {
+.container {
    display: flex;
-   flex-direction: column;
    align-items: center;
    justify-content: center;
-   gap: 1rem;
-   width: 50%;
+   flex-direction: column;
+   text-align: center;
+   font-family: "LT Superior Regular";
 }
 
-.auth-form input {
-   
+.form-area {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   height: auto;
+   width: auto;
+   box-shadow: 10px 10px 12px 1px black;
+   border: 3px solid rgb(189, 207, 255);
+   background-color: rgba(42, 47, 62, 0.738);
+   border-radius: 30px;
+   padding: 20px;
+}
+
+.title {
+   color: rgb(189, 207, 255);
+   font-weight: 900;
+   font-size: 2em;
+   margin-top: 20px;
+   font-family: "Matcha Style";
+}
+
+.subtitle {
+   font-weight: 600;
+   margin: 5px 0;
+   color: white;
+}
+
+.form-group {
+   display: flex;
+   flex-direction: column;
+   align-items: baseline;
+   margin: 10px;
+}
+
+.form-style {
+   outline: none;
+   border: 2px solid #264143;
+   box-shadow: 3px 4px 0px 1px rgb(189, 207, 255);
+   width: 290px;
+   padding: 12px 10px;
+   border-radius: 4px;
+   font-size: 15px;
+}
+
+.form-style:focus, .auth-button:focus {
+   transform: translateY(4px);
+   box-shadow: 1px 2px 0px 0px rgb(189, 207, 255);
+}
+
+.auth-button {
+   padding: 15px;
+   margin: 25px 0px;
+   width: 290px;
+   font-size: 15px;
+   background: rgba(93, 126, 217, 0.823);
+   border-radius: 10px;
+   font-weight: 800;
+   box-shadow: 3px 3px 0px 0px white;
+   color: white;
+   font-family: "LT Superior Regular";
+}
+
+.auth-button:hover {
+   background: rgba(93, 126, 217, 0.596);
+   cursor: pointer;
+}
+
+#footer {
+   color: white;
+}
+
+.link {
+   font-weight: 800;
+   color: rgb(93, 126, 217);
+   padding: 5px;
+}
+
+h3 {
+   color: white;
+   font-family: "LT Superior Light Italic";
+   margin: 40px;
 }

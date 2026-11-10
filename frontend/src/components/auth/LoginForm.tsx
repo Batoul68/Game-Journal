@@ -24,25 +24,44 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
    }
 
    return(
-      <div>
-         <form className={styles['auth-form']} onSubmit={handleSubmit}>
-               <input 
-                  type="text"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-               />
-               <input 
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-               />
-               <button type="submit">Login</button>
-         </form>
-
-         <h4>{loginMessage}</h4>
+      <div className={styles.container}>
+         <div className={styles['form-area']}>
+            <p className={styles.title}>LOGIN</p>
+            <form action="" onSubmit={handleSubmit}>
+                  <div className={styles['form-group']}>
+                     <label className={styles.subtitle}>Username</label>
+                     <input 
+                        placeholder="Enter your username" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className={styles['form-style']}
+                        type="text"
+                     />
+                  </div>
+                  <div className={styles['form-group']}>
+                     <label className={styles.subtitle}>Password</label>
+                     <input 
+                        placeholder="Enter your password" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        id="password" 
+                        className={styles['form-style']} 
+                        type="password"
+                     />
+                  </div>
+                  <div>
+                     <button type="submit" className={styles['auth-button']}>LOGIN</button>
+                     <p id={styles.footer}>
+                        Not registered? 
+                        <a className={styles.link} href="">
+                           Sign up Here!
+                        </a>
+                     </p>
+                  </div>
+            </form>
+         </div>
+         
+         <h3>{loginMessage}</h3>
       </div>
-      
    );
 }

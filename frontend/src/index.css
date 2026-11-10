@@ -31,15 +31,15 @@
 body {
    margin: 0;
    min-height: 100vh;
-   background-color: #1f1f1ff7;
+   background-color: rgb(38,36,35);
    background-image: radial-gradient(
       circle,
-      rgba(167, 204, 246, 0.460) 0.2px,
+      rgba(115, 146, 181, 0.50) 0.2px,
       transparent 2px
    ),
    radial-gradient(
       circle,
-      rgba(255, 255, 255, 0.460) 0.2px,
+      rgba(130, 80, 196, 0.50) 0.2px,
       transparent 2px
    );
    background-size: 40px 40px;
