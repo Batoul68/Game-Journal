@@ -108,7 +108,7 @@ export default function CreateAccountForm({ onShowLogin }: { onShowLogin: () => 
             </form>
          </div>
          
-         <h3>{message}</h3>
+         <h3 id={styles.message}>{message}</h3>
       </div>
    );
 

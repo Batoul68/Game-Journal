@@ -74,7 +74,7 @@ export default function LoginForm({ onLoginSuccess, onShowSignUp }: LoginFormPro
             </form>
          </div>
          
-         <h3>{loginMessage}</h3>
+         <h3 id={styles.message}>{loginMessage}</h3>
       </div>
    );
 }
