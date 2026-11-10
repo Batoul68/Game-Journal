@@ -1,12 +1,25 @@
 import { useState } from "react";
-import CreateGameModal from "./CreateGameModal";
+import GameForm from "./GameForm/GameForm";
+import GameModal from "./GameModal/GameModal";
+import type { GameFormValues } from "../../types";
+import { createGame } from "../../services/gameService";
 
-// Handles opening/closing the CreateGameModal and the add game button
+// Handles creating a game, renders GameForm wrapped in GameModal
 export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
 
    const [isCreateGameOpen, setIsCreateGameOpen] = useState(false);
+   const closeModal = () => setIsCreateGameOpen(false);
 
-   const handleGameSaved = async () => {
+
+   const handleCreateGame = async (values: GameFormValues) => {
+      await createGame(
+         values.name,
+         values.coverImageUrl,
+         values.rating,
+         values.genre,
+         values.review
+      );
+      
       setIsCreateGameOpen(false);
       await onGameAdded();
    }
@@ -23,10 +36,9 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
          </button>
 
          {isCreateGameOpen && 
-            <CreateGameModal 
-               onClose={() => setIsCreateGameOpen(false)} 
-               onGameAdded={handleGameSaved}
-            />
+            <GameModal title="Add Game" onClose={closeModal}>
+               <GameForm onSave={handleCreateGame} onCancel={closeModal}/>
+            </GameModal>
          }
       </div>
    );
