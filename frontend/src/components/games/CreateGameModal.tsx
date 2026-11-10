@@ -1,11 +1,12 @@
-import GameForm from "../GameForm/GameForm.tsx";
+import GameForm from "./GameForm/GameForm.tsx";
 import { useEffect, useRef } from "react";
-import { createGame } from '../../../services/gameService.ts';
-import type { GameFormValues } from "../../../types/index.ts";
+import { createGame } from '../../services/gameService.ts';
+import type { GameFormValues } from "../../types/index.ts";
+import styles from './GameModal.module.css';
 
 type CreateGameModalProps = {
-onClose: () => void;
-onGameAdded: () => Promise<void>;
+   onClose: () => void;
+   onGameAdded: () => Promise<void>;
 }
 
 // The modal pop up for creating a game, uses the input template GameForm. is called by AddGame
@@ -44,7 +45,7 @@ return (
       }} 
       aria-labelledby="game-modal-title"
    >
-      <h2 id="game-modal-title">Add game</h2>
+      <h2 id={styles.title}>Add game</h2>
 
       <GameForm onSave={handleCreateGame} onCancel={onClose}/>
    </dialog>

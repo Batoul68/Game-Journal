@@ -79,7 +79,7 @@ export default function CreateAccountForm({ onShowLogin }: { onShowLogin: () => 
                      />
                   </div>
                   <div className={styles['form-group']}>
-                     <label className={styles.subtitle}>Password</label>
+                     <label className={styles.subtitle}>Verify Password</label>
                      <input 
                         placeholder="Re-enter password" 
                         value={retypePassword}

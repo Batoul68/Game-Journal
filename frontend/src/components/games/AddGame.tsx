@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CreateGameModal from "./CreateGameModal/CreateGameModal";
+import CreateGameModal from "./CreateGameModal";
 
 // Handles opening/closing the CreateGameModal and the add game button
 export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
