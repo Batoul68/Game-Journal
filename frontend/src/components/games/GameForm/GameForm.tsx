@@ -105,7 +105,7 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
                         const value = event.target.value;
                         setRating(value === "" ? null : Number(value)); 
                      }}
-                     placeholder='Rating'
+                     placeholder='Rating / 5'
                   />
                </div>
                <div className={styles['input-group']}>

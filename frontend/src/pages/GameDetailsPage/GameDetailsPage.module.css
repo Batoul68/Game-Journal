@@ -3,6 +3,7 @@
    max-width: 1100px;
    margin-inline: auto;
    padding: 20px;
+   line-height: 1.4;
 }
 
 .action-buttons {
@@ -36,7 +37,12 @@
 }
 
 #rating {
-   margin: 0;
+   margin-bottom: 0;
+}
+
+#review {
+   font-family: "LT Superior Regular";
+   font-size: 1.1rem;
 }
 
 #title {
@@ -64,6 +70,8 @@
 #description {
    color: white;
    grid-column: 1 / -1;
+   font-family: "LT Superior Regular";
+   font-size: 1.1rem;
 }
 
 .genre-row {
