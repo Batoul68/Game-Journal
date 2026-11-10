@@ -79,7 +79,7 @@ public class GameService {
       game.getGenres().clear();
       game.getGenres().addAll(selectedGenres);
    }
-   
+
    // Get list of games associated with user
    public List<GameResponse> getGames(int userId) {
       return gameRepository.findByUserId(userId)
