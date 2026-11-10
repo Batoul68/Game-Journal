@@ -23,6 +23,10 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
    );
    const [genre, setGenre] = useState(initialGame?.genre ?? '');
    const [review, setReview] = useState(initialGame?.review ?? '');
+   const [releaseYear, setReleaseYear] = useState<number | null> (
+      initialGame?.releaseYear ?? null
+   );
+   const [description, setDescription] = useState(initialGame?.description ?? '');
    const [message, setMessage] = useState('');
 
 
@@ -42,7 +46,7 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
       }
 
       try {
-         await onSave({name, coverImageUrl, rating, genre, review});
+         await onSave({name, coverImageUrl, rating, genre, review, releaseYear, description});
          setMessage('');
 
       } catch (error) {
@@ -55,7 +59,7 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
          <form className={styles.form} onSubmit={handleSave}>
             <header>Game Form</header>
             <div className={styles['input-group']}>
-               <label>Game Title</label>
+               <label>Game Title *</label>
                <input 
                      value={name}
                      onChange={(event) => setName(event.target.value)}  
@@ -86,6 +90,9 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
                      ))}
                   </select>
                </div>
+               
+            </div>
+            <div className={styles.column}>
                <div className={styles['input-group']}>
                   <label>Rating</label>
                   <input 
@@ -100,6 +107,32 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
                      }}
                      placeholder='Rating'
                   />
+               </div>
+               <div className={styles['input-group']}>
+                  <label>Release Year</label>
+                  <input 
+                     type="number"
+                     min="1942"
+                     max={new Date().getFullYear()}
+                     value={releaseYear ?? ''}
+                     onChange={(event) => {
+                        const value = event.target.value;
+                        setReleaseYear(value === "" ? null : Number(value)); 
+                     }}
+                     placeholder='Year'
+                  />
+               </div>
+            </div>
+            <div className={styles['description-section']}>
+               <div className={styles['input-group']}>
+                  <label>Description</label>
+                  <textarea
+                  id="description"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  rows={5}
+                  placeholder='Game description'
+               />
                </div>
             </div>
             <div className={styles['review-section']}>

@@ -5,6 +5,8 @@ export interface Game {
    rating: number;
    genre: string;
    review: string;
+   releaseYear: number;
+   description: string;
 };
 
 export interface GameFormValues {
@@ -13,6 +15,8 @@ export interface GameFormValues {
    rating: number | null;
    genre: string;
    review: string;
+   releaseYear: number | null;
+   description: string;
 };
 
 export interface CsrfToken {

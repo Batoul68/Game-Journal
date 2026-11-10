@@ -72,7 +72,12 @@ return (
                   <span id={styles['genre-title']}>Genre:</span> 
                   <span id={styles['genre-badge']}>{game?.genre || "N/A"}</span>
                </p>  
+               <p id={styles.year}>Release year: {game?.releaseYear || 'N/A'}</p>
+               
             </div>
+            <p id={styles.description}>
+               {game?.description || 'No description yet'}
+            </p>
          </section>
 
          <section className={styles['review-section']}>

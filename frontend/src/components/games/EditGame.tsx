@@ -22,7 +22,9 @@ export default function EditGame({ game, onGameUpdated }: EditGameProps) {
          values.coverImageUrl,
          values.rating,
          values.genre,
-         values.review
+         values.review,
+         values.releaseYear,
+         values.description
       );
 
       onGameUpdated(updatedGame);

@@ -56,6 +56,16 @@
    border: 1px solid white;
 }
 
+#year {
+   color: white;
+   font-family: "LT Superior Medium Italic";
+}
+
+#description {
+   color: white;
+   grid-column: 1 / -1;
+}
+
 .genre-row {
    display: flex;
    align-items: center;

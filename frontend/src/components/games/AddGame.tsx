@@ -17,7 +17,9 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
          values.coverImageUrl,
          values.rating,
          values.genre,
-         values.review
+         values.review,
+         values.releaseYear,
+         values.description
       );
       
       setIsCreateGameOpen(false);

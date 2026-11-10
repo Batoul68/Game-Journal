@@ -38,7 +38,9 @@ export async function createGame(
    coverImageUrl: string,
    rating: number | null,
    genre: string,
-   review: string
+   review: string,
+   releaseYear: number | null,
+   description: string
 ): Promise<Game> {
 
    // GET: fetch csrf token to send with POST
@@ -56,7 +58,9 @@ export async function createGame(
          coverImageUrl: coverImageUrl.trim(),
          rating,
          genre,
-         review
+         review,
+         releaseYear,
+         description
       })
    });
 
@@ -74,7 +78,9 @@ export async function updateGame(
    coverImageUrl: string,
    rating: number | null,
    genre: string,
-   review: string
+   review: string,
+   releaseYear: number | null,
+   description: string
 ): Promise<Game> {
 
    // GET: fetch csrf token
@@ -92,7 +98,9 @@ export async function updateGame(
          coverImageUrl: coverImageUrl.trim(),
          rating,
          genre,
-         review
+         review,
+         releaseYear,
+         description
       })
    });
 
