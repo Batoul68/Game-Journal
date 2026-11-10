@@ -3,6 +3,7 @@ package com.tulip.gamejournalapi.controllers;
 import com.tulip.gamejournalapi.dto.GameRequest;
 import com.tulip.gamejournalapi.dto.GameResponse;
 import com.tulip.gamejournalapi.entities.Game;
+import com.tulip.gamejournalapi.entities.Genre;
 import com.tulip.gamejournalapi.entities.User;
 import com.tulip.gamejournalapi.repositories.GameRepository;
 import com.tulip.gamejournalapi.repositories.UserRepository;
@@ -24,13 +25,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/games")
 public class GameController {
-
-    private final GameRepository gameRepository;
     private final UserRepository userRepository;
     private final GameService gameService;
 
-    public GameController(GameRepository repository, UserRepository userRepository, GameService gameService) {
-        this.gameRepository = repository;
+    public GameController(UserRepository userRepository, GameService gameService) {
         this.userRepository = userRepository;
         this.gameService = gameService;
     }
@@ -44,19 +42,7 @@ public class GameController {
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return gameRepository.findByUserId(user.getId())
-                .stream()
-                .map(game -> new GameResponse(
-                        game.getId(),
-                        game.getName(),
-                        game.getCoverImageUrl(),
-                        game.getRating(),
-                        game.getGenre(),
-                        game.getReview(),
-                        game.getReleaseYear(),
-                        game.getDescription()
-                ))
-                .toList();
+        return gameService.getGames(user.getId());
     }
 
     // GET specific game by id
@@ -64,22 +50,7 @@ public class GameController {
     public GameResponse getGameById(@PathVariable("id") Long gameId, Authentication authentication) {
 
         // Find game if associated with logged-in user
-        String username = authentication.getName();
-
-        return gameRepository.findByIdAndUser_Username(gameId, username)
-                .map(game -> new GameResponse(
-                        game.getId(),
-                        game.getName(),
-                        game.getCoverImageUrl(),
-                        game.getRating(),
-                        game.getGenre(),
-                        game.getReview(),
-                        game.getReleaseYear(),
-                        game.getDescription()
-                ))
-                .orElseThrow(() ->
-                        new ResponseStatusException((HttpStatus.NOT_FOUND), "Game not found")
-                );
+        return gameService.getGame(gameId, authentication.getName());
     }
 
     // POST a game
@@ -91,27 +62,7 @@ public class GameController {
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        Game savedGame =  gameService.createGame(
-                user,
-                gameRequest.name(),
-                gameRequest.coverImageUrl(),
-                gameRequest.rating(),
-                gameRequest.genre(),
-                gameRequest.review(),
-                gameRequest.releaseYear(),
-                gameRequest.description()
-        );
-
-        return new GameResponse(
-                savedGame.getId(),
-                savedGame.getName(),
-                savedGame.getCoverImageUrl(),
-                savedGame.getRating(),
-                savedGame.getGenre(),
-                savedGame.getReview(),
-                savedGame.getReleaseYear(),
-                savedGame.getDescription()
-        );
+        return gameService.createGame(user, gameRequest);
     }
 
     // PUT edit a game
@@ -121,18 +72,7 @@ public class GameController {
             Authentication authentication,
             @Valid @RequestBody GameRequest request
     ) {
-        Game updatedGame = gameService.updateGame(id, authentication.getName(), request);
-
-        return new GameResponse(
-                updatedGame.getId(),
-                updatedGame.getName(),
-                updatedGame.getCoverImageUrl(),
-                updatedGame.getRating(),
-                updatedGame.getGenre(),
-                updatedGame.getReview(),
-                updatedGame.getReleaseYear(),
-                updatedGame.getDescription()
-        );
+        return gameService.updateGame(id, authentication.getName(), request);
     }
 
     // DELETE a game

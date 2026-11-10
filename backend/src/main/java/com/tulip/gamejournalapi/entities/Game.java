@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "games")
@@ -27,8 +29,13 @@ public class Game {
     @Column(precision = 3, scale = 1)
     private BigDecimal rating;
 
-    @Size(max = 50, message = "Genre cannot exceed 50 characters")
-    private String genre;
+    @ManyToMany
+    @JoinTable(
+            name = "game_genres",
+            joinColumns = @JoinColumn(name = "game_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private Set<Genre> genres = new HashSet<>();
 
     @Column(columnDefinition = "TEXT")
     private String review;
@@ -42,7 +49,6 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 
     // Constructors
     public Game() {}
@@ -59,10 +65,6 @@ public class Game {
 
     public String getName() {
         return name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -93,14 +95,6 @@ public class Game {
         this.rating = rating;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     public String getReview() {
         return review;
     }
@@ -123,5 +117,13 @@ public class Game {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 }
