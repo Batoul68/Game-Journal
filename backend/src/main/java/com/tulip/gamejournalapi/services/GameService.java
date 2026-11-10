@@ -21,7 +21,16 @@ public class GameService {
    }
 
    // Creating a new game
-   public Game createGame(User user, String name, String coverImageUrl, BigDecimal rating, String genre, String review) {
+   public Game createGame(
+           User user,
+           String name,
+           String coverImageUrl,
+           BigDecimal rating,
+           String genre,
+           String review,
+           Integer releaseYear,
+           String description
+   ) {
       Game newGame = new Game();
       newGame.setUser(user);
       newGame.setName(name);
@@ -29,6 +38,8 @@ public class GameService {
       newGame.setRating(rating);
       newGame.setGenre(genre);
       newGame.setReview(review);
+      newGame.setReleaseYear(releaseYear);
+      newGame.setDescription(description);
 
       return gameRepository.save(newGame);
    }
@@ -46,6 +57,8 @@ public class GameService {
       game.setRating(request.rating());
       game.setGenre(request.genre());
       game.setReview(request.review());
+      game.setReleaseYear(request.releaseYear());
+      game.setDescription(request.description());
 
       return gameRepository.save(game);
    }

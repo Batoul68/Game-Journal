@@ -19,5 +19,7 @@ public record GameRequest(
         @Size(max = 50, message = "Genre cannot exceed 50 characters")
         String genre,
 
-        String review
+        String review,
+        Integer releaseYear,
+        String description
 ) { }

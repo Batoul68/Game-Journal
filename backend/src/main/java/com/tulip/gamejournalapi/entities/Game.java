@@ -33,9 +33,16 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String review;
 
+    @Column(name = "release_year")
+    private Integer releaseYear;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
 
     // Constructors
     public Game() {}
@@ -102,4 +109,19 @@ public class Game {
         this.review = review;
     }
 
+    public Integer getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

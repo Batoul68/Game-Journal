@@ -8,5 +8,7 @@ public record GameResponse(
         String coverImageUrl,
         BigDecimal rating,
         String genre,
-        String review
+        String review,
+        Integer releaseYear,
+        String description
 ) { }

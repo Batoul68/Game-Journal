@@ -52,7 +52,9 @@ public class GameController {
                         game.getCoverImageUrl(),
                         game.getRating(),
                         game.getGenre(),
-                        game.getReview()
+                        game.getReview(),
+                        game.getReleaseYear(),
+                        game.getDescription()
                 ))
                 .toList();
     }
@@ -71,7 +73,9 @@ public class GameController {
                         game.getCoverImageUrl(),
                         game.getRating(),
                         game.getGenre(),
-                        game.getReview()
+                        game.getReview(),
+                        game.getReleaseYear(),
+                        game.getDescription()
                 ))
                 .orElseThrow(() ->
                         new ResponseStatusException((HttpStatus.NOT_FOUND), "Game not found")
@@ -93,7 +97,9 @@ public class GameController {
                 gameRequest.coverImageUrl(),
                 gameRequest.rating(),
                 gameRequest.genre(),
-                gameRequest.review()
+                gameRequest.review(),
+                gameRequest.releaseYear(),
+                gameRequest.description()
         );
 
         return new GameResponse(
@@ -102,7 +108,9 @@ public class GameController {
                 savedGame.getCoverImageUrl(),
                 savedGame.getRating(),
                 savedGame.getGenre(),
-                savedGame.getReview()
+                savedGame.getReview(),
+                savedGame.getReleaseYear(),
+                savedGame.getDescription()
         );
     }
 
@@ -121,7 +129,9 @@ public class GameController {
                 updatedGame.getCoverImageUrl(),
                 updatedGame.getRating(),
                 updatedGame.getGenre(),
-                updatedGame.getReview()
+                updatedGame.getReview(),
+                updatedGame.getReleaseYear(),
+                updatedGame.getDescription()
         );
     }
 
