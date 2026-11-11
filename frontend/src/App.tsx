@@ -7,6 +7,7 @@ import { checkSession } from './services/authService.ts';
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from "react-router";
 import type { SessionUser } from './types/index.ts';
+import GamesRouteLayout from './pages/GamesRouteLayout.tsx';
 
 export default function App() {
 
@@ -50,8 +51,10 @@ export default function App() {
             <Header onLogout={() => setUser(null)}/>
                <Routes>
                   <Route path="/" element={<Navigate to="/games" replace />} />
-                  <Route path="/games" element={<GamePage username={user.username}/>} />
-                  <Route path="games/:gameId" element={<GameDetailsPage />} />
+                  <Route path="/games" element={<GamesRouteLayout />}>
+                     <Route index element={<GamePage username={user.username}/>} />
+                     <Route path=":gameId" element={<GameDetailsPage />} />
+                  </Route>
                   <Route path="*" element={<p>Page not found</p>} />
                </Routes>
             </>

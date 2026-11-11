@@ -1,43 +1,18 @@
 import GameCollection from "../../components/games/GameCollection/GameCollection.tsx";
-
-import { useEffect, useState } from 'react';
-import { getGames } from '../../services/gameService.ts';
-import type { Game } from '../../types/index.ts'
+import { useOutletContext } from "react-router";
+import type { GamesContext } from "../GamesRouteLayout.tsx";
 import styles from './GamesPage.module.css';
 
 
 // Loads the collection of games
 export default function GamesPage({ username }: { username: string }) {
 
-   const [games, setGames] = useState<Game[]>([]);
-   const [loadMessage, setLoadMessage] = useState('Loading...');
-
-   // Load the current list of games
-   const loadGames = async () => {
-      try {
-         const data = await getGames();
-         setGames(data);
-         setLoadMessage('');
-      } catch (error) {
-         console.error(error);
-         setLoadMessage(
-            error instanceof TypeError 
-            ? "Can't reach the backend, make sure Spring boot is running"
-            : "The server returned an error loading games"
-         );
-      }
-   };
-
-   // Call on mount
-   useEffect(() => {
-      loadGames();
-   }, []);
-   
+   const { games, isLoading, error, loadGames } = useOutletContext<GamesContext>();
    return (
       <main className="container">
          <h2 id={styles.greeting}>Welcome back, {username}!</h2>
 
-         {loadMessage && <p>{loadMessage}</p>}
+         {error && <p>{error}</p>}
 
          <GameCollection games={games} onGamesChanged={loadGames}/>
          
