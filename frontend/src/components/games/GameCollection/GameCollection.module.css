@@ -22,13 +22,20 @@
    padding: 30px;
 }
 
+.toolbar {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 10px;
+   padding: 18px 40px;
+}
+
 .action-buttons {
    display: flex;
-   justify-content: flex-end;
    align-items: center;
    gap: 10px;
-   padding-right: 40px;
-   padding-bottom: 18px;
+   margin-left: auto;
 }
 
 #game-item {

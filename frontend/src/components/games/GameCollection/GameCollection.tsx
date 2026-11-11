@@ -4,6 +4,7 @@ import GameCard from '../GameCard/GameCard.tsx';
 import styles from './GameCollection.module.css';
 import DeleteGame from '../DeleteGame/DeleteGame.tsx';
 import AddGame from '../AddGame.tsx';
+import GameSearch from '../GameSearch.tsx';
 
 type GameCollectionProps = {
    games: Game[];
@@ -14,22 +15,30 @@ type GameCollectionProps = {
 export default function GameCollection({ games, onGamesChanged }: GameCollectionProps) {
 
    const [isDeleteMode, setIsDeleteMode] = useState(false);
+   const [search, setSearch] = useState('');
 
    return (
       <section className={styles.collection}>
-         <div className={styles['action-buttons']}>
-            <AddGame onGameAdded={onGamesChanged}/>
 
-            <button
-               className='action-button'
-               type="button"
-               onClick={() => setIsDeleteMode(!isDeleteMode)}
-            >
-               {isDeleteMode ? "Done" : "Delete"}
-            </button>
+         <div className={styles.toolbar}>
+            <GameSearch value={search} onSearchChange={setSearch} />
+
+            <div className={styles['action-buttons']}>
+
+               <AddGame onGameAdded={onGamesChanged}/>
+
+               <button
+                  className='action-button'
+                  type="button"
+                  onClick={() => setIsDeleteMode(!isDeleteMode)}
+               >
+                  {isDeleteMode ? "Done" : "Delete"}
+               </button>
+            </div>
+
          </div>
          
-        <div className={styles['list-container']}>
+         <div className={styles['list-container']}>
             <ul className={styles['game-list']}>
                {games.map((game) => (
                   <li id={styles['game-item']} key={game.id}>
