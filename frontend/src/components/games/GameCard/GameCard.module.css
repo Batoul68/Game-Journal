@@ -2,6 +2,23 @@
    position: relative;
    width: 180px;
    margin: 20px;
+   transform: scale(1);
+   transition: transform 250ms ease-in-out;
+}
+
+.card:hover {
+   transform: scale(1.025);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+   .card {
+      transform: scale(1);
+      transition: transforms 550 ease-in-out;
+   }
+
+   .card:hover {
+      transform: scale(1.06);
+   }
 }
 
 .link {

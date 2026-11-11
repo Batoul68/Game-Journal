@@ -7,7 +7,7 @@ import styles from './GamesPage.module.css';
 // Loads the collection of games
 export default function GamesPage({ username }: { username: string }) {
 
-   const { games, isLoading, error, loadGames } = useOutletContext<GamesContext>();
+   const { games, error, loadGames } = useOutletContext<GamesContext>();
    return (
       <main className="container">
          <h2 id={styles.greeting}>Welcome back, {username}!</h2>
