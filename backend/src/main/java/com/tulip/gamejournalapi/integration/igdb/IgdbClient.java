@@ -8,18 +8,30 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import java.time.Instant;
+
 @Component
 public class IgdbClient {
 
-   private final RestClient restClient = RestClient.create();
-
+   // For requesting the access token
    private record TwitchTokenResponse(
            @JsonProperty("access_token") String accessToken,
            @JsonProperty("expires_in") long expiresIn
    ) {}
 
+   // For saving the access token and using it
+   private record CachedToken(
+           String value,
+           Instant expiresAt
+   ) {}
+
+
+   private final RestClient restClient = RestClient.create();
+
    private final String clientId;
    private final String clientSecret;
+
+   private CachedToken cachedToken;
 
    public IgdbClient(
            @Value("${TWITCH_CLIENT_ID}") String clientId,
@@ -29,7 +41,14 @@ public class IgdbClient {
       this.clientSecret = clientSecret;
    }
 
-   // Method that sends the request to https://id.twitch.tv/oauth2/token to get the access token
+   /**
+    * Requests a new access token from https://id.twitch.tv/oauth2/token
+    * Need the access token for IGDB requests
+    *
+    * @return the access token and its lifetime in seconds
+    * @throws IllegalStateException if Twitch returns an empty response body, a missing or blank token,
+    *    or a nonpositive lifetime (expired)
+    */
    private TwitchTokenResponse requestAppToken() {
       MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
       form.add("client_id", clientId);
@@ -46,7 +65,45 @@ public class IgdbClient {
       if (response == null || response.accessToken() == null || response.accessToken().isBlank() || response.expiresIn() <= 0) {
          throw new IllegalStateException("Twitch returned an incomplete token response");
       }
-
       return response;
    }
+
+   /**
+    * Returns Twitch app access token for IGDB requests
+    * Reuses the cached token while it is valid and requests a new one
+    * from Twitch when the cache is empty or the token has expired
+    *
+    * @return the bearer access token to use in Authorization header
+    */
+   private synchronized String getAccessToken() {
+      Instant now = Instant.now();
+
+      if (cachedToken != null && now.isBefore(cachedToken.expiresAt())) {
+         return cachedToken.value();
+      }
+
+      TwitchTokenResponse response = requestAppToken();
+      Instant expiresAt = now.plusSeconds(response.expiresIn());
+
+      cachedToken = new CachedToken(response.accessToken(), expiresAt);
+      return cachedToken.value();
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
