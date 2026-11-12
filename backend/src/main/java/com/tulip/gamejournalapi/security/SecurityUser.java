@@ -9,6 +9,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Adapts a Game Journal user to Spring Security's {@link UserDetails}.
+ * Exposes the username, stored password hash, and authorities derived from the user's roles.
+ */
 public class SecurityUser implements UserDetails {
 
    private final User user;

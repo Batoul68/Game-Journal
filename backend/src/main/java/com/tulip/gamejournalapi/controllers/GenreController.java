@@ -19,6 +19,11 @@ public class GenreController {
       this.genreRepository = genreRepository;
    }
 
+   /**
+    * Handles GET request to retrieve all genres
+    *
+    * @return the list of genres
+    */
    @GetMapping
    public List<String> getGenres() {
       return genreRepository.findAll(Sort.by("name")).stream()

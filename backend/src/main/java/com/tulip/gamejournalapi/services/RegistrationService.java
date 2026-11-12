@@ -27,9 +27,17 @@ public class RegistrationService {
       this.roleRepository = roleRepository;
    }
 
+   /**
+    * Creates a user account with an encoded password and the default {@code ROLE_USER} role.
+    *
+    * @param username the requested username
+    * @param password the raw password to encode before saving
+    * @throws ResponseStatusException with HTTP 409 if the username is already taken
+    * @throws IllegalStateException if the default role is missing from the database
+    */
    public void register(String username, String password) {
 
-      // Check if username exists in database, throw 409 if exists
+      // Check if username exists in database
       if (userRepository.findUserByUsername(username).isPresent()) {
          throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already taken");
       }
