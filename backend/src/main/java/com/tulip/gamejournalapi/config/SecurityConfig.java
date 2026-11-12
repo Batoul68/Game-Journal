@@ -20,6 +20,15 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class SecurityConfig {
 
+   /**
+    * Configures session-based authentication for Game Journal API.
+    * /login, /csrf, /register are available before sign-in for new users.
+    * Unauthenticated requests to protected endpoints receive HTTP 401.
+    *
+    * @param http the Spring Security builder used to configure filter chain
+    * @return the configured security filter chain for the API
+    * @throws Exception if the security filter chain can't be built
+    */
    @Bean
    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception{
       return http
@@ -54,6 +63,12 @@ public class SecurityConfig {
               .build();
    }
 
+   /**
+    * Allows the React frontend at {@code localhost:5173} to make
+    * cross-origin requests with session cookies.
+    *
+    * @return the CORS configuration source that applies this policy to all backend paths
+    */
    @Bean
    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
       CorsConfiguration config = new CorsConfiguration();

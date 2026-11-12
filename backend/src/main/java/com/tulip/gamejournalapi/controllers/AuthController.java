@@ -20,6 +20,13 @@ public class AuthController {
       this.registrationService = registrationService;
    }
 
+   /**
+    * Exposes the CSRF token and header name so frontend can include
+    * them in requests that require CSRF protection
+    *
+    * @param csrfToken the token supplied by Spring Security
+    * @return the CSRF token
+    */
    @GetMapping("/csrf")
    public CsrfToken csrf(CsrfToken csrfToken) {
       return csrfToken;

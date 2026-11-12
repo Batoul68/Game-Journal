@@ -33,11 +33,16 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    // GET games
+    /**
+     * Handles request to GET all games associated with logged-in user.
+     *
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @return the user's list of games, or an empty list if there are none
+     * @throws UsernameNotFoundException if no user record exists for the authenticated username
+     */
     @GetMapping
     public List<GameResponse> getGames(Authentication authentication) {
 
-        // Find games associated with logged-in user
         String username = authentication.getName();
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -45,19 +50,31 @@ public class GameController {
         return gameService.getGames(user.getId());
     }
 
-    // GET specific game by id
+    /**
+     * Handles request to GET a specific game from the logged-in user's collection using the game's ID .
+     * Responds with HTTP 404 if the user has no game with that ID
+     *
+     * @param gameId the ID of the game to retrieve, taken from the URL
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @return the matching game if found
+     */
     @GetMapping("/{id}")
     public GameResponse getGameById(@PathVariable("id") Long gameId, Authentication authentication) {
 
-        // Find game if associated with logged-in user
         return gameService.getGame(gameId, authentication.getName());
     }
 
-    // POST a game
+    /**
+     * Handles request to POST a new game to the logged-in user's collection.
+     *
+     * @param gameRequest the details of the game to create
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @return the saved game's details, including generated game ID
+     * @throws UsernameNotFoundException if no user record exists for the authenticated username
+     */
     @PostMapping
-    public GameResponse addGame(Authentication authentication, @Valid @RequestBody GameRequest gameRequest) {
+    public GameResponse addGame( @Valid @RequestBody GameRequest gameRequest, Authentication authentication) {
 
-        // Send user to create game
         String username = authentication.getName();
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -65,21 +82,34 @@ public class GameController {
         return gameService.createGame(user, gameRequest);
     }
 
-    // PUT edit a game
+    /**
+     * Handles PUT request to update a game in the logged-in user's collection, specified by the game's ID.
+     *
+     * @param gameId the ID of the game to update, taken from the URL
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @param gameRequest the complete set of editable game details
+     * @return the game's details after the update is saved
+     */
     @PutMapping("/{id}")
     public GameResponse updateGame(
-            @PathVariable("id") Long id,
+            @PathVariable("id") Long gameId,
             Authentication authentication,
-            @Valid @RequestBody GameRequest request
+            @Valid @RequestBody GameRequest gameRequest
     ) {
-        return gameService.updateGame(id, authentication.getName(), request);
+        return gameService.updateGame(gameId, authentication.getName(), gameRequest);
     }
 
-    // DELETE a game
+    /**
+     * Handles DELETE request to delete a game in the logged-in user's collection, specified by the game's ID
+     *
+     * @param gameId the ID of the game to delete, taken from the URL
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @return HTTP 204 No Content after the game is deleted
+     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGame(@PathVariable("id") Long id, Authentication authentication) {
-        System.out.println("DELETE controller reached, game ID: "+ id);
-        gameService.deleteGame(id, authentication.getName());
+    public ResponseEntity<Void> deleteGame(@PathVariable("id") Long gameId, Authentication authentication) {
+        System.out.println("DELETE controller reached, game ID: "+ gameId);
+        gameService.deleteGame(gameId, authentication.getName());
 
         return ResponseEntity.noContent().build();
     }

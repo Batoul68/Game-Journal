@@ -42,8 +42,8 @@ public class IgdbClient {
    }
 
    /**
-    * Requests a new access token from https://id.twitch.tv/oauth2/token
-    * Need the access token for IGDB requests
+    * Requests a new access token from https://id.twitch.tv/oauth2/token.
+    * Need the access token for IGDB requests.
     *
     * @return the access token and its lifetime in seconds
     * @throws IllegalStateException if Twitch returns an empty response body, a missing or blank token,
@@ -69,14 +69,14 @@ public class IgdbClient {
    }
 
    /**
-    * Returns Twitch app access token for IGDB requests
+    * Returns Twitch app access token for IGDB requests.
     * Reuses the cached token while it is valid and requests a new one
-    * from Twitch when the cache is empty or the token has expired
+    * from Twitch when the cache is empty or the token has expired.
     *
     * @return the bearer access token to use in Authorization header
     */
    private synchronized String getAccessToken() {
-      Instant now = Instant.now();
+      Instant now = Instant.now(); // used to compare the expiration to the current time
 
       if (cachedToken != null && now.isBefore(cachedToken.expiresAt())) {
          return cachedToken.value();
