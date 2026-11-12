@@ -12,6 +12,9 @@ import org.springframework.web.client.RestClient;
 
 import java.time.Instant;
 
+/**
+ * Handles getting the Twitch token and building the IGDB query, sending it, reading the response
+ */
 @Component
 public class IgdbClient {
 
@@ -89,13 +92,5 @@ public class IgdbClient {
 
       cachedToken = new CachedToken(response.accessToken(), expiresAt);
       return cachedToken.value();
-   }
-
-   @Bean
-   ApplicationRunner verifyTokenCache() {
-      return args -> {
-        getAccessToken();
-        getAccessToken();
-      };
    }
 }
