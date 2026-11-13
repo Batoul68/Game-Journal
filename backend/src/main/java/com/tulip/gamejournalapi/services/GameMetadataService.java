@@ -5,6 +5,8 @@ import com.tulip.gamejournalapi.integration.igdb.IgdbClient;
 import com.tulip.gamejournalapi.integration.igdb.dto.IgdbCover;
 import com.tulip.gamejournalapi.integration.igdb.dto.IgdbGame;
 import com.tulip.gamejournalapi.integration.igdb.dto.IgdbGenre;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -80,4 +82,13 @@ public class GameMetadataService {
               .map(this::toGameMetadataResponse)
               .toList();
    }
+
+   @Bean
+   ApplicationRunner verifyGenres() {
+      return args -> {
+         searchByTitle("Resident Evil 4");
+      };
+   }
 }
+
+
