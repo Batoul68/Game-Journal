@@ -1,9 +1,9 @@
 package com.tulip.gamejournalapi.integration.igdb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tulip.gamejournalapi.integration.igdb.dto.IgdbGame;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Bean;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * Handles getting the Twitch token and building the IGDB query, sending it, reading the response
@@ -92,5 +93,24 @@ public class IgdbClient {
 
       cachedToken = new CachedToken(response.accessToken(), expiresAt);
       return cachedToken.value();
+   }
+
+   private List<IgdbGame> searchResidentEvil() {
+      String query = """
+              search "Resident Evil 4";
+              fields id, name, cover.image_id, first_release_date, summary, storyline;
+              limit 8;
+              """;
+
+      List<IgdbGame> matches = restClient.post()
+              .uri("https://api.igdb.com/v4/games")
+              .header("Client-ID", clientId)
+              .headers(headers -> headers.setBearerAuth(getAccessToken()))
+              .contentType(MediaType.TEXT_PLAIN)
+              .body(query)
+              .retrieve()
+              .body(new ParameterizedTypeReference<List<IgdbGame>>() { });
+
+      return matches == null ? List.of() : matches;
    }
 }
