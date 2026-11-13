@@ -2,13 +2,18 @@ package com.tulip.gamejournalapi.integration.igdb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tulip.gamejournalapi.integration.igdb.dto.IgdbGame;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
@@ -95,12 +100,39 @@ public class IgdbClient {
       return cachedToken.value();
    }
 
-   private List<IgdbGame> searchResidentEvil() {
+   // Helper method to clean up title in searchByTitle()
+   private @NonNull String cleanUpString(String str) {
+      if (str == null) return "";
+      str = str.trim().replaceAll("[\"!@#$%&*()_+=<>?{}\\[\\]|]", "");
+      str = str.replaceAll("\\s+", " ");
+      return str;
+   }
+
+   /**
+    * Searches IGDB API for a game using its title.
+    * Builds the query, sends it to the API, and reads the response
+    *
+    * @param title the title of the game to search
+    * @return a list of matches for the game title, an empty list if there are no matches
+    * @throws ResponseStatusException with HTTP 400 if no title is given
+    */
+   public List<IgdbGame> searchByTitle(String title) {
+
+      // Clean up title
+      String cleanTitle = cleanUpString(title);
+
+      // Reject empty title to avoid unnecessary API call
+      if (cleanTitle.isBlank()) {
+         throw new ResponseStatusException(
+                 HttpStatus.BAD_REQUEST, "Enter a game title to search"
+         );
+      }
+
       String query = """
-              search "Resident Evil 4";
+              search "%s";
               fields id, name, cover.image_id, first_release_date, summary, storyline;
               limit 8;
-              """;
+              """.formatted(cleanTitle);
 
       List<IgdbGame> matches = restClient.post()
               .uri("https://api.igdb.com/v4/games")
