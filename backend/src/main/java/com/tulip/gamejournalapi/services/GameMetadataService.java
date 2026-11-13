@@ -4,6 +4,7 @@ import com.tulip.gamejournalapi.dto.GameMetadataResponse;
 import com.tulip.gamejournalapi.integration.igdb.IgdbClient;
 import com.tulip.gamejournalapi.integration.igdb.dto.IgdbCover;
 import com.tulip.gamejournalapi.integration.igdb.dto.IgdbGame;
+import com.tulip.gamejournalapi.integration.igdb.dto.IgdbGenre;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -21,7 +22,8 @@ public class GameMetadataService {
 
    /**
     * Reusable helper that converts an IGDB search result into a game metadata API response.
-    * Builds the cover URL from the image ID and extracts the release year in UTC.
+    * Builds the cover URL from the image ID, extracts the release year in UTC,
+    * and extract the list of genres.
     *
     * @param igdbGame the IGDB search result to convert
     * @return the game's metadata, with {@code null} for a missing cover URL or release year
@@ -43,11 +45,19 @@ public class GameMetadataService {
          releaseYear = instant.atZone(ZoneOffset.UTC).getYear();
       }
 
+      List<String> genreNames = igdbGame.genres() == null
+              ? List.of()
+              : igdbGame.genres()
+                  .stream()
+                  .map(IgdbGenre::name)
+                  .toList();
+
       return new GameMetadataResponse(
               igdbGame.id(),
               igdbGame.name(),
               coverImageUrl,
               releaseYear,
+              genreNames,
               igdbGame.summary(),
               igdbGame.storyline()
       );

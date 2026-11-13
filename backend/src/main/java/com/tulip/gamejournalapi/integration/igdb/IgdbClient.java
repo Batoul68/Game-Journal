@@ -130,7 +130,7 @@ public class IgdbClient {
 
       String query = """
               search "%s";
-              fields id, name, cover.image_id, first_release_date, summary, storyline;
+              fields id, name, cover.image_id, first_release_date, genres.name, summary, storyline;
               limit 8;
               """.formatted(cleanTitle);
 
