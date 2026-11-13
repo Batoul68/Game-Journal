@@ -29,6 +29,7 @@ export default function EditGame({ game, onGameUpdated }: EditGameProps) {
                initialGame={game}
                onSave={handleUpdateGame}
                onCancel={closeModal}
+               showAutofill={false}
             />
          </GameModal>
       ) : (

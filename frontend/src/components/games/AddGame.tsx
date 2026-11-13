@@ -8,6 +8,7 @@ import { createGame } from "../../services/gameService";
 export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
 
    const [isCreateGameOpen, setIsCreateGameOpen] = useState(false);
+   const [showAutofill, setShowAutofill] = useState(false);
    const closeModal = () => setIsCreateGameOpen(false);
 
 
@@ -15,6 +16,7 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
       await createGame(values);
       
       setIsCreateGameOpen(false);
+      setShowAutofill(false);
       await onGameAdded();
    }
 
@@ -22,7 +24,10 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
       <div>
          <button 
             className='action-button' 
-            onClick={() => setIsCreateGameOpen(true)}
+            onClick={() => {
+               setIsCreateGameOpen(true);
+               setShowAutofill(true);
+            }}
             type="button"
             disabled={isCreateGameOpen}
          >
@@ -31,7 +36,7 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
 
          {isCreateGameOpen && 
             <GameModal title="Add Game" onClose={closeModal}>
-               <GameForm onSave={handleCreateGame} onCancel={closeModal}/>
+               <GameForm onSave={handleCreateGame} onCancel={closeModal} showAutofill={showAutofill}/>
             </GameModal>
          }
       </div>

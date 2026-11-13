@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import type { GameFormValues, Game } from '../../../types/index.ts';
 import styles from './GameForm.module.css';
 import { getGenreOptions } from '../../../services/genreService.ts';
+import GameAutofill from '../GameAutofill/GameAutofill.tsx';
 
 type GameFormProps = {
+   showAutofill: boolean;
    initialGame?: Game; // supply when edit, omit when create
    onSave: (values: GameFormValues) => Promise<void>;
    onCancel: () => void;
 }
 
 // The input template used for editing and creating games
-export default function GameForm({ initialGame, onSave, onCancel }: GameFormProps) {
+export default function GameForm({ showAutofill, initialGame, onSave, onCancel }: GameFormProps) {
 
    // Allows game form to edit existing game or create new game
    const [name, setName] = useState(initialGame?.name ?? '');
@@ -64,14 +66,18 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
       <section className={styles.container}>
          <form className={styles.form} onSubmit={handleSave}>
             <header>Game Form</header>
-            <div className={styles['input-group']}>
-               <label>Game Title *</label>
-               <input 
-                     value={name}
-                     onChange={(event) => setName(event.target.value)}  
-                     placeholder='Enter game title'
-               /> 
+            <div className={styles['title-row']}>
+               <div className={styles['input-group']}>
+                  <label>Game Title *</label>
+                  <input 
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}  
+                        placeholder='Enter game title'
+                  /> 
+               </div>
+               {showAutofill && <GameAutofill title={name} onMatchSelected={onCancel}/>}
             </div>
+            
             <div className={styles.column}>
                <div className={styles['input-group']}>
                   <label>Cover Image</label>
