@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.List;
 
 @Service
 public class GameMetadataService {
@@ -52,7 +53,21 @@ public class GameMetadataService {
       );
    }
 
-   
+   /**
+    * Searches IGDB by title and converts the matches into game metadata responses.
+    *
+    * @param title the title of the game to search for
+    * @return the matching game metadata, or an empty list if no games match
+    * @throws org.springframework.web.server.ResponseStatusException with HTTP 400 if the title is blank after cleanup
+    */
+   public List<GameMetadataResponse> searchByTitle(String title) {
 
+      // Separate variable to inspect raw results before mapping
+      List<IgdbGame> igdbMatches = igdbClient.searchByTitle(title);
 
+      return igdbMatches
+              .stream()
+              .map(this::toGameMetadataResponse)
+              .toList();
+   }
 }
