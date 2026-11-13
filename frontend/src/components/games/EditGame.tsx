@@ -1,4 +1,4 @@
-import type { GameFormValues, Game } from "../../types";
+import type { GameFormValues, Game } from "../../types/index.ts";
 import { updateGame } from "../../services/gameService";
 import { useState } from "react";
 import GameForm from "./GameForm/GameForm";

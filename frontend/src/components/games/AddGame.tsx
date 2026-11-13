@@ -1,7 +1,7 @@
 import { useState } from "react";
 import GameForm from "./GameForm/GameForm";
 import GameModal from "./GameModal/GameModal";
-import type { GameFormValues } from "../../types";
+import type { GameFormValues } from "../../types/index.ts";
 import { createGame } from "../../services/gameService";
 
 // Handles creating a game, renders GameForm wrapped in GameModal

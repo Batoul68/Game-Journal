@@ -1,4 +1,4 @@
-import type { Game } from "../../types";
+import type { Game } from "../../types/index.ts";
 import { getGameById } from "../../services/gameService";
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";

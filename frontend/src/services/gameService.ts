@@ -13,8 +13,7 @@ export async function getGames(): Promise<Game[]> {
       throw new Error(`Could not fetch the games (${response.status})`);
    }
 
-   const data = await response.json();
-   return data;
+   return response.json();
 }
 
 // GET: Game by id
@@ -27,9 +26,7 @@ export async function getGameById(gameId: string): Promise<Game> {
       throw new Error(`Could not fetch game (${response.status})`);
    }
 
-   const data = await response.json();
-   return data;
-
+   return response.json();
 }
 
 // POST: Creating a new game 

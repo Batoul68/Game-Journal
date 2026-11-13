@@ -20,4 +20,13 @@ export interface CsrfToken {
 
 export interface SessionUser {
    username: string;
+};
+
+export interface GameMetadataResponse {
+   igdbId: number;
+   name: string;
+   coverImageUrl: string | null;
+   releaseYear: number | null;
+   summary: string | null;
+   storyline: string | null;
 }
