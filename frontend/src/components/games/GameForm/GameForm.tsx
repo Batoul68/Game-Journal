@@ -78,24 +78,13 @@ export default function GameForm({ showAutofill, initialGame, onSave, onCancel }
 
       
       // Add matching genres
-      const receivedGenres = match.genres;
-
-      console.log('Selected match:', {
-         igdbId: match.igdbId,
-         keys: Object.keys(match),
-         receivedGenres,
-         isArray: Array.isArray(receivedGenres)
-      });
-
-      console.log('Match:', match);
-
       const matchGenreNames = new Set(
          match.genres.map((genre) => genre.trim().toLowerCase())
       );
       
-      const matchingOptions = 
-         (receivedGenres ?? []).map((genre) => genre.trim().toLowerCase());
-     
+      const matchingOptions = genreOptions.filter((option) => 
+         matchGenreNames.has(option.trim().toLowerCase())
+      );
 
       console.log({
          igdbGenres: match.genres,
