@@ -55,12 +55,14 @@ export default function GameForm({ showAutofill, initialGame, onSave, onCancel }
       }
    }
 
+
    // Fetch genre options on mount
    useEffect(() => {
       getGenreOptions()
       .then(setGenreOptions)
       .catch(() => setMessage('Could not load genre options'));
    }, []);
+
 
    // Fill out form using autofill
    const handleMatchSelected = (match: GameMetadataResponse) => {
@@ -73,6 +75,34 @@ export default function GameForm({ showAutofill, initialGame, onSave, onCancel }
                            .join('\n\n');
       
       if (description) setDescription(description);
+
+      
+      // Add matching genres
+      const receivedGenres = match.genres;
+
+      console.log('Selected match:', {
+         igdbId: match.igdbId,
+         keys: Object.keys(match),
+         receivedGenres,
+         isArray: Array.isArray(receivedGenres)
+      });
+
+      console.log('Match:', match);
+
+      const matchGenreNames = new Set(
+         match.genres.map((genre) => genre.trim().toLowerCase())
+      );
+      
+      const matchingOptions = 
+         (receivedGenres ?? []).map((genre) => genre.trim().toLowerCase());
+     
+
+      console.log({
+         igdbGenres: match.genres,
+         databaseOptions: genreOptions,
+         matchingOptions
+      });
+      setGenres((current) => [...new Set([...current, ...matchingOptions])]);
    }
 
    return (

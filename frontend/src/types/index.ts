@@ -27,6 +27,7 @@ export interface GameMetadataResponse {
    name: string;
    coverImageUrl: string | null;
    releaseYear: number | null;
+   genres: string[];
    summary: string | null;
    storyline: string | null;
 }

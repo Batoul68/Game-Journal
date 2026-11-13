@@ -7,7 +7,7 @@ public record GameMetadataResponse(
         String name,
         String coverImageUrl,
         Integer releaseYear,
-        List<String> genreNames,
+        List<String> genres,
         String summary,
         String storyline
 ) { }

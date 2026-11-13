@@ -11,7 +11,7 @@ export default function GameAutofillResults({ matches, onMatchSelected }: GameAu
    return(
       <ul>
         {matches.map((match) => (
-            <li>
+            <li key={match.igdbId}>
                <button type="button" onClick={() => onMatchSelected(match)}>
                   {match.coverImageUrl && (
                      <img id={styles.cover} src={match.coverImageUrl} />
