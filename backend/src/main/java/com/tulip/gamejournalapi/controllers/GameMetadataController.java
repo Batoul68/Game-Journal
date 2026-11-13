@@ -4,6 +4,7 @@ import com.tulip.gamejournalapi.dto.GameMetadataResponse;
 import com.tulip.gamejournalapi.services.GameMetadataService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class GameMetadataController {
     * @return the matching game metadata, or an empty list if no games match
     */
    @GetMapping
-   public List<GameMetadataResponse> getGameByTitle(String title) {
+   public List<GameMetadataResponse> getGameByTitle(@RequestParam("title") String title) {
       return gameMetadataService.searchByTitle(title);
    }
 }
