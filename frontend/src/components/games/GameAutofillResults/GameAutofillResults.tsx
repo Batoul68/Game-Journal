@@ -1,19 +1,24 @@
 import type { GameMetadataResponse } from "../../../types";
 import styles from './GameAutofillResults.module.css';
 
-export default function GameAutofillResults({ matches }: { matches: GameMetadataResponse[] | null }) {
+type GameAutofillResultsProps = {
+   matches: GameMetadataResponse[];
+   onMatchSelected: (match: GameMetadataResponse) => void;
+}
+
+export default function GameAutofillResults({ matches, onMatchSelected }: GameAutofillResultsProps) {
 
    return(
       <ul>
-        {matches?.map((match) => (
+        {matches.map((match) => (
             <li>
-               <button type="button">
+               <button type="button" onClick={() => onMatchSelected(match)}>
                   {match.coverImageUrl && (
                      <img id={styles.cover} src={match.coverImageUrl} />
                   )}
                   {match.name}
                   -
-                  {match.releaseYear}
+                  {match.releaseYear ?? ''}
                </button>
             </li>
         ))}

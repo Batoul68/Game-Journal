@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { GameFormValues, Game } from '../../../types/index.ts';
+import type { GameFormValues, Game, GameMetadataResponse } from '../../../types/index.ts';
 import styles from './GameForm.module.css';
 import { getGenreOptions } from '../../../services/genreService.ts';
 import GameAutofill from '../GameAutofill/GameAutofill.tsx';
@@ -62,6 +62,19 @@ export default function GameForm({ showAutofill, initialGame, onSave, onCancel }
       .catch(() => setMessage('Could not load genre options'));
    }, []);
 
+   // Fill out form using autofill
+   const handleMatchSelected = (match: GameMetadataResponse) => {
+      if (match.coverImageUrl) setCoverImageUrl(match.coverImageUrl);
+      if (match.releaseYear != null) setReleaseYear(match.releaseYear);
+      
+      // Combine summary and storyline for description
+      const description = [match.summary, match.storyline]
+                           .filter((text) => text?.trim())
+                           .join('\n\n');
+      
+      if (description) setDescription(description);
+   }
+
    return (
       <section className={styles.container}>
          <form className={styles.form} onSubmit={handleSave}>
@@ -75,7 +88,7 @@ export default function GameForm({ showAutofill, initialGame, onSave, onCancel }
                         placeholder='Enter game title'
                   /> 
                </div>
-               {showAutofill && <GameAutofill title={name} onMatchSelected={onCancel}/>}
+               {showAutofill && <GameAutofill title={name} onMatchSelected={handleMatchSelected}/>}
             </div>
             
             <div className={styles.column}>
