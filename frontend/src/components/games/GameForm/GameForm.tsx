@@ -86,11 +86,6 @@ export default function GameForm({ showAutofill, initialGame, onSave, onCancel }
          matchGenreNames.has(option.trim().toLowerCase())
       );
 
-      console.log({
-         igdbGenres: match.genres,
-         databaseOptions: genreOptions,
-         matchingOptions
-      });
       setGenres((current) => [...new Set([...current, ...matchingOptions])]);
    }
 
