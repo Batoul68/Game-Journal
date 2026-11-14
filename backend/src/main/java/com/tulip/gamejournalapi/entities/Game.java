@@ -46,6 +46,10 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_game_id")
+    private Game parentGame;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -126,4 +130,15 @@ public class Game {
     public void setGenres(Set<Genre> genres) {
         this.genres = genres;
     }
+
+    public Game getParentGame() {
+        return parentGame;
+    }
+
+    public void setParentGame(Game parentGame) {
+        this.parentGame = parentGame;
+    }
 }
+
+
+

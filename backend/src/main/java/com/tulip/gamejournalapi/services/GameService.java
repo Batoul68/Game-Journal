@@ -31,7 +31,8 @@ public class GameService {
    }
 
    /**
-    * Reusable helper that converts a game entity into an API response with its genre names in alphabetical order.
+    * Reusable helper that converts a game entity into an API response with its genre names in alphabetical order
+    * and the parentGameId.
     *
     * @param game the game entity to convert
     * @return the game's details, including its genre names
@@ -44,6 +45,10 @@ public class GameService {
               .sorted()
               .toList();
 
+      // If there is no parent game, the game itself is the parent game
+      Game parentGame = game.getParentGame();
+      Long parentGameId = parentGame == null ? null : parentGame.getId();
+
       return new GameResponse(
               game.getId(),
               game.getName(),
@@ -52,7 +57,8 @@ public class GameService {
               genreNames,
               game.getReview(),
               game.getReleaseYear(),
-              game.getDescription()
+              game.getDescription(),
+              parentGameId
       );
    }
 
@@ -69,6 +75,7 @@ public class GameService {
       }
 
       List<Genre> genres = genreRepository.findByNameIn(names);
+
       // Catch any name that wasn't found in the db
       if (genres.size() != names.size()) {
          throw new ResponseStatusException(
@@ -137,7 +144,7 @@ public class GameService {
     * Responds with HTTP 400 if any requested genre is unknown.
     *
     * @param user the user who will own the game
-    * @param gameRequest the details fo the game to create
+    * @param gameRequest the details of the game to create
     * @return the saved game's details, including its generated ID
     */
    @Transactional
@@ -145,6 +152,40 @@ public class GameService {
       Game newGame = new Game();
       newGame.setUser(user);
       setGameProperties(newGame, gameRequest);
+
+      return toGameResponse(gameRepository.save(newGame)) ;
+   }
+
+   /**
+    * Saves a new game in the specified user's collection.
+    * Responds with HTTP 400 if any requested genre is unknown.
+    *
+    * @param user the user who will own the dlc game
+    * @param gameRequest the details of the dlc game to create
+    * @return the saved dlc game's details, including its generated ID
+    * @throws ResponseStatusException with HTTP 404 if the gameId isn't found
+    *                                 with HTTP 400 if the parentGame isn't a base game
+    */
+   @Transactional
+   public GameResponse createDlc(Long gameId, User user, GameRequest gameRequest) {
+      Game parentGame = gameRepository.findByIdAndUser_Username(gameId, user.getUsername())
+              .orElseThrow(() -> new ResponseStatusException(
+                      HttpStatus.NOT_FOUND, "Base game not found"
+         ));
+
+      // DLC can't be associated with another DLC
+      if (parentGame.getParentGame() != null) {
+         throw new ResponseStatusException(
+                 HttpStatus.BAD_REQUEST, "DLC must belong to a base game"
+         );
+      }
+
+      Game newGame = new Game();
+      newGame.setUser(user);
+
+      setGameProperties(newGame, gameRequest);
+
+      newGame.setParentGame(parentGame);
 
       return toGameResponse(gameRepository.save(newGame)) ;
    }
@@ -186,4 +227,5 @@ public class GameService {
 
       gameRepository.delete(game);
    }
+
 }

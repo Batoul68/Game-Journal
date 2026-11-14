@@ -2,19 +2,14 @@ package com.tulip.gamejournalapi.controllers;
 
 import com.tulip.gamejournalapi.dto.GameRequest;
 import com.tulip.gamejournalapi.dto.GameResponse;
-import com.tulip.gamejournalapi.entities.Game;
-import com.tulip.gamejournalapi.entities.Genre;
 import com.tulip.gamejournalapi.entities.User;
-import com.tulip.gamejournalapi.repositories.GameRepository;
 import com.tulip.gamejournalapi.repositories.UserRepository;
 import com.tulip.gamejournalapi.services.GameService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -83,6 +78,29 @@ public class GameController {
     }
 
     /**
+     * Handles request to POST a new dlc associated with parent gameId to the logged-in user's collection.
+     *
+     * @param gameId
+     * @param gameRequest
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @return
+     * @throws UsernameNotFoundException if no user record exists for the authenticated username
+     */
+    @PostMapping("/{id}/dlcs")
+    public GameResponse addDlc(
+            @PathVariable("id") Long gameId,
+            @Valid @RequestBody GameRequest gameRequest,
+            Authentication authentication
+    ) {
+
+        String username = authentication.getName();
+        User user = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return gameService.createDlc(gameId, user, gameRequest);
+    }
+
+    /**
      * Handles PUT request to update a game in the logged-in user's collection, specified by the game's ID.
      *
      * @param gameId the ID of the game to update, taken from the URL
@@ -113,4 +131,5 @@ public class GameController {
 
         return ResponseEntity.noContent().build();
     }
+
 }

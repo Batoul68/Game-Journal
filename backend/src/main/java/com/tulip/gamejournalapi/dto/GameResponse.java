@@ -11,5 +11,6 @@ public record GameResponse(
         List<String> genres,
         String review,
         Integer releaseYear,
-        String description
+        String description,
+        Long parentGameId
 ) { }
