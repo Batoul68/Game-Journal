@@ -110,5 +110,7 @@ export async function deleteGame(gameId: number): Promise<void> {
       }
    });
 
-   return readJson<void>(response, 'Could not delete game');
+   if (!response.ok) {
+      throw new Error(`Could not delete game (${response.status})`);
+   }
 }
