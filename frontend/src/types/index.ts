@@ -1,5 +1,6 @@
-export interface Game  extends GameFormValues{
+export interface Game extends GameFormValues{
    id: number;
+   parentGameId: number | null;
 };
 
 export interface GameFormValues {
