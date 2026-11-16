@@ -126,17 +126,46 @@ public class GameService {
     * Retrieves a game by ID from the specified user's collection.
     *
     * @param gameId the database ID of the game to retrieve
-    * @param username the username of the user whose collection to search
+    * @param user the user whose collection to search
     * @return the matching game's details
     * @throws ResponseStatusException with HTTP 404 if the user has no game with that ID
     */
    @Transactional(readOnly = true)
-   public GameResponse getGame(Long gameId, String username) {
-      return gameRepository.findByIdAndUser_Username(gameId, username)
+   public GameResponse getGame(Long gameId, User user) {
+      return gameRepository.findByIdAndUser_Username(gameId, user.getUsername())
               .map(this::toGameResponse)
               .orElseThrow(() ->
                       new ResponseStatusException((HttpStatus.NOT_FOUND), "Game not found")
               );
+   }
+
+   /**
+    * Retrieves dlcs associated with the parent game's gameId from the specified user's collection.
+    *
+    * @param gameId the database ID of the parent game the dlcs belong to
+    * @param user the user whose collection to search
+    * @return the matching dlc games' details
+    * @throws ResponseStatusException with HTTP 404 if the user has no parent game with that ID
+    *                                 with HTTP 400 if the parentGame is not a base game
+    */
+   @Transactional(readOnly = true)
+   public List<GameResponse> getDlcs(Long gameId, User user) {
+
+      Game parentGame = gameRepository.findByIdAndUser_Username(gameId, user.getUsername())
+              .orElseThrow(() -> new ResponseStatusException(
+                      HttpStatus.NOT_FOUND, "Base game not found"
+              ));
+
+      if (parentGame.getParentGame() != null) {
+         throw new ResponseStatusException(
+                 HttpStatus.BAD_REQUEST, "DLC must belong to a base game"
+         );
+      }
+
+      return gameRepository.findAllByUser_IdAndParentGame_Id(user.getId(), gameId)
+              .stream()
+              .map(this::toGameResponse)
+              .toList();
    }
 
    /**

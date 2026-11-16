@@ -52,11 +52,36 @@ public class GameController {
      * @param gameId the ID of the game to retrieve, taken from the URL
      * @param authentication the current user's authentication supplied by Spring Security
      * @return the matching game if found
+     * @throws UsernameNotFoundException if the user isn't registered
      */
     @GetMapping("/{id}")
     public GameResponse getGameById(@PathVariable("id") Long gameId, Authentication authentication) {
 
-        return gameService.getGame(gameId, authentication.getName());
+        String username = authentication.getName();
+        User user = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return gameService.getGame(gameId, user);
+    }
+
+    /**
+     * Handles request to GET a specific game's dlcs from the logged-in user's collection using the parent game's ID .
+     * Responds with HTTP 404 if the user has no parent game with that ID
+     * Responds with HTTP 400 if the gameId belongs to a dlc and not a base game
+     *
+     * @param gameId the ID of the game to retrieve, taken from the URL
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @return the matching dlc games if found
+     * @throws UsernameNotFoundException if the user isn't registered
+     */
+    @GetMapping("/{id}/dlcs")
+    public List<GameResponse> getDlcs(@PathVariable("id") Long gameId, Authentication authentication) {
+
+        String username = authentication.getName();
+        User user = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return gameService.getDlcs(gameId, user);
     }
 
     /**
@@ -80,10 +105,10 @@ public class GameController {
     /**
      * Handles request to POST a new dlc associated with parent gameId to the logged-in user's collection.
      *
-     * @param gameId
-     * @param gameRequest
+     * @param gameId the ID of the parent game, taken from the URL
+     * @param gameRequest the complete set of editable dlc game details
      * @param authentication the current user's authentication supplied by Spring Security
-     * @return
+     * @return the saved dlc game's details, including generated game ID
      * @throws UsernameNotFoundException if no user record exists for the authenticated username
      */
     @PostMapping("/{id}/dlcs")
