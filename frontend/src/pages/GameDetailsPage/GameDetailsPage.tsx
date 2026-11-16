@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import EditGame from "../../components/games/EditGame";
 import styles from './GameDetailsPage.module.css';
 import GameOverview from "../../components/games/GameOverview/GameDetailsContent.tsx";
+import DlcTab from "../../components/games/DlcTab.tsx";
 
 export default function GameDetailsPage() {
 
@@ -66,7 +67,7 @@ export default function GameDetailsPage() {
          </section>
 
          {activeTab === 'overview' && <GameOverview game={game} />}
-         {activeTab === 'dlc' && <p>DLC section here</p>}
+         {activeTab === 'dlc' && <DlcTab />}
          {activeTab === 'journal' && <p>Journal entries here</p>}
          {activeTab === 'gallery' && <p>Images here</p>}
       </main>

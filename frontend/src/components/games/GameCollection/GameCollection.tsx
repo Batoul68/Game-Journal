@@ -10,6 +10,7 @@ import GameSort from '../GameSort.tsx';
 type GameCollectionProps = {
    games: Game[];
    onGamesChanged: () => Promise<void>;
+   parentGameId?: number;
 }
 
 export type SortBy = 'title a-z' | 'title z-a' | 'highest rating' | 'lowest rating' | 'recently added' | 'oldest added'; 
@@ -23,7 +24,7 @@ const filterGamesByTitle = (games: Game[], search: string): Game[] => {
 }
 
 // Handles changes the game collection (adding game, deleting) and sort + search
-export default function GameCollection({ games, onGamesChanged }: GameCollectionProps) {
+export default function GameCollection({ games, onGamesChanged, parentGameId }: GameCollectionProps) {
 
    const [isDeleteMode, setIsDeleteMode] = useState(false);
    const [search, setSearch] = useState('');
@@ -69,7 +70,7 @@ export default function GameCollection({ games, onGamesChanged }: GameCollection
 
             <div className={styles['action-buttons']}>
 
-               <AddGame onGameAdded={onGamesChanged}/>
+               <AddGame parentGameId={parentGameId} onGameAdded={onGamesChanged}/>
 
                <button
                   className='action-button'

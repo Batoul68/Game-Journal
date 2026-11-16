@@ -2,10 +2,15 @@ import { useState } from "react";
 import GameForm from "./GameForm/GameForm";
 import GameModal from "./GameModal/GameModal";
 import type { GameFormValues } from "../../types/index.ts";
-import { createGame } from "../../services/gameService";
+import { createDlc, createGame } from "../../services/gameService";
+
+type AddGameProps = {
+   parentGameId?: number;
+   onGameAdded: () => Promise<void>;
+}
 
 // Handles creating a game, renders GameForm wrapped in GameModal
-export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<void>}) {
+export default function AddGame({ parentGameId, onGameAdded }: AddGameProps) {
 
    const [isCreateGameOpen, setIsCreateGameOpen] = useState(false);
    const [showAutofill, setShowAutofill] = useState(false);
@@ -13,7 +18,13 @@ export default function AddGame({ onGameAdded }: { onGameAdded: () => Promise<vo
 
 
    const handleCreateGame = async (values: GameFormValues) => {
-      await createGame(values);
+
+      // Create base game or dlc
+      if (parentGameId === undefined) {
+         await createGame(values);
+      } else {
+         await createDlc(parentGameId, values);
+      }
       
       setIsCreateGameOpen(false);
       setShowAutofill(false);
