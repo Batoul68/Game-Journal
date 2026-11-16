@@ -1,0 +1,18 @@
+.action-buttons {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   align-items: center;
+   gap: 10px;
+   padding-left: 40px;
+   padding-bottom: 18px;
+}
+
+#back-button {
+   grid-column: 1;
+   justify-self: start;
+}
+
+#edit-button {
+   grid-column: 2;
+   justify-self: end;
+}

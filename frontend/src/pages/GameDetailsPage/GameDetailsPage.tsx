@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import EditGame from "../../components/games/EditGame";
 import styles from './GameDetailsPage.module.css';
 import GameOverview from "../../components/games/GameOverview/GameOverview.tsx";
-import DlcTab from "../../components/games/DlcTab.tsx";
+import DlcTab from "../../components/games/DlcTab/DlcTab.tsx";
 
 export default function GameDetailsPage() {
 
@@ -57,7 +57,7 @@ export default function GameDetailsPage() {
    return (
       <main className={styles['page-container']}>
          <section className={styles['action-buttons']}>
-            <Link id={styles['back-link']} className='action-button' to="/games">Back</Link>
+            <Link id={styles['back-link']} className='action-button' to="/games">Back to collection</Link>
 
             <div className={styles.tabs}>
                <GameTabs activeTab={activeTab} onTabChange={setActiveTab} />

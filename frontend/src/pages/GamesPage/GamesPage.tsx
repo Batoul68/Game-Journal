@@ -8,7 +8,7 @@ import styles from './GamesPage.module.css';
 export default function GamesPage({ username }: { username: string }) {
 
    const { games, error, loadGames } = useOutletContext<GamesContext>();
-   
+
    return (
       <main className="container">
          <h2 id={styles.greeting}>Welcome back, {username}!</h2>

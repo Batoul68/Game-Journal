@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Game } from "../../types";
-import { getDlcs } from "../../services/gameService";
-import GameCollection from "./GameCollection/GameCollection";
-import GameOverview from "./GameOverview/GameOverview";
+import type { Game } from "../../../types";
+import { getDlcs } from "../../../services/gameService";
+import GameCollection from "../GameCollection/GameCollection";
+import GameOverview from "../GameOverview/GameOverview";
+import EditGame from "../EditGame";
+import styles from './DlcTab.module.css';
 
 export default function DlcTab({ parentGameId }: {parentGameId: number}) {
 
@@ -50,12 +52,29 @@ export default function DlcTab({ parentGameId }: {parentGameId: number}) {
    if (selectedDlc) {
       return (
          <>
-            <button
-               onClick={() => setSelectedDlcId(null)}
-            >
-               Back to DLC list
-            </button>
+            <div className={styles['action-buttons']}>
+               <button
+                  id={styles['back-button']}
+                  onClick={() => setSelectedDlcId(null)}
+               >
+                  Back to DLC list
+               </button>
 
+               <div id={styles['edit-button']}>
+                  <EditGame 
+                     game={selectedDlc} 
+                     onGameUpdated={(updatedDlc) => {
+                        setDlcs((current) =>
+                           current.map((dlc) => 
+                              dlc.id === updatedDlc.id ? updatedDlc : dlc
+                           )
+                        )
+                     }}
+                  />
+               </div>
+               
+            </div>
+            
             <GameOverview game={selectedDlc} />
          </>
       );
