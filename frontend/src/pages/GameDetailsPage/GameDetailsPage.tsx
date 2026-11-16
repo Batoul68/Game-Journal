@@ -1,9 +1,11 @@
 import type { Game } from "../../types/index.ts";
+import GameTabs, { gameTabs, type GameTab } from "../../components/games/GameTabs.tsx";
 import { getGameById } from "../../services/gameService";
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
 import EditGame from "../../components/games/EditGame";
 import styles from './GameDetailsPage.module.css';
+import GameOverview from "../../components/games/GameOverview/GameDetailsContent.tsx";
 
 export default function GameDetailsPage() {
 
@@ -11,6 +13,8 @@ export default function GameDetailsPage() {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState('');
    const { gameId } = useParams();
+
+   const [activeTab, setActiveTab] = useState<GameTab>('overview');
 
    // Load game by id
    const loadGameById = async (gameId: string) => {
@@ -53,51 +57,17 @@ export default function GameDetailsPage() {
       <main className={styles['page-container']}>
          <section className={styles['action-buttons']}>
             <Link className='action-button' to="/games">Back</Link>
+            <GameTabs activeTab={activeTab} onTabChange={setActiveTab} />
             <EditGame
                key={game.id}
                game={game}
                onGameUpdated={setGame}
             />
          </section>
+
+         <GameOverview game={game} />
          
-         <div className={styles['details-container']}>
-         <section className={styles['info-section']}>
-               <div className={styles['img-container']}>
-                  <img id={styles['cover-img']} src={game.coverImageUrl}/> 
-               </div>
-               
-               <div className={styles['game-info']}>
-                  <h2 id={styles.title}>{game?.name}</h2>
-                  <p className={styles['genre-row']}>
-                     <span id={styles['genre-title']}>Genre:</span> 
-
-                     {game.genres.length > 0
-                        ? game.genres.map((genre) => (
-                           <span 
-                              id={styles['genre-badge']}
-                              key={genre}
-                           >
-                              {genre}
-                           </span>
-                        ))
-                        : <span>N/A</span>
-                     }
-                     
-                  </p>  
-                  <p id={styles.year}>Release year: {game?.releaseYear || 'N/A'}</p>
-                  
-               </div>
-               <p id={styles.description}>
-                  {game?.description || 'No description yet'}
-               </p>
-            </section>
-
-            <section className={styles['review-section']}>
-               <h3 id={styles['review-title']}>My Review:</h3>
-               <p id={styles.rating}>{game?.rating || "Not yet rated"} stars</p>
-               <p id={styles.review}>{game?.review || "No review written"}</p>
-            </section> 
-         </div>
+         
       </main>
    );
 }
