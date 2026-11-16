@@ -42,7 +42,7 @@ public class GameController {
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return gameService.getGames(user.getId());
+        return gameService.getGames(user);
     }
 
     /**

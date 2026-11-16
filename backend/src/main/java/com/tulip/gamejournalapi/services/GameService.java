@@ -110,13 +110,13 @@ public class GameService {
    }
 
    /**
-    * Returns the games in the specified user's collection.
+    * Returns all the base games in the specified user's collection.
     *
-    * @param userId the database ID of the user whose collection to retrieve
-    * @return the user's games, or an empty list if the collection has no games
+    * @param user the user whose collection to retrieve
+    * @return the user's base games, or an empty list if the collection has no games
     */
-   public List<GameResponse> getGames(int userId) {
-      return gameRepository.findByUserId(userId)
+   public List<GameResponse> getGames(User user) {
+      return gameRepository.findAllByUser_IdAndParentGameIsNull(user.getId())
               .stream()
               .map(this::toGameResponse)
               .toList();
