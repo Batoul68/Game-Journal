@@ -5,7 +5,7 @@ import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
 import EditGame from "../../components/games/EditGame";
 import styles from './GameDetailsPage.module.css';
-import GameOverview from "../../components/games/GameOverview/GameDetailsContent.tsx";
+import GameOverview from "../../components/games/GameOverview/GameOverview.tsx";
 import DlcTab from "../../components/games/DlcTab.tsx";
 
 export default function GameDetailsPage() {
@@ -57,13 +57,21 @@ export default function GameDetailsPage() {
    return (
       <main className={styles['page-container']}>
          <section className={styles['action-buttons']}>
-            <Link className='action-button' to="/games">Back</Link>
-            <GameTabs activeTab={activeTab} onTabChange={setActiveTab} />
-            <EditGame
-               key={game.id}
-               game={game}
-               onGameUpdated={setGame}
-            />
+            <Link id={styles['back-link']} className='action-button' to="/games">Back</Link>
+
+            <div className={styles.tabs}>
+               <GameTabs activeTab={activeTab} onTabChange={setActiveTab} />
+            </div>
+            
+            <div id={styles['edit-button']}>
+               {activeTab === 'overview' && 
+                  <EditGame
+                     key={game.id}
+                     game={game}
+                     onGameUpdated={setGame}
+                  />
+               }
+            </div>
          </section>
 
          {activeTab === 'overview' && <GameOverview game={game} />}
