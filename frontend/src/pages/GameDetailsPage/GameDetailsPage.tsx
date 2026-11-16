@@ -1,5 +1,5 @@
 import type { Game } from "../../types/index.ts";
-import GameTabs, { gameTabs, type GameTab } from "../../components/games/GameTabs.tsx";
+import GameTabs, { type GameTab } from "../../components/games/GameTabs.tsx";
 import { getGameById } from "../../services/gameService";
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
@@ -65,9 +65,10 @@ export default function GameDetailsPage() {
             />
          </section>
 
-         <GameOverview game={game} />
-         
-         
+         {activeTab === 'overview' && <GameOverview game={game} />}
+         {activeTab === 'dlc' && <p>DLC section here</p>}
+         {activeTab === 'journal' && <p>Journal entries here</p>}
+         {activeTab === 'gallery' && <p>Images here</p>}
       </main>
    );
 }
