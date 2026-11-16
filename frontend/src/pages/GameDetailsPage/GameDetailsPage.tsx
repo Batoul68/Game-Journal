@@ -67,7 +67,14 @@ export default function GameDetailsPage() {
          </section>
 
          {activeTab === 'overview' && <GameOverview game={game} />}
-         {activeTab === 'dlc' && <DlcTab />}
+         {activeTab === 'dlc' && 
+         <>
+            <h3>{game.name} DLCS</h3>
+            <DlcTab parentGameId={game.id}/>
+         </>
+         
+         
+         }
          {activeTab === 'journal' && <p>Journal entries here</p>}
          {activeTab === 'gallery' && <p>Images here</p>}
       </main>

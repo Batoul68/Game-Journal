@@ -29,7 +29,17 @@
    text-decoration: none;
 }
 
-.link[aria-disabled="true"] {
+button.link {
+   appearance: none;
+   width: 100%;
+   padding: 0;
+   border: 0;
+   background: transparent;
+   font: inherit;
+   cursor: pointer;
+}
+
+.link[aria-disabled="true"], button.link:disabled  {
    cursor: default;
 }
 

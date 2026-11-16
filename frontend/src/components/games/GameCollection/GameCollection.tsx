@@ -11,6 +11,7 @@ type GameCollectionProps = {
    games: Game[];
    onGamesChanged: () => Promise<void>;
    parentGameId?: number;
+   onGameSelect?: (game: Game) => void;
 }
 
 export type SortBy = 'title a-z' | 'title z-a' | 'highest rating' | 'lowest rating' | 'recently added' | 'oldest added'; 
@@ -24,7 +25,7 @@ const filterGamesByTitle = (games: Game[], search: string): Game[] => {
 }
 
 // Handles changes the game collection (adding game, deleting) and sort + search
-export default function GameCollection({ games, onGamesChanged, parentGameId }: GameCollectionProps) {
+export default function GameCollection({ games, onGamesChanged, parentGameId, onGameSelect }: GameCollectionProps) {
 
    const [isDeleteMode, setIsDeleteMode] = useState(false);
    const [search, setSearch] = useState('');
@@ -84,7 +85,12 @@ export default function GameCollection({ games, onGamesChanged, parentGameId }: 
          </div>
          
          <div className={styles['list-container']}>
-            <ul className={styles['game-list']}>
+            {games.length === 0 ? (
+               <p>No games added yet</p>
+            ) : visibleGames.length === 0 ? (
+               <p>No games match your search</p>
+            ) : (
+               <ul className={styles['game-list']}>
                {visibleGames.map((game) => (
                   <li id={styles['game-item']} key={game.id}>
                      {isDeleteMode && (
@@ -94,10 +100,16 @@ export default function GameCollection({ games, onGamesChanged, parentGameId }: 
                            gameName={game.name}
                         />
                      )}
-                     <GameCard game={game} isDeleteMode={isDeleteMode}/>
+                     <GameCard 
+                        game={game} 
+                        isDeleteMode={isDeleteMode}
+                        onGameSelect={onGameSelect}
+                     />
                   </li>
                ))}
-            </ul>
+               </ul>
+            )}
+            
          </div> 
       </section>
    );
