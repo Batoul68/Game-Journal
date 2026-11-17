@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/games")
 public class GameController {
+
     private final UserRepository userRepository;
     private final GameService gameService;
 
@@ -29,20 +30,26 @@ public class GameController {
     }
 
     /**
+     * Helper methods to validate if user exists in user repository
+     *
+     * @param authentication the current user's authentication supplied by Spring Security
+     * @return a validated user object
+     * @throws UsernameNotFoundException if no user record exists for the authenticated username
+     */
+    private User validateUser(Authentication authentication) {
+        return userRepository.findUserByUsername(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    /**
      * Handles request to GET all games associated with logged-in user.
      *
      * @param authentication the current user's authentication supplied by Spring Security
      * @return the user's list of games, or an empty list if there are none
-     * @throws UsernameNotFoundException if no user record exists for the authenticated username
      */
     @GetMapping
     public List<GameResponse> getGames(Authentication authentication) {
-
-        String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return gameService.getGames(user);
+        return gameService.getGames(validateUser(authentication));
     }
 
     /**
@@ -52,16 +59,10 @@ public class GameController {
      * @param gameId the ID of the game to retrieve, taken from the URL
      * @param authentication the current user's authentication supplied by Spring Security
      * @return the matching game if found
-     * @throws UsernameNotFoundException if the user isn't registered
      */
     @GetMapping("/{id}")
     public GameResponse getGameById(@PathVariable("id") Long gameId, Authentication authentication) {
-
-        String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return gameService.getGame(gameId, user);
+        return gameService.getGame(gameId, validateUser(authentication));
     }
 
     /**
@@ -72,16 +73,10 @@ public class GameController {
      * @param gameId the ID of the game to retrieve, taken from the URL
      * @param authentication the current user's authentication supplied by Spring Security
      * @return the matching dlc games if found
-     * @throws UsernameNotFoundException if the user isn't registered
      */
     @GetMapping("/{id}/dlcs")
     public List<GameResponse> getDlcs(@PathVariable("id") Long gameId, Authentication authentication) {
-
-        String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return gameService.getDlcs(gameId, user);
+        return gameService.getDlcs(gameId, validateUser(authentication));
     }
 
     /**
@@ -90,16 +85,10 @@ public class GameController {
      * @param gameRequest the details of the game to create
      * @param authentication the current user's authentication supplied by Spring Security
      * @return the saved game's details, including generated game ID
-     * @throws UsernameNotFoundException if no user record exists for the authenticated username
      */
     @PostMapping
     public GameResponse addGame( @Valid @RequestBody GameRequest gameRequest, Authentication authentication) {
-
-        String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return gameService.createGame(user, gameRequest);
+        return gameService.createGame(validateUser(authentication), gameRequest);
     }
 
     /**
@@ -109,7 +98,6 @@ public class GameController {
      * @param gameRequest the complete set of editable dlc game details
      * @param authentication the current user's authentication supplied by Spring Security
      * @return the saved dlc game's details, including generated game ID
-     * @throws UsernameNotFoundException if no user record exists for the authenticated username
      */
     @PostMapping("/{id}/dlcs")
     public GameResponse addDlc(
@@ -117,12 +105,7 @@ public class GameController {
             @Valid @RequestBody GameRequest gameRequest,
             Authentication authentication
     ) {
-
-        String username = authentication.getName();
-        User user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return gameService.createDlc(gameId, user, gameRequest);
+        return gameService.createDlc(gameId, validateUser(authentication), gameRequest);
     }
 
     /**
@@ -139,7 +122,8 @@ public class GameController {
             Authentication authentication,
             @Valid @RequestBody GameRequest gameRequest
     ) {
-        return gameService.updateGame(gameId, authentication.getName(), gameRequest);
+        User user = validateUser(authentication);
+        return gameService.updateGame(gameId, user.getUsername(), gameRequest);
     }
 
     /**
@@ -151,8 +135,9 @@ public class GameController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGame(@PathVariable("id") Long gameId, Authentication authentication) {
-        System.out.println("DELETE controller reached, game ID: "+ gameId);
-        gameService.deleteGame(gameId, authentication.getName());
+
+        User user = validateUser(authentication);
+        gameService.deleteGame(gameId, user.getUsername());
 
         return ResponseEntity.noContent().build();
     }
