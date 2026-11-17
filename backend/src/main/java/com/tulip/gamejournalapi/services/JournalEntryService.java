@@ -71,7 +71,7 @@ public class JournalEntryService {
     *
     * @param baseGameId the id of the base game whose journal is open
     * @param user the signed-in user who owns the base game
-    * @return the list of journal entries for the base game and its DLCs and the entries' details
+    * @return the list of journal entries for the base game and its DLCs, or an empty list if there are none
     */
    @Transactional
    public List<JournalEntryResponse> getEntries(Long baseGameId, User user) {
