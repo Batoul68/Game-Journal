@@ -32,3 +32,15 @@ export interface GameMetadataResponse {
    summary: string | null;
    storyline: string | null;
 }
+
+export interface JournalEntry {
+   id: number;
+   gameId: number;
+   body: string;
+   createdAt: string;
+}
+
+export interface JournalEntryValues {
+   targetGameId: number;
+   body: string;
+}
