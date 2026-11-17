@@ -1,16 +1,9 @@
 import type { Game, GameFormValues } from '../types/index.ts';
 import { getCsrfToken } from './csrfService.ts';
+import { readJson } from './apiUtils.ts';
 
 const API = 'http://localhost:8080/api/games';
 
-// Helper method
-async function readJson<T>(response: Response, errorMessage: string): Promise<T> {
-   if (!response.ok) {
-      throw new Error(`${errorMessage} (${response.status})`);
-   }
-
-   return response.json();
-}
 
 // GET: Loading saved list of games 
 export async function getGames(): Promise<Game[]> {
