@@ -73,7 +73,7 @@ public class JournalEntryService {
     * @param user the signed-in user who owns the base game
     * @return the list of journal entries for the base game and its DLCs, or an empty list if there are none
     */
-   @Transactional
+   @Transactional(readOnly = true)
    public List<JournalEntryResponse> getEntries(Long baseGameId, User user) {
       Game baseGame = requireBaseGame(baseGameId, user);
 
