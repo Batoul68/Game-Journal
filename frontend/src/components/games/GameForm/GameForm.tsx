@@ -111,113 +111,115 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
       <section className={styles.container}>
          <form className={styles.form} onSubmit={handleSave}>
             <header>Game Form</header>
-            <div className={styles['title-row']}>
-               <div className={styles['input-group']}>
-                  <label>Game Title *</label>
-                  <input 
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}  
-                        placeholder='Enter game title'
-                  /> 
-               </div>
-               <GameAutofill title={name} onMatchSelected={handleMatchSelected}/>
-            </div>
-            
-            <div className={styles.column}>
-               <div className={styles['input-group']}>
-                  <label>Cover Image</label>
-                  <input 
-                     value={coverImageUrl}
-                     onChange={(event) => setCoverImageUrl(event.target.value)}  
-                     placeholder='Enter image url'
-                  />
-               </div>
-               <details className={styles['genre-dropdown']}>
-                  <summary>Genres ({genres.length} selected)</summary>
-                  <div className={styles['genre-options']}>
-                  {genreOptions.map((genre) => (
-                  <label key={genre}>
-                     <input
-                        type="checkbox"
-                        checked={genres.includes(genre)}
-                        onChange={() => 
-                           setGenres((current) => 
-                              current.includes(genre)
-                              ? current.filter((name) => name !== genre)
-                              : [...current, genre]
-                           )
-                        }
-                     />
-                     {genre}
-                  </label>
-                  ))}
+            <fieldset disabled={isSaving}>
+               <div className={styles['title-row']}>
+                  <div className={styles['input-group']}>
+                     <label>Game Title *</label>
+                     <input 
+                           value={name}
+                           onChange={(event) => setName(event.target.value)}  
+                           placeholder='Enter game title'
+                     /> 
                   </div>
-               </details>
-            </div>
-            <div className={styles.column}>
-               <div className={styles['input-group']}>
-                  <label>Rating</label>
-                  <input 
-                     type="number"
-                     min="0"
-                     max="5"
-                     step="0.5"
-                     value={rating ?? ''}
-                     onChange={(event) => {
-                        const value = event.target.value;
-                        setRating(value === "" ? null : Number(value)); 
-                     }}
-                     placeholder='Rating / 5'
+                  <GameAutofill title={name} onMatchSelected={handleMatchSelected}/>
+               </div>
+               
+               <div className={styles.column}>
+                  <div className={styles['input-group']}>
+                     <label>Cover Image</label>
+                     <input 
+                        value={coverImageUrl}
+                        onChange={(event) => setCoverImageUrl(event.target.value)}  
+                        placeholder='Enter image url'
+                     />
+                  </div>
+                  <details className={styles['genre-dropdown']}>
+                     <summary>Genres ({genres.length} selected)</summary>
+                     <div className={styles['genre-options']}>
+                     {genreOptions.map((genre) => (
+                     <label key={genre}>
+                        <input
+                           type="checkbox"
+                           checked={genres.includes(genre)}
+                           onChange={() => 
+                              setGenres((current) => 
+                                 current.includes(genre)
+                                 ? current.filter((name) => name !== genre)
+                                 : [...current, genre]
+                              )
+                           }
+                        />
+                        {genre}
+                     </label>
+                     ))}
+                     </div>
+                  </details>
+               </div>
+               <div className={styles.column}>
+                  <div className={styles['input-group']}>
+                     <label>Rating</label>
+                     <input 
+                        type="number"
+                        min="0"
+                        max="5"
+                        step="0.5"
+                        value={rating ?? ''}
+                        onChange={(event) => {
+                           const value = event.target.value;
+                           setRating(value === "" ? null : Number(value)); 
+                        }}
+                        placeholder='Rating / 5'
+                     />
+                  </div>
+                  <div className={styles['input-group']}>
+                     <label>Release Year</label>
+                     <input 
+                        type="number"
+                        min="1942"
+                        max={new Date().getFullYear()}
+                        value={releaseYear ?? ''}
+                        onChange={(event) => {
+                           const value = event.target.value;
+                           setReleaseYear(value === "" ? null : Number(value)); 
+                        }}
+                        placeholder='Year'
+                     />
+                  </div>
+               </div>
+               <div className={styles['description-section']}>
+                  <div className={styles['input-group']}>
+                     <label>Description</label>
+                     <textarea
+                     id="description"
+                     value={description}
+                     onChange={(event) => setDescription(event.target.value)}
+                     rows={5}
+                     placeholder='Game description'
                   />
+                  </div>
                </div>
-               <div className={styles['input-group']}>
-                  <label>Release Year</label>
-                  <input 
-                     type="number"
-                     min="1942"
-                     max={new Date().getFullYear()}
-                     value={releaseYear ?? ''}
-                     onChange={(event) => {
-                        const value = event.target.value;
-                        setReleaseYear(value === "" ? null : Number(value)); 
-                     }}
-                     placeholder='Year'
+               <div className={styles['review-section']}>
+                  <div className={styles['input-group']}>
+                     <label>Review</label>
+                     <textarea
+                     id="review"
+                     value={review}
+                     onChange={(event) => setReview(event.target.value)}
+                     rows={5}
+                     placeholder='Write a review!'
                   />
+                  </div>
                </div>
-            </div>
-            <div className={styles['description-section']}>
-               <div className={styles['input-group']}>
-                  <label>Description</label>
-                  <textarea
-                  id="description"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  rows={5}
-                  placeholder='Game description'
-               />
-               </div>
-            </div>
-            <div className={styles['review-section']}>
-               <div className={styles['input-group']}>
-                  <label>Review</label>
-                  <textarea
-                  id="review"
-                  value={review}
-                  onChange={(event) => setReview(event.target.value)}
-                  rows={5}
-                  placeholder='Write a review!'
-               />
-               </div>
-            </div>
-            <div className={styles['action-buttons']}>
-               <button type="button" onClick={onCancel}>
-                  Cancel
-               </button>
+               <div className={styles['action-buttons']}>
+                  <button type="button" onClick={onCancel}>
+                     Cancel
+                  </button>
 
-               <button type="submit">
-                  Save Game
-               </button>
-            </div>
+                  <button type="submit">
+                     Save Game
+                  </button>
+               </div>
+            </fieldset>
          </form>
          {message && <p>{message}</p>}
       </section>
