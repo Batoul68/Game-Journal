@@ -28,12 +28,16 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
 
    // Pull from database
    const [genreOptions, setGenreOptions] = useState<string[]>([]);
+
+   const [isSaving, setIsSaving] = useState(false);
    const [message, setMessage] = useState('');
 
 
    // Handle saving game, parent component will either PUT or POST
    const handleSave = async (event: React.SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
+
+      if (isSaving) return;
 
       if(!name.trim()) {
          setMessage('Game title cannot be empty');
@@ -45,12 +49,27 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
          return;
       }
 
-      try {
-         await onSave({name: name.trim(), coverImageUrl: coverImageUrl.trim(), rating, genres, review, releaseYear, description});
-         setMessage('');
+      setIsSaving(true);
+      setMessage('');
 
+      try {
+         await onSave({
+            name: name.trim(), 
+            coverImageUrl: coverImageUrl.trim(), 
+            rating, 
+            genres, 
+            review, 
+            releaseYear, 
+            description
+         });
       } catch (error) {
-         setMessage('Unable to save game. Check that the backend is running');
+         setMessage(
+            error instanceof Error
+            ? error.message
+            : 'Unable to save game.'
+         );
+      } finally {
+         setIsSaving(false);
       }
    }
 
