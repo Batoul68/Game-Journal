@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { getJournalEntries } from '../../../services/journalEntryService';
 import styles from './JournalTab.module.css';
 import JournalCollection from '../JournalCollection/JournalCollection';
+import JournalOverview from '../JournalOverview/JournalOverview';
 
 export default function JournalTab({ baseGame }: { baseGame: Game }) {
 
@@ -59,7 +60,7 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
                Back to journal
             </button>
 
-            
+            <JournalOverview entry={selectedEntry} />
          </>
       );
    }
