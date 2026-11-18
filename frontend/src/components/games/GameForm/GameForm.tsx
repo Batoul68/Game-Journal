@@ -5,14 +5,13 @@ import { getGenreOptions } from '../../../services/genreService.ts';
 import GameAutofill from '../GameAutofill/GameAutofill.tsx';
 
 type GameFormProps = {
-   showAutofill: boolean;
    initialGame?: Game; // supply when edit, omit when create
    onSave: (values: GameFormValues) => Promise<void>;
    onCancel: () => void;
 }
 
 // The input template used for editing and creating games
-export default function GameForm({ showAutofill, initialGame, onSave, onCancel }: GameFormProps) {
+export default function GameForm({ initialGame, onSave, onCancel }: GameFormProps) {
 
    // Allows game form to edit existing game or create new game
    const [name, setName] = useState(initialGame?.name ?? '');
@@ -102,7 +101,7 @@ export default function GameForm({ showAutofill, initialGame, onSave, onCancel }
                         placeholder='Enter game title'
                   /> 
                </div>
-               {showAutofill && <GameAutofill title={name} onMatchSelected={handleMatchSelected}/>}
+               <GameAutofill title={name} onMatchSelected={handleMatchSelected}/>
             </div>
             
             <div className={styles.column}>

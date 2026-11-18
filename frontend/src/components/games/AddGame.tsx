@@ -13,7 +13,6 @@ type AddGameProps = {
 export default function AddGame({ parentGameId, onGameAdded }: AddGameProps) {
 
    const [isCreateGameOpen, setIsCreateGameOpen] = useState(false);
-   const [showAutofill, setShowAutofill] = useState(false);
    const closeModal = () => setIsCreateGameOpen(false);
 
 
@@ -27,7 +26,6 @@ export default function AddGame({ parentGameId, onGameAdded }: AddGameProps) {
       }
       
       setIsCreateGameOpen(false);
-      setShowAutofill(false);
       await onGameAdded();
    }
 
@@ -37,7 +35,6 @@ export default function AddGame({ parentGameId, onGameAdded }: AddGameProps) {
             className='action-button' 
             onClick={() => {
                setIsCreateGameOpen(true);
-               setShowAutofill(true);
             }}
             type="button"
             disabled={isCreateGameOpen}
@@ -47,7 +44,7 @@ export default function AddGame({ parentGameId, onGameAdded }: AddGameProps) {
 
          {isCreateGameOpen && 
             <GameModal title="Add Game" onClose={closeModal}>
-               <GameForm onSave={handleCreateGame} onCancel={closeModal} showAutofill={showAutofill}/>
+               <GameForm onSave={handleCreateGame} onCancel={closeModal}/>
             </GameModal>
          }
       </div>
