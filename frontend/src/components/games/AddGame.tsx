@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GameForm from "./GameForm/GameForm";
-import GameModal from "./GameModal/GameModal";
+import Modal from "../modal/Modal.tsx";
 import type { GameFormValues } from "../../types/index.ts";
 import { createDlc, createGame } from "../../services/gameService";
 
@@ -43,9 +43,9 @@ export default function AddGame({ parentGameId, onGameAdded }: AddGameProps) {
          </button>
 
          {isCreateGameOpen && 
-            <GameModal title="Add Game" onClose={closeModal}>
+            <Modal title="Add Game" onClose={closeModal}>
                <GameForm onSave={handleCreateGame} onCancel={closeModal}/>
-            </GameModal>
+            </Modal>
          }
       </div>
    );

@@ -1,14 +1,14 @@
 import { useEffect, useRef, type ReactNode } from "react";
-import styles from './GameModal.module.css';
+import styles from './Modal.module.css';
 
-type GameModalProps = {
+type ModalProps = {
    title: string;
    children: ReactNode;
    onClose: () => void;
 }
 
 // The modal pop up to hold GameForm when called
-export default function GameModal({ title, onClose, children }: GameModalProps) {
+export default function Modal({ title, onClose, children }: ModalProps) {
 
 const dialogRef = useRef<HTMLDialogElement>(null);
 

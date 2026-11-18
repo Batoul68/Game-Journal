@@ -5,6 +5,7 @@ import { getDlcs } from '../../../services/gameService';
 import styles from './JournalTab.module.css';
 import JournalCollection from '../JournalCollection/JournalCollection';
 import JournalOverview from '../JournalOverview/JournalOverview';
+import JournalEntryForm from '../JournalEntryForm/JournalEntryForm';
 
 export default function JournalTab({ baseGame }: { baseGame: Game }) {
 
@@ -12,6 +13,7 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
    const [isLoading, setIsLoading] = useState(true);
    const [error, setError] = useState('');
 
+   // Journal entries can belong to DLCs too
    const [dlcs, setDlcs] = useState<Game[]>([]);
 
    const [selectedEntryId, setSelectedEntryId] = useState<number | null>(null);
@@ -86,6 +88,13 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
                </li>
             ))}
          </ul>
+
+         <JournalEntryForm 
+            baseGameId={baseGame.id}
+            titleOptions={titleOptions} 
+            onSave={async (values) => console.log(values)} 
+            onCancel={() => console.log('cancel clicked')}
+         />
 
          <JournalCollection 
             entries={journalEntries} 

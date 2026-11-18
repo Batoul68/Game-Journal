@@ -2,7 +2,7 @@ import type { GameFormValues, Game } from "../../types/index.ts";
 import { updateGame } from "../../services/gameService";
 import { useState } from "react";
 import GameForm from "./GameForm/GameForm";
-import GameModal from "./GameModal/GameModal";
+import Modal from "../modal/Modal.tsx";
 
 type EditGameProps = {
    game: Game;
@@ -24,13 +24,13 @@ export default function EditGame({ game, onGameUpdated }: EditGameProps) {
 
    return (
       isEditing ? (
-         <GameModal title="Edit Game" onClose={closeModal}>
+         <Modal title="Edit Game" onClose={closeModal}>
             <GameForm 
                initialGame={game}
                onSave={handleUpdateGame}
                onCancel={closeModal}
             />
-         </GameModal>
+         </Modal>
       ) : (
          <button className='action-button' onClick={() => setIsEditing(true)}>
             Edit game
