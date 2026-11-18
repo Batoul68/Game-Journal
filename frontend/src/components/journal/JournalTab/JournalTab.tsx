@@ -1,6 +1,7 @@
 import type { Game, JournalEntry } from '../../../types';
 import { useState, useEffect, useCallback } from 'react';
 import { getJournalEntries } from '../../../services/journalEntryService';
+import { getDlcs } from '../../../services/gameService';
 import styles from './JournalTab.module.css';
 import JournalCollection from '../JournalCollection/JournalCollection';
 import JournalOverview from '../JournalOverview/JournalOverview';
@@ -10,6 +11,8 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
    const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
    const [isLoading, setIsLoading] = useState(true);
    const [error, setError] = useState('');
+
+   const [dlcs, setDlcs] = useState<Game[]>([]);
 
    const [selectedEntryId, setSelectedEntryId] = useState<number | null>(null);
 
@@ -23,8 +26,14 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
       setError('');
 
       try {
-         setJournalEntries(await getJournalEntries(baseGame.id));
-         setError('');
+         const [loadedEntries, loadedDlcs] = await Promise.all([
+            getJournalEntries(baseGame.id),
+            getDlcs(baseGame.id)
+         ]);
+
+         setJournalEntries(loadedEntries);
+         setDlcs(loadedDlcs);
+
       } catch (error) {
          console.error(error);
          setError(
@@ -41,6 +50,9 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
    useEffect(() => {
       void loadEntries();
    }, [loadEntries]);
+
+   // Build title options
+   const titleOptions = [baseGame, ...dlcs];
 
    if (isLoading) {
       return <p>Loading game...</p>;
@@ -66,9 +78,20 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
    }
 
    return(
-      <JournalCollection 
-         entries={journalEntries} 
-         onEntrySelect={(entry) => setSelectedEntryId(entry.id)}
-      />
+      <>
+         <ul>
+            {titleOptions.map((game) => (
+               <li key={game.id}>
+                  {game.name}
+               </li>
+            ))}
+         </ul>
+
+         <JournalCollection 
+            entries={journalEntries} 
+            onEntrySelect={(entry) => setSelectedEntryId(entry.id)}
+         />
+      </>
+      
    );
 }

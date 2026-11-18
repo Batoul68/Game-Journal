@@ -26,8 +26,8 @@ export default function JournalCollection({ entries, onEntrySelect }: JournalCol
 
                      <p>
                         {entry.body.length > 100 
-                        ? `${entry.body.slice(0, 100)}...`
-                        : entry.body
+                           ? `${entry.body.slice(0, 100)}...`
+                           : entry.body
                         }
                      </p>
                   </button>
