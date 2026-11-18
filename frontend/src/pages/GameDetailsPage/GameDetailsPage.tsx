@@ -7,6 +7,7 @@ import EditGame from "../../components/games/EditGame";
 import styles from './GameDetailsPage.module.css';
 import GameOverview from "../../components/games/GameOverview/GameOverview.tsx";
 import DlcTab from "../../components/games/DlcTab/DlcTab.tsx";
+import JournalTab from "../../components/journal/JournalTab/JournalTab.tsx";
 
 export default function GameDetailsPage() {
 
@@ -78,12 +79,17 @@ export default function GameDetailsPage() {
          {activeTab === 'dlc' && 
          <>
             <h3>{game.name} DLCS</h3>
-            <DlcTab parentGameId={game.id}/>
+            <DlcTab parentGameId={game.id} />
          </>
-         
-         
          }
-         {activeTab === 'journal' && <p>Journal entries here</p>}
+
+         {activeTab === 'journal' && 
+         <>
+            <h3>{game.name} Journal Entries</h3>
+            <JournalTab baseGame={game} />
+         </>
+         }
+
          {activeTab === 'gallery' && <p>Images here</p>}
       </main>
    );
