@@ -97,8 +97,11 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
          />
 
          <JournalCollection 
+            baseGameId={baseGame.id}
+            titleOptions={titleOptions}
             entries={journalEntries} 
             onEntrySelect={(entry) => setSelectedEntryId(entry.id)}
+            onEntriesChanged={loadEntries}
          />
       </>
       
