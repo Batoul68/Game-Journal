@@ -175,4 +175,31 @@ public class JournalEntryService {
 
       return toJournalEntryResponse(journalEntryRepository.save(entry));
    }
+
+   @Transactional
+   public JournalEntryResponse updateEntry(
+           Long baseGameId,
+           Long entryId,
+           User user,
+           JournalEntryRequest journalEntryRequest
+   ) {
+      Game baseGame = requireBaseGame(baseGameId, user);
+      JournalEntry entry = requireJournalEntry(entryId, baseGame, user);
+
+      Game targetGame = gameRepository.findByIdAndUser_Username(journalEntryRequest.targetGameId(), user.getUsername())
+              .orElseThrow(() -> new ResponseStatusException(
+                      HttpStatus.NOT_FOUND, "Target game not found"
+              ));
+
+      if (!belongsToJournal(baseGame, targetGame)) {
+         throw new ResponseStatusException(
+                 HttpStatus.BAD_REQUEST, "Choose this game or one of its DLCs"
+         );
+      }
+
+      entry.setGame(targetGame);
+      entry.setBody(journalEntryRequest.body().strip());
+
+      return toJournalEntryResponse(journalEntryRepository.save(entry));
+   }
 }
