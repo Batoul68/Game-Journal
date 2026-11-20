@@ -67,4 +67,19 @@ public class JournalEntryController {
    ) {
       return journalEntryService.createEntry(baseGameId, validateUser(authentication), journalEntryRequest);
    }
+
+   @PutMapping("/{entryId}")
+   public JournalEntryResponse updateJournalEntry(
+           @PathVariable("id") Long baseGameId,
+           @PathVariable("entryId") Long entryId,
+           @Valid @RequestBody JournalEntryRequest journalEntryRequest,
+           Authentication authentication
+   ) {
+      return journalEntryService.updateEntry(
+              baseGameId,
+              entryId,
+              validateUser(authentication),
+              journalEntryRequest
+      );
+   }
 }
