@@ -36,7 +36,7 @@ export default function AddJournalEntry({ baseGameId, titleOptions, onEntryAdded
          </button>
 
          {isCreateJournalOpen && 
-            <Modal title="Add Game" onClose={closeModal}>
+            <Modal title="Add Journal Entry" onClose={closeModal}>
                <JournalEntryForm 
                   baseGameId={baseGameId} 
                   titleOptions={titleOptions}
