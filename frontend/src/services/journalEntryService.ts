@@ -53,3 +53,20 @@ export async function updateJournalEntry(
 
    return readJson<JournalEntry>(response, 'Unable to update journal entry');
 }
+
+// DELETE: Delete a journal entry
+export async function deleteJournalEntry(baseGameId: number, entryId: number): Promise<void> {
+   const csrf = await getCsrfToken();
+
+   const response = await fetch(`${API}/${baseGameId}/journal-entries/${entryId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+         [csrf.headerName]: csrf.token
+      }
+   });
+
+   if (!response.ok) {
+      throw new Error(`Unable to delete journal entry (${response.status})`);
+   }
+}
