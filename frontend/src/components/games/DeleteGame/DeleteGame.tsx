@@ -15,6 +15,8 @@ export default function DeleteGame({ gameId, gameName, onDeleted }: DeleteGamePr
    const dialogRef = useRef<HTMLDialogElement>(null);
 
    const handleDelete = async () => {
+      if (isDeleting) return;
+
       setMessage('');
       setIsDeleting(true);
 
@@ -22,7 +24,10 @@ export default function DeleteGame({ gameId, gameName, onDeleted }: DeleteGamePr
          await deleteGame(gameId);
          onDeleted();
       } catch (error) {
-         setMessage('Could not delete game, please try again');
+         setMessage(
+            error instanceof Error
+            ? error.message
+            : 'Could not delete game, please try again');
       } finally {
          setIsDeleting(false);
       }
@@ -30,7 +35,11 @@ export default function DeleteGame({ gameId, gameName, onDeleted }: DeleteGamePr
 
    return (
       <div>
-            <button id={styles.button} onClick={() => dialogRef.current?.showModal()} disabled={isDeleting}>
+            <button 
+               id={styles.button} 
+               onClick={() => dialogRef.current?.showModal()} 
+               disabled={isDeleting}
+            >
                -
             </button>
             {message && <p role="alert">{message}</p>}

@@ -1,6 +1,8 @@
+import { useState } from "react";
 import type { Game, JournalEntry } from "../../../types";
 import AddJournalEntry from "../AddJournalEntry";
 import styles from './JournalCollection.module.css';
+import DeleteJournalEntry from "../DeleteJournalEntry/DeleteJournalEntry";
 
 type JournalCollectionProps = {
    baseGameId: number;
@@ -8,9 +10,12 @@ type JournalCollectionProps = {
    entries: JournalEntry[];
    onEntrySelect: (entry: JournalEntry) => void;
    onEntriesChanged: () => Promise<void>;
+   onEntryDeleted: (entryId: number) => void;
 }
 
-export default function JournalCollection({ baseGameId, titleOptions, entries, onEntrySelect, onEntriesChanged }: JournalCollectionProps) {
+export default function JournalCollection({ baseGameId, titleOptions, entries, onEntrySelect, onEntriesChanged, onEntryDeleted }: JournalCollectionProps) {
+
+   const [isDeleteMode, setIsDeleteMode] = useState(false);
 
    if (entries.length === 0) {
       return <p>No journal entries yet</p>
@@ -24,10 +29,25 @@ export default function JournalCollection({ baseGameId, titleOptions, entries, o
             onEntryAdded={onEntriesChanged}
          />
 
+         <button
+            className='action-button'
+            type="button"
+            onClick={() => setIsDeleteMode(!isDeleteMode)}
+         >
+            {isDeleteMode ? "Done" : "Delete"}
+         </button>
+
          <section aria-label="journal entries" >
             <ul>
                {entries.map((entry) => (
                   <li key={entry.id}>
+                     {isDeleteMode && (
+                        <DeleteJournalEntry 
+                           baseGameId={baseGameId}
+                           entryId={entry.id}
+                           onDeleted={onEntryDeleted}
+                        />
+                     )}
                      <button
                         type="button"
                         onClick={() => onEntrySelect(entry)}

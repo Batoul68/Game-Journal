@@ -53,11 +53,23 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
       void loadEntries();
    }, [loadEntries]);
 
+   // Update list of entries when updating journal entry
    const handleEntryUpdated = (updatedEntry: JournalEntry) => {
       setJournalEntries((current) => 
          current.map((entry) => 
             entry.id === updatedEntry.id ? updatedEntry : entry
          )
+      );
+   }
+
+   // Update list of entries when deleting journal entry
+   const handleEntryDeleted = (entryId: number) => {
+      setJournalEntries((current) =>
+         current.filter((entry) => entry.id !== entryId)
+      );
+
+      setSelectedEntryId((current) =>
+         current === entryId ? null : current
       );
    }
 
@@ -110,6 +122,7 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
             entries={journalEntries} 
             onEntrySelect={(entry) => setSelectedEntryId(entry.id)}
             onEntriesChanged={loadEntries}
+            onEntryDeleted={handleEntryDeleted}
          />
       </>
       
