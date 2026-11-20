@@ -176,6 +176,19 @@ public class JournalEntryService {
       return toJournalEntryResponse(journalEntryRepository.save(entry));
    }
 
+   /**
+    * Updates an existing journal entry's selected title and body.
+    * Preserves the entry's ID and creation time.
+    *
+    * @param baseGameId the ID of the base game whose journal is open
+    * @param entryId the ID of the entry to update
+    * @param user the signed-in user
+    * @param journalEntryRequest the selected title's ID and updated text body
+    * @return the updated journal entry
+    * @throws ResponseStatusException with HTTP 404 if the selected title is unavailable to user
+    *                                 with HTTP 400 if the base game ID identifies with a DLC or the selected title
+    *                                 is outside this journal
+    */
    @Transactional
    public JournalEntryResponse updateEntry(
            Long baseGameId,
@@ -203,6 +216,13 @@ public class JournalEntryService {
       return toJournalEntryResponse(journalEntryRepository.save(entry));
    }
 
+   /**
+    * Deletes an entry from the base game's journal
+    *
+    * @param baseGameId the ID of the base game whose journal is open
+    * @param entryId the ID of the entry to delete
+    * @param user the signed-in user
+    */
    @Transactional
    public void deleteEntry(Long baseGameId, Long entryId, User user) {
       Game baseGame = requireBaseGame(baseGameId, user);

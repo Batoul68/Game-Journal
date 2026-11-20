@@ -69,6 +69,16 @@ public class JournalEntryController {
       return journalEntryService.createEntry(baseGameId, validateUser(authentication), journalEntryRequest);
    }
 
+   /**
+    * Handles a request to update a journal entry.
+    * Responds with {@code 200 OK} and the updated entry on success.
+    *
+    * @param baseGameId the base game's ID from the URL
+    * @param entryId the journal entry's ID from the URL
+    * @param journalEntryRequest the selected title's ID and updated text body
+    * @param authentication the signed-in user
+    * @return the updated journal entry
+    */
    @PutMapping("/{entryId}")
    public JournalEntryResponse updateJournalEntry(
            @PathVariable("id") Long baseGameId,
@@ -84,6 +94,14 @@ public class JournalEntryController {
       );
    }
 
+   /**
+    * Handles a request to delete a journal entry
+    *
+    * @param baseGameId the base game's ID from the URL
+    * @param entryId the journal entry's ID from the URL
+    * @param authentication the signed-in user
+    * @return a {@code 204 No Content} response with an empty body
+    */
    @DeleteMapping("/{entryId}")
    public ResponseEntity<Void> deleteJournalEntry(
            @PathVariable("id") Long baseGameId,
