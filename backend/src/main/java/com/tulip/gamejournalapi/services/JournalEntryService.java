@@ -67,6 +67,53 @@ public class JournalEntryService {
    }
 
    /**
+    * Helper method to check whether a title is the base game of one of its DLCs
+    *
+    * @param baseGame the base game whose journal is open
+    * @param checkGame the title to check
+    * @return true if the title is the base game or one of its DLCs, otherwise false
+    */
+   private boolean belongsToJournal(Game baseGame, Game checkGame) {
+      Game parent = checkGame.getParentGame();
+
+      // Was the base game selected?
+      boolean isBaseGame = baseGame.getId().equals(checkGame.getId());
+
+      // Or was a DLC selected?
+      boolean isItsDlc = parent != null && baseGame.getId().equals(parent.getId());
+
+      return isBaseGame || isItsDlc;
+   }
+
+   /**
+    * Helper method that finds a journal entry owned by the signed-in user and verifies that it
+    * belongs to the base game's journal.
+    *
+    * @param entryId the ID of the existing journal entry
+    * @param baseGame the base game whose journal is open
+    * @param user the signed-in user
+    * @return the entry associated with the base game or one of its DLCs
+    * @throws ResponseStatusException with HTTP 404 if the entry is absent from the user's collection or belongs to another game's journal
+    */
+   private JournalEntry requireJournalEntry(Long entryId, Game baseGame, User user) {
+
+      // Find the entry
+      JournalEntry entry = journalEntryRepository.findByIdAndGame_User_Username(entryId, user.getUsername())
+              .orElseThrow(() -> new ResponseStatusException(
+                      HttpStatus.NOT_FOUND, "Journal entry not found"
+              ));
+
+      // Check if the entry's game is the base game or one of its DLCs
+      if (!belongsToJournal(baseGame, entry.getGame())) {
+         throw new ResponseStatusException(
+                 HttpStatus.NOT_FOUND, "Journal entry not found"
+         );
+      }
+
+      return entry;
+   }
+
+   /**
     * Retrieves the list of journal entries for a base game and its DLCs
     *
     * @param baseGameId the id of the base game whose journal is open
@@ -107,20 +154,15 @@ public class JournalEntryService {
            JournalEntryRequest journalEntryRequest
    ) {
 
+      // Check if game is base game and owned by user
       Game baseGame = requireBaseGame(baseGameId, user);
       Game targetGame = gameRepository.findByIdAndUser_Username(journalEntryRequest.targetGameId(), user.getUsername())
               .orElseThrow(() -> new ResponseStatusException(
                       HttpStatus.NOT_FOUND, "Target game not found"
               ));
-      Game parent = targetGame.getParentGame();
 
-      // Was the base game selected?
-      boolean isBaseGame = baseGame.getId().equals(targetGame.getId());
-
-      // Or was a DLC selected?
-      boolean isItsDlc = parent != null && baseGame.getId().equals(parent.getId());
-
-      if (!isBaseGame && !isItsDlc) {
+      // Check if targetGame is base game or one of its DLCs
+      if (!belongsToJournal(baseGame, targetGame)) {
          throw new ResponseStatusException(
                  HttpStatus.BAD_REQUEST, "Choose this game or one of its DLCs"
          );

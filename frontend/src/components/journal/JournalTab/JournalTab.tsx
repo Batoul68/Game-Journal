@@ -89,13 +89,6 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
             ))}
          </ul>
 
-         <JournalEntryForm 
-            baseGameId={baseGame.id}
-            titleOptions={titleOptions} 
-            onSave={async (values) => console.log(values)} 
-            onCancel={() => console.log('cancel clicked')}
-         />
-
          <JournalCollection 
             baseGameId={baseGame.id}
             titleOptions={titleOptions}
