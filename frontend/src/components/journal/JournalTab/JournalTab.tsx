@@ -5,6 +5,7 @@ import { getDlcs } from '../../../services/gameService';
 import styles from './JournalTab.module.css';
 import JournalCollection from '../JournalCollection/JournalCollection';
 import JournalOverview from '../JournalOverview/JournalOverview';
+import EditJournalEntry from '../EditJournalEntry';
 
 export default function JournalTab({ baseGame }: { baseGame: Game }) {
 
@@ -52,6 +53,14 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
       void loadEntries();
    }, [loadEntries]);
 
+   const handleEntryUpdated = (updatedEntry: JournalEntry) => {
+      setJournalEntries((current) => 
+         current.map((entry) => 
+            entry.id === updatedEntry.id ? updatedEntry : entry
+         )
+      );
+   }
+
    // Build title options
    const titleOptions = [baseGame, ...dlcs];
 
@@ -72,6 +81,13 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
             >
                Back to journal
             </button>
+
+            <EditJournalEntry 
+               baseGameId={baseGame.id}
+               entry={selectedEntry}
+               titleOptions={titleOptions}
+               onEntryUpdated={handleEntryUpdated}
+            />
 
             <JournalOverview entry={selectedEntry} />
          </>
