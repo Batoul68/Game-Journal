@@ -5,7 +5,6 @@ import { getDlcs } from '../../../services/gameService';
 import styles from './JournalTab.module.css';
 import JournalCollection from '../JournalCollection/JournalCollection';
 import JournalOverview from '../JournalOverview/JournalOverview';
-import JournalEntryForm from '../JournalEntryForm/JournalEntryForm';
 
 export default function JournalTab({ baseGame }: { baseGame: Game }) {
 

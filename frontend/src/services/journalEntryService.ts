@@ -31,3 +31,25 @@ export async function createJournalEntry(baseGameId: number, values: JournalEntr
 
    return readJson<JournalEntry>(response, 'Unable to add journal entry');
 }
+
+// PUT: Edit a journal entry
+export async function updateJournalEntry(
+   baseGameId: number,
+   entryId: number,
+   values: JournalEntryValues
+): Promise<JournalEntry> {
+
+   const csrf = await getCsrfToken();
+
+   const response = await fetch(`${API}/${baseGameId}/journal-entries/${entryId}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+         'Content-Type': 'application/json',
+         [csrf.headerName]: csrf.token
+      },
+      body: JSON.stringify(values)
+   });
+
+   return readJson<JournalEntry>(response, 'Unable to update journal entry');
+}
