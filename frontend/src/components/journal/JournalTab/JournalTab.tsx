@@ -108,14 +108,6 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
 
    return(
       <>
-         <ul>
-            {titleOptions.map((game) => (
-               <li key={game.id}>
-                  {game.name}
-               </li>
-            ))}
-         </ul>
-
          <JournalCollection 
             baseGameId={baseGame.id}
             titleOptions={titleOptions}
@@ -125,6 +117,5 @@ export default function JournalTab({ baseGame }: { baseGame: Game }) {
             onEntryDeleted={handleEntryDeleted}
          />
       </>
-      
    );
 }
