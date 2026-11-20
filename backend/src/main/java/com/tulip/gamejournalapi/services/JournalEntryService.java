@@ -202,4 +202,12 @@ public class JournalEntryService {
 
       return toJournalEntryResponse(journalEntryRepository.save(entry));
    }
+
+   @Transactional
+   public void deleteEntry(Long baseGameId, Long entryId, User user) {
+      Game baseGame = requireBaseGame(baseGameId, user);
+      JournalEntry entry = requireJournalEntry(entryId, baseGame, user);
+
+      journalEntryRepository.delete(entry);
+   }
 }

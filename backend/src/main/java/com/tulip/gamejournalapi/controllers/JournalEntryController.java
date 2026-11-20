@@ -7,6 +7,7 @@ import com.tulip.gamejournalapi.repositories.UserRepository;
 import com.tulip.gamejournalapi.services.JournalEntryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -81,5 +82,16 @@ public class JournalEntryController {
               validateUser(authentication),
               journalEntryRequest
       );
+   }
+
+   @DeleteMapping("/{entryId}")
+   public ResponseEntity<Void> deleteJournalEntry(
+           @PathVariable("id") Long baseGameId,
+           @PathVariable("entryId") Long entryId,
+           Authentication authentication
+   ) {
+      journalEntryService.deleteEntry(baseGameId, entryId, validateUser(authentication));
+
+      return ResponseEntity.noContent().build();
    }
 }
