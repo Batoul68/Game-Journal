@@ -36,7 +36,8 @@ export default function JournalEntryForm({ baseGameId, titleOptions, initialEntr
       try {
          await onSave({
             targetGameId,
-            body: trimmedBody
+            body: trimmedBody,
+            imageFile
          });
 
       } catch (error) {

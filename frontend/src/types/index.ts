@@ -38,9 +38,11 @@ export interface JournalEntry {
    gameId: number;
    body: string;
    createdAt: string;
+   imageUrl: string | null;
 }
 
 export interface JournalEntryValues {
    targetGameId: number;
    body: string;
+   imageFile: File | null;
 }

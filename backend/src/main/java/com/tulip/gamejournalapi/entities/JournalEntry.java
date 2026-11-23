@@ -22,6 +22,9 @@ public class JournalEntry {
    @Column(name = "created_at", nullable = false)
    private Instant createdAt;
 
+   @Column(name = "image_key")
+   private String imageKey;
+
    public Long getId() {
       return id;
    }
@@ -49,4 +52,13 @@ public class JournalEntry {
    public void setCreatedAt(Instant createdAt) {
       this.createdAt = createdAt;
    }
+
+   public String getImageKey() {
+      return imageKey;
+   }
+
+   public void setImageKey(String imageKey) {
+      this.imageKey = imageKey;
+   }
+
 }
