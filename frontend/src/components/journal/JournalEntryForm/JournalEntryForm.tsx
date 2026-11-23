@@ -11,6 +11,7 @@ type JournalEntryFormProps = {
 
 export default function JournalEntryForm({ baseGameId, titleOptions, initialEntry, onSave, onCancel }: JournalEntryFormProps) {
 
+   const [imageFile, setImageFile] = useState<File | null>(null);
    const [targetGameId, setTargetGameId] = useState(initialEntry?.gameId ?? baseGameId);
    const [body, setBody] = useState(initialEntry?.body ?? '');
 
@@ -53,6 +54,18 @@ export default function JournalEntryForm({ baseGameId, titleOptions, initialEntr
       <form onSubmit={handleSubmit}>
          <fieldset disabled={isSaving}>
             <legend>Journal Entry</legend>
+
+            <label>
+               Image
+               <input 
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                     const selectedFile = event.currentTarget.files?.[0] ?? null;
+                     setImageFile(selectedFile);
+                  }}
+               />
+            </label>
 
             <label>
                Game
