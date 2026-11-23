@@ -7,10 +7,12 @@ import com.tulip.gamejournalapi.repositories.UserRepository;
 import com.tulip.gamejournalapi.services.JournalEntryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -51,22 +53,24 @@ public class JournalEntryController {
    }
 
    /**
-    * Creates a journal entry for the base game or one of its DLCs.
+    * Creates a journal entry for the base game or one of its DLCs with text and an optional image.
     * Responds with {@code 201 Created} on success.
     *
     * @param baseGameId the base game's ID from the URL
     * @param journalEntryRequest the selected title's ID and the entry text
+    * @param image the uploaded image, or null if none was supplied
     * @param authentication the signed-in user's authentication provided by Spring Security
     * @return the saved journal entry, including its generated ID and creation time
     */
-   @PostMapping
+   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    @ResponseStatus(HttpStatus.CREATED)
    public JournalEntryResponse addJournalEntry(
            @PathVariable("id") Long baseGameId,
            @Valid @RequestBody JournalEntryRequest journalEntryRequest,
+           @RequestPart(value = "image", required = false) MultipartFile image,
            Authentication authentication
    ) {
-      return journalEntryService.createEntry(baseGameId, validateUser(authentication), journalEntryRequest);
+      return journalEntryService.createEntry(baseGameId, validateUser(authentication), journalEntryRequest, image);
    }
 
    /**

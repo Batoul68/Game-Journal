@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
@@ -167,20 +168,25 @@ public class JournalEntryService {
    }
 
    /**
-    * Creates a new journal entry for the base game or one of its DLCs
+    * Creates a new journal entry for the base game or one of its DLCs.
+    * Optionally uploading an image associated with the entry.
     *
     * @param baseGameId the ID of the base game whose journal is open
     * @param user the signed-in user who owns the base game and target game
     * @param journalEntryRequest the target game's ID and entry text
+    * @param image the uploaded the image, or null if none was supplied
     * @return the saved journal entry, including its generated ID and creation time
     * @throws ResponseStatusException with HTTP 404 if either game doesn't exist in the user collection.
-    *                                 with HTTP 400 if base game is a DLC or the target game is outside the base game and its DLCs.
+    *                                 with HTTP 400 if base game is a DLC or the target game is outside the base game and its DLCs,
+    *                                 or image is invalid
+    *                                 with HTTP 502 if image upload fails
     */
    @Transactional
    public JournalEntryResponse createEntry(
            Long baseGameId,
            User user,
-           JournalEntryRequest journalEntryRequest
+           JournalEntryRequest journalEntryRequest,
+           MultipartFile image
    ) {
 
       // Check if game is base game and owned by user
@@ -201,6 +207,12 @@ public class JournalEntryService {
       entry.setGame(targetGame);
       entry.setBody(journalEntryRequest.body().strip());
       entry.setCreatedAt(Instant.now());
+
+      if (image != null) {
+         String imageKey = journalImageService.uploadImage(image);
+         deleteImageOnRollback(imageKey);
+         entry.setImageKey(imageKey);
+      }
 
       return toJournalEntryResponse(journalEntryRepository.save(entry));
    }
