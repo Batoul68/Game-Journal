@@ -1,6 +1,7 @@
 package com.tulip.gamejournalapi.integration.supabase;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,8 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -67,6 +70,27 @@ public class SupabaseStorageClient {
       }
 
       return imageKey;
+   }
+
+   /**
+    * Deletes an image from the configured Supabase bucket
+    *
+    * @param imageKey the stored key identifying the image to delete
+    * @throws ResponseStatusException with HTTP 502 if the storage request fails
+    */
+   public void deleteImage(String imageKey) {
+      try {
+         restClient.method(HttpMethod.DELETE)
+                 .uri("/object/{bucket}", bucket)
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .body(Map.of("prefixes", List.of(imageKey)))
+                 .retrieve()
+                 .toBodilessEntity();
+      } catch (RestClientException exception) {
+         throw new ResponseStatusException(
+                 HttpStatus.BAD_GATEWAY, "Could not delete the journal image", exception
+         );
+      }
    }
 
 

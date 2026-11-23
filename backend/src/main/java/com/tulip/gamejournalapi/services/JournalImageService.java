@@ -115,4 +115,14 @@ public class JournalImageService {
          );
       }
    }
+
+   /**
+    * Deletes a previously uploaded journal image
+    *
+    * @param imageKey the stored key identifying the image
+    * @throws ResponseStatusException with HTTP 502 if deletion fails
+    */
+   public void deleteImage (String imageKey) {
+      storageClient.deleteImage(imageKey);
+   }
 }
