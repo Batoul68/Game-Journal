@@ -18,15 +18,33 @@ export async function createJournalEntry(baseGameId: number, values: JournalEntr
    
    // GET: fetch csrf token to send with POST
    const csrf = await getCsrfToken();
+
+   const formData = new FormData();
+
+   // Build the 'entry' part of the body
+   formData.append(
+      'entry',
+      new Blob(
+         [JSON.stringify({
+            targetGameId: values.targetGameId,
+            body: values.body
+         })],
+         { type: 'application/json' }
+      )
+   );
+
+   // Add image if it's supplied
+   if (values.imageFile !== null) {
+      formData.append('image', values.imageFile)
+   }
    
    const response = await fetch(`${API}/${baseGameId}/journal-entries`, {
       method: 'POST',
       credentials: 'include',
       headers: {
-         'Content-Type': 'application/json',
          [csrf.headerName]: csrf.token
       },
-      body: JSON.stringify(values)
+      body: formData
    });
 
    return readJson<JournalEntry>(response, 'Unable to add journal entry');
