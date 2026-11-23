@@ -66,7 +66,7 @@ public class JournalEntryController {
    @ResponseStatus(HttpStatus.CREATED)
    public JournalEntryResponse addJournalEntry(
            @PathVariable("id") Long baseGameId,
-           @Valid @RequestBody JournalEntryRequest journalEntryRequest,
+           @Valid @RequestPart("entry") JournalEntryRequest journalEntryRequest,
            @RequestPart(value = "image", required = false) MultipartFile image,
            Authentication authentication
    ) {
