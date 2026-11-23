@@ -7,9 +7,13 @@ import com.tulip.gamejournalapi.entities.JournalEntry;
 import com.tulip.gamejournalapi.entities.User;
 import com.tulip.gamejournalapi.repositories.GameRepository;
 import com.tulip.gamejournalapi.repositories.JournalEntryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
@@ -21,10 +25,14 @@ public class JournalEntryService {
 
    private final GameRepository gameRepository;
    private final JournalEntryRepository journalEntryRepository;
+   private final JournalImageService journalImageService;
 
-   public JournalEntryService(GameRepository gameRepository, JournalEntryRepository journalEntryRepository) {
+   private static final Logger log = LoggerFactory.getLogger(JournalEntryService.class);
+
+   public JournalEntryService(GameRepository gameRepository, JournalEntryRepository journalEntryRepository, JournalImageService journalImageService) {
       this.gameRepository = gameRepository;
       this.journalEntryRepository = journalEntryRepository;
+      this.journalImageService = journalImageService;
    }
 
    /**
@@ -111,6 +119,27 @@ public class JournalEntryService {
       }
 
       return entry;
+   }
+
+   /**
+    * Helper method that registers cleanup of a newly uploaded image if the current transaction rolls back.
+    * Logs any failure to delete the image.
+    *
+    * @param imageKey the key of the image uploaded during this transaction
+    */
+   private void deleteImageOnRollback(String imageKey) {
+      TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+         @Override
+         public void afterCompletion(int status) {
+            if (status == TransactionSynchronization.STATUS_ROLLED_BACK) {
+               try {
+                  journalImageService.deleteImage(imageKey);
+               } catch (RuntimeException exception) {
+                  log.error("Could not clean up uploaded image {} after rollback", imageKey, exception);
+               }
+            }
+         }
+      });
    }
 
    /**
