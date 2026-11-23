@@ -33,11 +33,6 @@ export default function JournalCollection({ baseGameId, titleOptions, entries, o
       return sortOrder === 'oldest' ? order : -order;
    });
 
-
-   if (entries.length === 0) {
-      return <p>No journal entries yet</p>
-   }
-
    return(
       <>
          <div>
@@ -117,7 +112,6 @@ export default function JournalCollection({ baseGameId, titleOptions, entries, o
                   ))}
                </ul>
             )}
-            
          </section>
       </>
       
