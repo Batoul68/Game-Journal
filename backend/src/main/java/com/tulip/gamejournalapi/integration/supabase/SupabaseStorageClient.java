@@ -60,7 +60,12 @@ public class SupabaseStorageClient {
 
       try {
          restClient.post()
-                 .uri("/object/{bucket}/{imageKey}", bucket, imageKey)
+                 .uri(builder -> builder
+                         .path("/object/")
+                         .pathSegment(bucket)
+                         .pathSegment(imageKey.split("/"))
+                         .build()
+                 )
                  .contentType(contentType)
                  .body(imageBytes)
                  .retrieve()
@@ -84,7 +89,12 @@ public class SupabaseStorageClient {
    public String createSignedImageUrl(String imageKey) {
       try {
          SupabaseSignedUrlResponse response = restClient.post()
-                 .uri("/object/sign/{bucket}/{imageKey}", bucket, imageKey)
+                 .uri(builder -> builder
+                         .path("/object/sign/")
+                         .pathSegment(bucket)
+                         .pathSegment(imageKey.split("/"))
+                         .build()
+                 )
                  .contentType(MediaType.APPLICATION_JSON)
                  .body(Map.of("expiresIn", 3600))
                  .retrieve()
