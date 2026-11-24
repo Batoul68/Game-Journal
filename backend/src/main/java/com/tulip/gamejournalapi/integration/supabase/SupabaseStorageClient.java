@@ -18,14 +18,16 @@ public class SupabaseStorageClient {
 
    private final RestClient restClient;
    private final String bucket;
+   private final String storageBaseUrl;
 
    public SupabaseStorageClient(
            @Value("${app.storage.supabase.url}") String projectUrl,
            @Value("${app.storage.supabase.secret-key}") String secretKey,
            @Value("${app.storage.supabase.bucket}") String bucket
    ) {
+      this.storageBaseUrl = projectUrl + "/storage/v1";
       this.restClient = RestClient.builder()
-              .baseUrl(projectUrl + "/storage/v1")
+              .baseUrl(storageBaseUrl)
               .defaultHeader("apikey", secretKey)
               .build();
 
@@ -70,6 +72,36 @@ public class SupabaseStorageClient {
       }
 
       return imageKey;
+   }
+
+   /**
+    * Creates a temporary viewing URL for an image in the configured bucket.
+    *
+    * @param imageKey the stored key identifying the image
+    * @return the complete signed URL, valid for one hour
+    * @throws ResponseStatusException with HTTP 502 if Supabase fails to return a usable signed URL
+    */
+   public String createSignedImageUrl(String imageKey) {
+      try {
+         SupabaseSignedUrlResponse response = restClient.post()
+                 .uri("/object/sign/{bucket}/{imageKey}", bucket, imageKey)
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .body(Map.of("expiresIn", 3600))
+                 .retrieve()
+                 .body(SupabaseSignedUrlResponse.class);
+
+         if (response == null || response.signedUrl() == null || response.signedUrl().isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_GATEWAY, "Image storage returned no viewing URL"
+            );
+         }
+
+         return storageBaseUrl + response.signedUrl();
+      } catch (RestClientException exception) {
+         throw new ResponseStatusException(
+                 HttpStatus.BAD_GATEWAY, "Could not create an image viewing URL", exception
+         );
+      }
    }
 
    /**
