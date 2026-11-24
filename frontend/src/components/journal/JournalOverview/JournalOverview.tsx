@@ -8,6 +8,13 @@ export default function JournalOverview({ entry }: { entry: JournalEntry }) {
             {new Date(entry.createdAt).toLocaleString()}
          </time>
 
+         {entry.imageUrl && (
+            <img 
+               className={styles['entry-image']}
+               src={entry.imageUrl}
+               alt='Screenshot attached to this journal entry'
+            />
+         )}
          <p id={styles.body}>
             {entry.body}
          </p>
