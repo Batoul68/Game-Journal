@@ -16,7 +16,8 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
    return(
       <div>
-         <h1 className={styles.title}>Welcome to your Game Journal!</h1>
+         <h1 className={styles.title}>Welcome to your</h1>
+         <h1 className={styles.title}>Game Journal!</h1>
 
          {view === "login" ? (
             <LoginForm 

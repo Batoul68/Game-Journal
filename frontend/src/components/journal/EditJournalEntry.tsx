@@ -25,7 +25,7 @@ export default function EditJournalEntry({ baseGameId, entry, titleOptions, onEn
 
    return (
          isEditing ? (
-            <Modal title="Edit Game" onClose={closeModal}>
+            <Modal title="Edit entry" onClose={closeModal}>
                <JournalEntryForm 
                   baseGameId={baseGameId}
                   titleOptions={titleOptions}
@@ -36,7 +36,7 @@ export default function EditJournalEntry({ baseGameId, entry, titleOptions, onEn
             </Modal>
          ) : (
             <button className='action-button' onClick={() => setIsEditing(true)}>
-               Edit game
+               Edit entry
             </button>
          )
       );

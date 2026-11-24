@@ -9,7 +9,7 @@ type GameAutofillResultsProps = {
 export default function GameAutofillResults({ matches, onMatchSelected }: GameAutofillResultsProps) {
 
    return(
-      <ul>
+      <ul className={styles.results}>
         {matches.map((match) => (
             <li key={match.igdbId}>
                <button type="button" onClick={() => onMatchSelected(match)}>

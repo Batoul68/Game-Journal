@@ -1,3 +1,7 @@
+html {
+   
+}
+
 #button {
    background-color: transparent;
    color: rgb(250, 8, 92);
@@ -8,4 +12,84 @@
 
 #button:hover {
    cursor: pointer;
+}
+
+@keyframes slide {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -120px 60px;
+  }
+}
+
+.modal {
+   position: fixed;
+   inset: 0;
+   margin: auto;
+
+   box-sizing: border-box;
+   width: 420px;
+   max-width: calc(100% - 32px);
+   height: fit-content;
+   max-height: calc(100% - 32px);
+   overflow: hidden;
+
+   padding: 24px 32px;
+   border: 6px double rgb(23, 45, 134);
+   border-radius: 20px;
+   background: white;
+   box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.modal[open] {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.message {
+   font-size:1.1rem;
+   margin: 0;
+   font-family: "LT Superior SemiBold";
+}
+
+.confirm {
+   font-family: "LT Superior Medium Italic";
+   margin: 30px 0;
+   overflow-wrap: anywhere;
+}
+
+.btn {
+   color:inherit;
+   font-family:inherit;
+   font-size: inherit;
+   background: white;
+   padding: 0.3rem 3.4rem;
+   border: 3px solid black;
+   border-radius: 20px;
+   margin-right: 2.6rem;
+   box-shadow: 0 0 0 black;
+   transition: all 0.2s;
+}
+
+.btn:last-child {
+   margin: 0;
+}
+
+.btn:hover {
+   box-shadow: 0.4rem 0.4rem 0 rgba(96, 142, 249, 0.894);
+   transform: translate(-0.4rem, -0.4rem);
+}
+
+.btn:active {
+   box-shadow: 0 0 0 black;
+   transform: translate(0, 0);
+}
+
+.options {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
 }

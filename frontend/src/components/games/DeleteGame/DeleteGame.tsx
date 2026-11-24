@@ -35,27 +35,41 @@ export default function DeleteGame({ gameId, gameName, onDeleted }: DeleteGamePr
 
    return (
       <div>
-            <button 
-               id={styles.button} 
-               onClick={() => dialogRef.current?.showModal()} 
-               disabled={isDeleting}
-            >
-               -
-            </button>
-            {message && <p role="alert">{message}</p>}
+         <button 
+            id={styles.button} 
+            onClick={() => dialogRef.current?.showModal()} 
+            disabled={isDeleting}
+         >
+            -
+         </button>
+         {message && <p role="alert">{message}</p>}
 
-            <dialog ref={dialogRef} aria-labelledby={`delete-title-${gameName}`}>
-               <h2>Delete game?</h2>
-               <p>Delete '{gameName}'? This cannot be undone.</p>
+         <dialog 
+            ref={dialogRef} 
+            aria-labelledby={`delete-title-${gameName}`}
+            className={styles.modal}
+         >
+            <h2 className={styles.message} >Delete game?</h2>
+            <p className={styles.confirm} >Delete '{gameName}'? This cannot be undone.</p>
 
-               <button type="button" onClick={() => dialogRef.current?.close()}>
+            <div className={styles.options} >
+               <button 
+                  type="button" 
+                  onClick={handleDelete}
+                  className={styles.btn}
+               >
+                  Delete
+               </button>
+
+               <button 
+                  className={styles.btn} 
+                  type="button" 
+                  onClick={() => dialogRef.current?.close()}
+               >
                   Cancel
                </button>
-
-               <button type="button" onClick={handleDelete}>
-                  Delete game
-               </button>
-            </dialog>
+            </div>
+         </dialog>
       </div>
    );
 }
