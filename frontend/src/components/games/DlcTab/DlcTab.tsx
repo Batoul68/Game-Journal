@@ -1,52 +1,32 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import type { Game } from "../../../types";
-import { getDlcs } from "../../../services/gameService";
 import GameCollection from "../GameCollection/GameCollection";
 import GameOverview from "../GameOverview/GameOverview";
 import EditGame from "../EditGame";
 import styles from './DlcTab.module.css';
 
-export default function DlcTab({ parentGameId }: {parentGameId: number}) {
+type DlcTabProps = {
+   parentGameId: number;
+   dlcs: Game[];
+   onDlcsChanged: () => Promise<void>;
+}
 
-   const [dlcs, setDlcs] = useState<Game[]>([]);
-   const [isLoading, setIsLoading] = useState(true);
-   const [error, setError] = useState('');
+export default function DlcTab({ parentGameId, dlcs, onDlcsChanged }: DlcTabProps) {
 
    const [selectedDlcId, setSelectedDlcId] = useState<number | null>(null);
 
+   const [refreshError, setRefreshError] = useState('');
+
    const selectedDlc = dlcs.find((dlc) => dlc.id === selectedDlcId);
 
-   // Load the current list of dlcs
-   const loadDlcs = useCallback (async () => {
-      setIsLoading(true);
-      setError('');
+   const handleDlcUpdated = async () => {
+      setRefreshError('');
 
       try {
-         setDlcs(await getDlcs(parentGameId));
-         setError('');
-      } catch (error) {
-         console.error(error);
-         setError(
-            error instanceof TypeError 
-            ? "Can't reach the backend, make sure Spring boot is running"
-            : "The server returned an error loading dlcs"
-         );
-      } finally {
-         setIsLoading(false);
+         await onDlcsChanged();
+      } catch {
+         setRefreshError('The DLC was saved, but the collection could not refresh');
       }
-   }, [parentGameId]);
-
-   // Call on mount and if function reference changes on later renders
-   useEffect(() => {
-      void loadDlcs();
-   }, [loadDlcs]);
-
-   if (isLoading) {
-      return <p>Loading game...</p>;
-   }
-
-   if (error) {
-      return <p>{error}</p>
    }
 
    if (selectedDlc) {
@@ -63,17 +43,14 @@ export default function DlcTab({ parentGameId }: {parentGameId: number}) {
                <div id={styles['edit-button']}>
                   <EditGame 
                      game={selectedDlc} 
-                     onGameUpdated={(updatedDlc) => {
-                        setDlcs((current) =>
-                           current.map((dlc) => 
-                              dlc.id === updatedDlc.id ? updatedDlc : dlc
-                           )
-                        )
-                     }}
+                     onGameUpdated={handleDlcUpdated}
                   />
                </div>
-               
             </div>
+
+            {refreshError && (
+               <p role="alert">{refreshError}</p>
+            )}
             
             <GameOverview game={selectedDlc} />
          </>
@@ -83,7 +60,7 @@ export default function DlcTab({ parentGameId }: {parentGameId: number}) {
       <GameCollection 
          games={dlcs} 
          parentGameId={parentGameId} 
-         onGamesChanged={loadDlcs} 
+         onGamesChanged={onDlcsChanged} 
          onGameSelect={(dlc) => setSelectedDlcId(dlc.id)}
       />
    );

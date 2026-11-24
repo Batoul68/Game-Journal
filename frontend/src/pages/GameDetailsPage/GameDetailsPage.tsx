@@ -1,48 +1,33 @@
-import type { Game } from "../../types/index.ts";
 import GameTabs, { type GameTab } from "../../components/games/GameTabs.tsx";
-import { getGameById } from "../../services/gameService";
 import { useParams, Link } from "react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EditGame from "../../components/games/EditGame";
 import styles from './GameDetailsPage.module.css';
 import GameOverview from "../../components/games/GameOverview/GameOverview.tsx";
 import DlcTab from "../../components/games/DlcTab/DlcTab.tsx";
 import JournalTab from "../../components/journal/JournalTab/JournalTab.tsx";
 import GalleryTab from "../../components/journal/GalleryTab/GalleryTab.tsx";
+import useGameDetails from "../../hooks/useGameDetails.ts";
 
 export default function GameDetailsPage() {
 
-   const [game, setGame] = useState<Game | null>(null);
-   const [loading, setLoading] = useState(true);
-   const [error, setError] = useState('');
    const { gameId } = useParams();
 
+   const {
+      game,
+      journalEntries,
+      dlcs,
+      loading,
+      error,
+      setGame,
+      reloadEntries,
+      reloadDlcs,
+      handleEntryUpdated,
+      handleEntryDeleted
+   } = useGameDetails(gameId);
+
+
    const [activeTab, setActiveTab] = useState<GameTab>('overview');
-
-   // Load game by id
-   const loadGameById = async (gameId: string) => {
-      try {
-         const data = await getGameById(gameId);
-         setGame(data);
-         setError('');
-      } catch (error) {
-         console.error(error);
-         setError(
-            error instanceof TypeError 
-               ? "Can't reach the backend, make sure Spring boot is running"
-               : "Page not found"
-         );
-      } finally {
-         setLoading(false);
-      }
-   }
-
-   // Call when page mounts and game URL changes
-   useEffect(() => {
-      if (!gameId) return;
-
-      void loadGameById(gameId);
-   }, [gameId]);
 
    if (loading) {
       return <p>Loading game...</p>;
@@ -80,18 +65,31 @@ export default function GameDetailsPage() {
          {activeTab === 'dlc' && 
          <>
             <h3>{game.name} DLCS</h3>
-            <DlcTab parentGameId={game.id} />
+            <DlcTab 
+               parentGameId={game.id} 
+               dlcs={dlcs}
+               onDlcsChanged={reloadDlcs}
+            />
          </>
          }
 
          {activeTab === 'journal' && 
          <>
             <h3>{game.name} Journal Entries</h3>
-            <JournalTab baseGame={game} />
+            <JournalTab 
+               baseGame={game} 
+               entries={journalEntries}
+               dlcs={dlcs}
+               onEntriesChanged={reloadEntries}
+               onEntryUpdated={handleEntryUpdated}
+               onEntryDeleted={handleEntryDeleted}
+            />
          </>
          }
 
-         {activeTab === 'gallery' && <GalleryTab baseGame={game}/>}
+         {activeTab === 'gallery' && (
+            <GalleryTab entries={journalEntries}/>
+         )}
       </main>
    );
 }

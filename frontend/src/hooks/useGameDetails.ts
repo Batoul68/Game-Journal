@@ -54,12 +54,12 @@ export default function useGameDetails(gameId: string | undefined) {
                setLoading(false);
             }
          }
+      }
 
-         void loadDetails();
+      void loadDetails();
 
-         return () => {
-            ignore = true;
-         }
+      return () => {
+         ignore = true;
       }
    }, [gameId]);
 
@@ -100,5 +100,5 @@ export default function useGameDetails(gameId: string | undefined) {
       reloadDlcs,
       handleEntryUpdated,
       handleEntryDeleted
-   }
+   };
 }
