@@ -6,5 +6,6 @@ public record JournalEntryResponse(
         Long id,
         Long gameId,
         String body,
-        Instant createdAt
+        Instant createdAt,
+        String imageUrl
 ) { }

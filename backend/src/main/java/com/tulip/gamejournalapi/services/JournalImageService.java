@@ -117,6 +117,22 @@ public class JournalImageService {
    }
 
    /**
+    * Creates a temporary viewing URL for a saved journal image
+    *
+    * @param imageKey the saved image key or null for an entry without an image
+    * @return the signed image URL, or null if the entry has no image
+    * @throws ResponseStatusException with HTTP 502 if URL creation fails
+    */
+   public String getImageUrl(String imageKey) {
+      if (imageKey == null || imageKey.isBlank()) {
+         return null;
+      }
+
+      return storageClient.createSignedImageUrl(imageKey);
+
+   }
+
+   /**
     * Deletes a previously uploaded journal image
     *
     * @param imageKey the stored key identifying the image

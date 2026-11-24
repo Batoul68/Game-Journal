@@ -43,11 +43,14 @@ public class JournalEntryService {
     * @return the journal entry's details as an API response
     */
    private JournalEntryResponse toJournalEntryResponse(JournalEntry entry) {
+      String imageUrl = journalImageService.getImageUrl(entry.getImageKey());
+
       return new JournalEntryResponse(
               entry.getId(),
               entry.getGame().getId(),
               entry.getBody(),
-              entry.getCreatedAt()
+              entry.getCreatedAt(),
+              imageUrl
       );
    }
 
