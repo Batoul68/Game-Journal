@@ -8,6 +8,7 @@ import styles from './GameDetailsPage.module.css';
 import GameOverview from "../../components/games/GameOverview/GameOverview.tsx";
 import DlcTab from "../../components/games/DlcTab/DlcTab.tsx";
 import JournalTab from "../../components/journal/JournalTab/JournalTab.tsx";
+import GalleryTab from "../../components/journal/GalleryTab/GalleryTab.tsx";
 
 export default function GameDetailsPage() {
 
@@ -90,7 +91,7 @@ export default function GameDetailsPage() {
          </>
          }
 
-         {activeTab === 'gallery' && <p>Images here</p>}
+         {activeTab === 'gallery' && <GalleryTab baseGame={game}/>}
       </main>
    );
 }
