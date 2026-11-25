@@ -11,6 +11,8 @@ export interface GameFormValues {
    review: string;
    releaseYear: number | null;
    description: string;
+   playStatus: PlayStatus;
+   playModes: PlayMode[];
 };
 
 export interface CsrfToken {
@@ -46,3 +48,12 @@ export interface JournalEntryValues {
    body: string;
    imageFile: File | null;
 }
+
+export type PlayStatus = 
+   'NOT_SET' |
+   'NOT_STARTED' |
+   'CURRENTLY_PLAYING' |
+   'ON_HOLD' |
+   'FINISHED';
+
+export type PlayMode = 'SINGLE_PLAYER' | 'CO_OP' | 'ONLINE_MULTIPLAYER';

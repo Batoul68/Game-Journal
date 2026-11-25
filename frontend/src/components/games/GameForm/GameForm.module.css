@@ -78,6 +78,27 @@
    font-size: 0.875rem;
 }
 
+.mode-chips {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 8px;
+}
+
+.mode-chips button {
+   padding: 6px 12px;
+   border: 1px solid rgb(56, 83, 157);
+   border-radius: 999px;
+   background: rgb(169, 169, 169);
+   color: black;
+   font: inherit;
+   cursor: pointer;
+}
+
+.mode-chips button[aria-pressed='true'] {
+   background: rgba(93, 126, 217, 0.564);
+   color: white;
+}
+
 .form label {
    display: block;
    margin-bottom: 0.375rem;

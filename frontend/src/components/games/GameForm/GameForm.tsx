@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { GameFormValues, Game, GameMetadataResponse } from '../../../types/index.ts';
+import type { GameFormValues, Game, GameMetadataResponse, PlayStatus, PlayMode } from '../../../types/index.ts';
 import styles from './GameForm.module.css';
 import { getGenreOptions } from '../../../services/genreService.ts';
 import GameAutofill from '../GameAutofill/GameAutofill.tsx';
@@ -7,11 +7,24 @@ import GameAutofill from '../GameAutofill/GameAutofill.tsx';
 type GameFormProps = {
    initialGame?: Game; // supply when edit, omit when create
    onSave: (values: GameFormValues) => Promise<void>;
-   onCancel: () => void;
 }
 
+const statusLabels: Record<PlayStatus, string> = {
+   NOT_SET: 'Not set',
+   NOT_STARTED: 'Not started',
+   CURRENTLY_PLAYING: 'Currently playing',
+   ON_HOLD: 'On hold',
+   FINISHED: 'Finished'
+};
+
+const modeLabels: Record<PlayMode, string> = {
+   SINGLE_PLAYER: 'Single-player',
+   CO_OP: 'Co-op',
+   ONLINE_MULTIPLAYER: 'Online multiplayer'
+};
+
 // The input template used for editing and creating games
-export default function GameForm({ initialGame, onSave, onCancel }: GameFormProps) {
+export default function GameForm({ initialGame, onSave }: GameFormProps) {
 
    // Allows game form to edit existing game or create new game
    const [name, setName] = useState(initialGame?.name ?? '');
@@ -25,6 +38,12 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
       initialGame?.releaseYear ?? null
    );
    const [description, setDescription] = useState(initialGame?.description ?? '');
+   const [playStatus, setPlayStatus] = useState<PlayStatus>(
+      initialGame?.playStatus ?? 'NOT_SET'
+   );
+   const [playModes, setPlayModes] = useState<PlayMode[]>(
+      initialGame?.playModes ?? []
+   );
 
    // Pull from database
    const [genreOptions, setGenreOptions] = useState<string[]>([]);
@@ -60,7 +79,9 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
             genres, 
             review, 
             releaseYear, 
-            description
+            description,
+            playStatus,
+            playModes
          });
       } catch (error) {
          setMessage(
@@ -200,28 +221,61 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
                         ))}
                      </ul>
                   </div>
+
+                  <div className={styles['input-group']}>
+                     <label>
+                        Play Status
+                        <select
+                           value={playStatus}
+                           onChange={(event) => setPlayStatus(event.target.value as PlayStatus)}
+                        >
+                           {Object.entries(statusLabels).map(([value, label]) => (
+                              <option key={value} value={value}>{label}</option>
+                           ))}
+                        </select>
+                     </label>
+                  </div>
+
+                  <div className={styles['mode-chips']} role="group" aria-label="Play modes">
+                     {(Object.keys(modeLabels) as PlayMode[]).map((mode) => (
+                        <button
+                           key={mode}
+                           type="button"
+                           aria-pressed={playModes.includes(mode)}
+                           onClick={() => {
+                              setPlayModes((current) =>
+                                 current.includes(mode)
+                                    ? current.filter((selected) => selected !== mode)
+                                    : [...current, mode]
+                              );
+                           }}
+                        >
+                           {modeLabels[mode]}
+                        </button>
+                     ))}
+                  </div>
                      
-                     <div className={styles['input-group']}>
-                        <label>Description</label>
-                        <textarea
+                  <div className={styles['input-group']}>
+                     <label>Description</label>
+                     <textarea
                         id="description"
                         value={description}
                         onChange={(event) => setDescription(event.target.value)}
                         rows={5}
                         placeholder='Game description'
                      />
-                     </div>
+                  </div>
 
-                     <div className={styles['input-group']}>
-                        <label>Review</label>
-                        <textarea
+                  <div className={styles['input-group']}>
+                     <label>Review</label>
+                     <textarea
                         id="review"
                         value={review}
                         onChange={(event) => setReview(event.target.value)}
                         rows={5}
                         placeholder='Write a review!'
                      />
-                     </div>
+                  </div>
                </div>
 
                <div className={styles['action-buttons']}>
