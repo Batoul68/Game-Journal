@@ -1,7 +1,11 @@
 package com.tulip.gamejournalapi.dto;
 
+import com.tulip.gamejournalapi.entities.PlayMode;
+import com.tulip.gamejournalapi.entities.PlayStatus;
+
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 public record GameResponse(
         Long id,
@@ -12,5 +16,7 @@ public record GameResponse(
         String review,
         Integer releaseYear,
         String description,
-        Long parentGameId
+        Long parentGameId,
+        PlayStatus playStatus,
+        Set<PlayMode> playModes
 ) { }

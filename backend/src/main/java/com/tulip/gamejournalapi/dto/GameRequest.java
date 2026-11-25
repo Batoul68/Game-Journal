@@ -1,5 +1,7 @@
 package com.tulip.gamejournalapi.dto;
 
+import com.tulip.gamejournalapi.entities.PlayMode;
+import com.tulip.gamejournalapi.entities.PlayStatus;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -22,5 +24,7 @@ public record GameRequest(
 
         String review,
         Integer releaseYear,
-        String description
+        String description,
+        PlayStatus playStatus,
+        Set<PlayMode> playModes
 ) { }

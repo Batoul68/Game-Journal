@@ -58,7 +58,9 @@ public class GameService {
               game.getReview(),
               game.getReleaseYear(),
               game.getDescription(),
-              parentGameId
+              parentGameId,
+              game.getPlayStatus(),
+              Set.copyOf(game.getPlayModes())
       );
    }
 
@@ -107,6 +109,15 @@ public class GameService {
       // Clear the existing genres
       game.getGenres().clear();
       game.getGenres().addAll(selectedGenres);
+
+      if (request.playStatus() != null) {
+         game.setPlayStatus(request.playStatus());
+      }
+
+      if (request.playModes() != null) {
+         game.getPlayModes().clear();
+         game.getPlayModes().addAll(request.playModes());
+      }
    }
 
    /**

@@ -54,6 +54,16 @@ public class Game {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "play_status", nullable = false)
+    private PlayStatus playStatus = PlayStatus.NOT_SET;
+
+    @ElementCollection
+    @CollectionTable(name = "game_play_modes", joinColumns = @JoinColumn(name = "game_id"))
+    @Enumerated
+    @Column(name = "play_mode", nullable = false)
+    private Set<PlayMode> playModes = new HashSet<>();
+
     // Constructors
     public Game() {}
 
@@ -137,6 +147,22 @@ public class Game {
 
     public void setParentGame(Game parentGame) {
         this.parentGame = parentGame;
+    }
+
+    public Set<PlayMode> getPlayModes() {
+        return playModes;
+    }
+
+    public void setPlayModes(Set<PlayMode> playModes) {
+        this.playModes = playModes;
+    }
+
+    public PlayStatus getPlayStatus() {
+        return playStatus;
+    }
+
+    public void setPlayStatus(PlayStatus playStatus) {
+        this.playStatus = playStatus;
     }
 }
 
