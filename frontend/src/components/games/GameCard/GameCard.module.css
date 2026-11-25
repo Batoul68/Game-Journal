@@ -50,7 +50,7 @@ button.link {
    object-fit: cover;
    border-radius: 5px;
    margin-bottom: 10px;
-   box-shadow: 10px 10px 12px rgba(0, 0, 0, 0.726);
+   box-shadow: 0 0 18px 3px rgba(255, 255, 255, 0.183);
 }
 
 #game-card-title {

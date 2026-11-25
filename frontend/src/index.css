@@ -31,7 +31,7 @@
 body {
    margin: 0;
    min-height: 100vh;
-   background-color: rgb(38,36,35);
+   background-color: rgb(19, 19, 24);
    background-image: radial-gradient(
       circle,
       rgba(115, 146, 181, 0.50) 0.2px,

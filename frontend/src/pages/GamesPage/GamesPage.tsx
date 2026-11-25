@@ -2,6 +2,7 @@ import GameCollection from "../../components/games/GameCollection/GameCollection
 import { useOutletContext } from "react-router";
 import type { GamesContext } from "../GamesRouteLayout.tsx";
 import styles from './GamesPage.module.css';
+import LibraryOverview from "../../components/games/LibraryOverview/LibraryOverview.tsx";
 
 
 // Loads the collection of games
@@ -15,6 +16,7 @@ export default function GamesPage({ username }: { username: string }) {
 
          {error && <p>{error}</p>}
 
+         <LibraryOverview games={games}/>
          <GameCollection games={games} onGamesChanged={loadGames}/>
          
       </main>

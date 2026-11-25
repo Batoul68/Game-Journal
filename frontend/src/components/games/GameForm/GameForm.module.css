@@ -73,8 +73,8 @@
 .selected-genres li {
    padding: 0.25rem 0.625rem;
    border-radius: 1rem;
-   background: #d8dff1;
-   color: #243d78;
+   background: rgba(93, 126, 217, 0.742);
+   color: white;
    font-size: 0.875rem;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .mode-chips button[aria-pressed='true'] {
-   background: rgba(93, 126, 217, 0.564);
+   background: rgba(93, 126, 217, 0.742);
    color: white;
 }
 

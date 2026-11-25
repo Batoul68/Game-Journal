@@ -105,6 +105,8 @@ export default function GameForm({ initialGame, onSave }: GameFormProps) {
 
    // Fill out form using autofill
    const handleMatchSelected = (match: GameMetadataResponse) => {
+      setName(match.name);
+      
       if (match.coverImageUrl) setCoverImageUrl(match.coverImageUrl);
       if (match.releaseYear != null) setReleaseYear(match.releaseYear);
       
