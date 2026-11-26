@@ -1,0 +1,30 @@
+.card {
+   display: grid;
+   gap: 0.5rem;
+   width: 100%;
+   box-sizing: border-box;
+   padding: 1rem;
+   border: 1px solid #dbe7f5;
+   border-radius: 12px;
+   background: #fff;
+   color: #242933;
+   font: inherit;
+   text-align: left;
+   cursor: pointer;
+}
+
+.date {
+   color: #38539d;
+   font-size: 0.8rem;
+}
+
+.preview {
+   line-height: 1.5;
+   overflow-wrap: anywhere;
+}
+
+.card:hover,
+.card:focus-visible {
+   border-color: #38539d;
+   background: #f4f7ff;
+}

@@ -27,7 +27,8 @@ export async function createJournalEntry(baseGameId: number, values: JournalEntr
       new Blob(
          [JSON.stringify({
             targetGameId: values.targetGameId,
-            body: values.body
+            body: values.body,
+            title: values.title
          })],
          { type: 'application/json' }
       )

@@ -3,6 +3,7 @@ import type { Game, JournalEntry } from "../../../types";
 import AddJournalEntry from "../AddJournalEntry";
 import styles from './JournalCollection.module.css';
 import DeleteJournalEntry from "../DeleteJournalEntry/DeleteJournalEntry";
+import JournalCard from "../JournalCard/JournalCard";
 
 type JournalCollectionProps = {
    baseGameId: number;
@@ -93,21 +94,9 @@ export default function JournalCollection({ baseGameId, titleOptions, entries, o
                               onDeleted={onEntryDeleted}
                            />
                         )}
-                        <button
-                           type="button"
-                           onClick={() => onEntrySelect(entry)}
-                        >
-                           <time dateTime={entry.createdAt}>
-                              {new Date(entry.createdAt).toLocaleString()}
-                           </time>
+                     
+                        <JournalCard entry={entry} onSelect={onEntrySelect} />
 
-                           <p>
-                              {entry.body.length > 100 
-                                 ? `${entry.body.slice(0, 100)}...`
-                                 : entry.body
-                              }
-                           </p>
-                        </button>
                      </li>
                   ))}
                </ul>

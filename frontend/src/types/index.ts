@@ -42,14 +42,14 @@ export interface JournalEntry {
    body: string;
    createdAt: string;
    imageUrl: string | null;
-   title: string;
+   title: string | null;
 }
 
 export interface JournalEntryValues {
    targetGameId: number;
    body: string;
    imageFile: File | null;
-   title: string;
+   title: string | null;
 }
 
 export type PlayStatus = 

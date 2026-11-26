@@ -211,7 +211,7 @@ public class JournalEntryService {
       entry.setGame(targetGame);
       entry.setBody(journalEntryRequest.body().strip());
       entry.setCreatedAt(Instant.now());
-      entry.setTitle(journalEntryRequest.title().strip());
+      entry.setTitle(journalEntryRequest.title());
 
       if (image != null) {
          String imageKey = journalImageService.uploadImage(image);
