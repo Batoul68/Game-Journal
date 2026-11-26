@@ -26,5 +26,6 @@ public record GameRequest(
         Integer releaseYear,
         String description,
         PlayStatus playStatus,
-        Set<PlayMode> playModes
+        Set<PlayMode> playModes,
+        Integer playTime
 ) { }

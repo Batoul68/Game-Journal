@@ -18,5 +18,6 @@ public record GameResponse(
         String description,
         Long parentGameId,
         PlayStatus playStatus,
-        Set<PlayMode> playModes
+        Set<PlayMode> playModes,
+        Integer playTime
 ) { }

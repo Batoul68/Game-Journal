@@ -64,6 +64,9 @@ public class Game {
     @Column(name = "play_mode", nullable = false)
     private Set<PlayMode> playModes = new HashSet<>();
 
+    @Column(name = "play_time")
+    private Integer playTime;
+
     // Constructors
     public Game() {}
 
@@ -163,6 +166,14 @@ public class Game {
 
     public void setPlayStatus(PlayStatus playStatus) {
         this.playStatus = playStatus;
+    }
+
+    public Integer getPlayTime() {
+        return playTime;
+    }
+
+    public void setPlayTime(Integer playTime) {
+        this.playTime = playTime;
     }
 }
 

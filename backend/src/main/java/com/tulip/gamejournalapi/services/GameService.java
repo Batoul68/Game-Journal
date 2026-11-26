@@ -60,7 +60,8 @@ public class GameService {
               game.getDescription(),
               parentGameId,
               game.getPlayStatus(),
-              Set.copyOf(game.getPlayModes())
+              Set.copyOf(game.getPlayModes()),
+              game.getPlayTime()
       );
    }
 
@@ -105,6 +106,7 @@ public class GameService {
       game.setReview(request.review());
       game.setReleaseYear(request.releaseYear());
       game.setDescription(request.description());
+      game.setPlayTime(request.playTime());
 
       // Clear the existing genres
       game.getGenres().clear();
