@@ -13,6 +13,7 @@ export interface GameFormValues {
    description: string;
    playStatus: PlayStatus;
    playModes: PlayMode[];
+   playTime: number | null;
 };
 
 export interface CsrfToken {

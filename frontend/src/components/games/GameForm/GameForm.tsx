@@ -44,6 +44,7 @@ export default function GameForm({ initialGame, onSave }: GameFormProps) {
    const [playModes, setPlayModes] = useState<PlayMode[]>(
       initialGame?.playModes ?? []
    );
+   const [playTime, setPlayTime] = useState(initialGame?.playTime ?? null);
 
    // Pull from database
    const [genreOptions, setGenreOptions] = useState<string[]>([]);
@@ -81,7 +82,8 @@ export default function GameForm({ initialGame, onSave }: GameFormProps) {
             releaseYear, 
             description,
             playStatus,
-            playModes
+            playModes,
+            playTime
          });
       } catch (error) {
          setMessage(
@@ -149,14 +151,25 @@ export default function GameForm({ initialGame, onSave }: GameFormProps) {
                </div>
 
                <div className={styles['details-panel']}>
-                  <div className={styles['metadata-row']}>
-
-                     <div className={styles['input-group']}>
+                  <div className={styles['input-group']}>
                         <label>Cover Image</label>
                         <input 
                            value={coverImageUrl}
                            onChange={(event) => setCoverImageUrl(event.target.value)}  
                            placeholder='Enter image url'
+                        />
+                     </div>
+                  <div className={styles['metadata-row']}>
+
+                     <div className={styles['input-group']}>
+                        <label>Hours played</label>
+                        <input 
+                           type="number"
+                           value={playTime ?? ''}
+                           onChange={(event) => {
+                              const value = event.target.value;
+                              setPlayTime(value === '' ? null : Number(value));
+                           }}
                         />
                      </div>
 

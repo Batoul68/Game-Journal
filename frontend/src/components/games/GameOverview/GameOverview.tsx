@@ -29,6 +29,7 @@ export default function GameOverview({ game }: { game: Game }) {
                      
                   </p>  
                   <p id={styles.year}>Release year: {game?.releaseYear || 'N/A'}</p>
+                  <p>Hours played: {game?.playTime || 'N/A'}</p>
                   
                </div>
                <p id={styles.description}>

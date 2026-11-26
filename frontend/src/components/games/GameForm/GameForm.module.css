@@ -20,7 +20,8 @@
 
 .form-layout {
    display: grid;
-   grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+   grid-template-areas: "details title";
    align-items: start;
    gap: 1.25rem;
    min-inline-size: 0;
@@ -44,6 +45,14 @@
    align-content: start;
    gap: 0.875rem;
    min-width: 0;
+}
+
+.details-panel {
+   grid-area: details;
+}
+
+.title-panel {
+   grid-area: title;
 }
 
 .metadata-row {
@@ -141,6 +150,7 @@
 }
 
 @media (max-width: 36rem) {
+
    .column {
       grid-template-columns: 1fr;
    }
