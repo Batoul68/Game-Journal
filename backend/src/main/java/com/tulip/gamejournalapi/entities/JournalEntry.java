@@ -25,6 +25,9 @@ public class JournalEntry {
    @Column(name = "image_key")
    private String imageKey;
 
+   @Column(name = "title", length = 400)
+   private String title;
+
    public Long getId() {
       return id;
    }
@@ -61,4 +64,11 @@ public class JournalEntry {
       this.imageKey = imageKey;
    }
 
+   public String getTitle() {
+      return title;
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
 }

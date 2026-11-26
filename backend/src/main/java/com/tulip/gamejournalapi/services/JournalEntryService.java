@@ -50,7 +50,8 @@ public class JournalEntryService {
               entry.getGame().getId(),
               entry.getBody(),
               entry.getCreatedAt(),
-              imageUrl
+              imageUrl,
+              entry.getTitle()
       );
    }
 
@@ -210,6 +211,7 @@ public class JournalEntryService {
       entry.setGame(targetGame);
       entry.setBody(journalEntryRequest.body().strip());
       entry.setCreatedAt(Instant.now());
+      entry.setTitle(journalEntryRequest.title().strip());
 
       if (image != null) {
          String imageKey = journalImageService.uploadImage(image);
@@ -256,6 +258,7 @@ public class JournalEntryService {
 
       entry.setGame(targetGame);
       entry.setBody(journalEntryRequest.body().strip());
+      entry.setTitle(journalEntryRequest.title());
 
       return toJournalEntryResponse(journalEntryRepository.save(entry));
    }

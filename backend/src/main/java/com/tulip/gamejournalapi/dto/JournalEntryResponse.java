@@ -7,5 +7,6 @@ public record JournalEntryResponse(
         Long gameId,
         String body,
         Instant createdAt,
-        String imageUrl
+        String imageUrl,
+        String title
 ) { }

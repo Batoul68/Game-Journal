@@ -5,5 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record JournalEntryRequest(
         @NotNull Long targetGameId,
-        @NotBlank String body
+        @NotBlank String body,
+        String title
 ) { }

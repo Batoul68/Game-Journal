@@ -20,7 +20,7 @@ public class Game {
     @Size(max = 200, message = "Game name cannot exceed 200 characters")
     private String name;
 
-    @Column(name = "cover_image_url", length=550)
+    @Column(name = "cover_image_url", length = 550)
     private String coverImageUrl;
 
     @DecimalMin("0.0")
