@@ -141,10 +141,10 @@ export default function GameForm({ initialGame, onSave }: GameFormProps) {
                   <div className={styles['input-group']}>
                      <label htmlFor='game-title' >Game Title *</label>
                      <input 
-                           id="game-title"
-                           value={name}
-                           onChange={(event) => setName(event.target.value)}  
-                           placeholder='Enter game title'
+                        id="game-title"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}  
+                        placeholder='Enter game title'
                      /> 
                   </div>
                   <GameAutofill title={name} onMatchSelected={handleMatchSelected}/>

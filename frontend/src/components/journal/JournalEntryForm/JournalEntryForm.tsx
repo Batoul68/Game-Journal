@@ -14,6 +14,7 @@ export default function JournalEntryForm({ baseGameId, titleOptions, initialEntr
    const [imageFile, setImageFile] = useState<File | null>(null);
    const [targetGameId, setTargetGameId] = useState(initialEntry?.gameId ?? baseGameId);
    const [body, setBody] = useState(initialEntry?.body ?? '');
+   const [title, setTitle] = useState(initialEntry?.title ?? '');
 
    const [isSaving, setIsSaving] = useState(false);
    const [message, setMessage] = useState('');
@@ -37,7 +38,8 @@ export default function JournalEntryForm({ baseGameId, titleOptions, initialEntr
          await onSave({
             targetGameId,
             body: trimmedBody,
-            imageFile
+            imageFile,
+            title
          });
 
       } catch (error) {
@@ -80,6 +82,16 @@ export default function JournalEntryForm({ baseGameId, titleOptions, initialEntr
                      </option>
                   ))}
                </select>
+            </label>
+            
+            <label>
+               Title
+               <input 
+                  id="entry-title"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}  
+                  placeholder='Enter game title'
+               />
             </label>
 
             <label>
