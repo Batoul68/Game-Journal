@@ -2,7 +2,7 @@ import type { Game, JournalEntryValues } from "../../types"
 import { createJournalEntry } from "../../services/journalEntryService";
 import { useState } from "react";
 import JournalEntryForm from "./JournalEntryForm/JournalEntryForm";
-import Modal from "../modal/Modal";
+import FormModal from "../modals/FormModal";
 
 type AddJournalEntryProps = {
    baseGameId: number;
@@ -36,14 +36,13 @@ export default function AddJournalEntry({ baseGameId, titleOptions, onEntryAdded
          </button>
 
          {isCreateJournalOpen && 
-            <Modal title="Add Journal Entry" onClose={closeModal}>
+            <FormModal title="Add Journal Entry" onClose={closeModal}>
                <JournalEntryForm 
                   baseGameId={baseGameId} 
                   titleOptions={titleOptions}
                   onSave={handleSave}
-                  onCancel={() => setIsCreateJournalOpen(false)}
                />
-            </Modal>
+            </FormModal>
          }
       </div>
    );

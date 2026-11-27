@@ -8,7 +8,7 @@ type ModalProps = {
 }
 
 // The modal pop up to hold GameForm when called
-export default function Modal({ title, onClose, children }: ModalProps) {
+export default function FormModal({ title, onClose, children }: ModalProps) {
 
    const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -36,12 +36,10 @@ export default function Modal({ title, onClose, children }: ModalProps) {
             <h2 id={styles.title}>{title}</h2>
             
             <a 
-            className={styles['close-button']} 
-            href="#"
-            onClick={onClose}
-            >
-               Close
-            </a>
+               className={styles['close-button']} 
+               href="#"
+               onClick={onClose}
+            />
          </header>
          <div className={styles.body}>{children}</div>
       </dialog>

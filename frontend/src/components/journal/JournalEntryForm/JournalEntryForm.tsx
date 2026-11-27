@@ -6,10 +6,9 @@ type JournalEntryFormProps = {
    titleOptions: Game[];
    initialEntry?: JournalEntry; // supply when edit, omit when create
    onSave: (values: JournalEntryValues) => Promise<void>;
-   onCancel: () => void;
 }
 
-export default function JournalEntryForm({ baseGameId, titleOptions, initialEntry, onSave, onCancel }: JournalEntryFormProps) {
+export default function JournalEntryForm({ baseGameId, titleOptions, initialEntry, onSave }: JournalEntryFormProps) {
 
    const [imageFile, setImageFile] = useState<File | null>(null);
    const [targetGameId, setTargetGameId] = useState(initialEntry?.gameId ?? baseGameId);
@@ -108,10 +107,6 @@ export default function JournalEntryForm({ baseGameId, titleOptions, initialEntr
 
             <button type="submit">
                Save
-            </button>
-
-            <button type="button" onClick={onCancel}>
-               Cancel
             </button>
 
          </fieldset>

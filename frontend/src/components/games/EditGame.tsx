@@ -2,7 +2,7 @@ import type { GameFormValues, Game } from "../../types/index.ts";
 import { updateGame } from "../../services/gameService";
 import { useState } from "react";
 import GameForm from "./GameForm/GameForm";
-import Modal from "../modal/Modal.tsx";
+import Modal from "../modals/FormModal.tsx";
 
 type EditGameProps = {
    game: Game;

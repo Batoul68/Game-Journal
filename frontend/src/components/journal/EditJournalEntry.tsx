@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../modal/Modal";
+import FormModal from "../modals/FormModal";
 import JournalEntryForm from "./JournalEntryForm/JournalEntryForm";
 import type { Game, JournalEntry, JournalEntryValues } from "../../types";
 import { updateJournalEntry } from "../../services/journalEntryService";
@@ -25,15 +25,14 @@ export default function EditJournalEntry({ baseGameId, entry, titleOptions, onEn
 
    return (
          isEditing ? (
-            <Modal title="Edit entry" onClose={closeModal}>
+            <FormModal title="Edit entry" onClose={closeModal}>
                <JournalEntryForm 
                   baseGameId={baseGameId}
                   titleOptions={titleOptions}
                   initialEntry={entry}
                   onSave={handleSave}
-                  onCancel={closeModal}
                />
-            </Modal>
+            </FormModal>
          ) : (
             <button className='action-button' onClick={() => setIsEditing(true)}>
                Edit entry
