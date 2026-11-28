@@ -2,7 +2,7 @@ import type { Game, JournalEntryValues } from "../../types"
 import { createJournalEntry } from "../../services/journalEntryService";
 import { useState } from "react";
 import JournalEntryForm from "./JournalEntryForm/JournalEntryForm";
-import FormModal from "../modals/FormModal";
+import FormModal from "../modals/FormModal/FormModal";
 
 type AddJournalEntryProps = {
    baseGameId: number;

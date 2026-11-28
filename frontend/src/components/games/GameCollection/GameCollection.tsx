@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Game } from '../../../types/index.ts';
 import GameCard from '../GameCard/GameCard.tsx';
 import styles from './GameCollection.module.css';
-import DeleteGame from '../DeleteGame/DeleteGame.tsx';
+import DeleteGame from '../DeleteGame.tsx';
 import AddGame from '../AddGame.tsx';
 import GameSearch from '../GameSearch.tsx';
 import GameSort from '../GameSort.tsx';

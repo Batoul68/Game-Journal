@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GameForm from "./GameForm/GameForm";
-import FormModal from "../modals/FormModal.tsx";
+import FormModal from "../modals/FormModal/FormModal.tsx";
 import type { GameFormValues } from "../../types/index.ts";
 import { createDlc, createGame } from "../../services/gameService";
 

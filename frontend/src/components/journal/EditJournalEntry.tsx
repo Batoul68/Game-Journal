@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FormModal from "../modals/FormModal";
+import FormModal from "../modals/FormModal/FormModal";
 import JournalEntryForm from "./JournalEntryForm/JournalEntryForm";
 import type { Game, JournalEntry, JournalEntryValues } from "../../types";
 import { updateJournalEntry } from "../../services/journalEntryService";

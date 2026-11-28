@@ -33,7 +33,7 @@
    border-bottom: 1px solid #d7deec;
 }
 
-.title {
+#title {
    margin: 0;
    color: #243d78;
    font: 1.8rem "Matcha Style", sans-serif;
@@ -86,4 +86,3 @@
 .close-button:hover:after {
    transform: rotate(180deg);
 }
-

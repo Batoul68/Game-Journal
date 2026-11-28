@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Game, JournalEntry } from "../../../types";
 import AddJournalEntry from "../AddJournalEntry";
 import styles from './JournalCollection.module.css';
-import DeleteJournalEntry from "../DeleteJournalEntry/DeleteJournalEntry";
+import DeleteJournalEntry from "../DeleteJournalEntry";
 import JournalCard from "../JournalCard/JournalCard";
 
 type JournalCollectionProps = {
